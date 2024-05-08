@@ -13,7 +13,7 @@
         <h1>SESSION ZERO</h1>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="../HTML/index.html">Inicio</a></li>
                     <li><a href="../HTML/character_sheet.html">Personajes</a></li>
                     <li><a href="../HTML/login.html">Iniciar Sesión</a></li>
                 </ul>
@@ -30,32 +30,16 @@
                                     <div class="text-center">
                                         <h2 class="text-uppercase text-center mb-5">¡Únete ya!</h2>
                                     </div>
-                                    <form>
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <label class="form-label" for="form3Example1cg">Nombre de Usuario</label>
-                                        <input type="text" id="form3Example1cg" class="form-control form-control-lg"/>
-                                        </div>
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <label class="form-label" for="form3Example3cg">Correo Electrónico</label>
-                                        <input type="email" id="form3Example3cg" class="form-control form-control-lg"/>
-                                        </div>
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <label class="form-label" for="form3Example4cg">Contraseña</label>
-                                        <input type="password" id="form3Example4cg" class="form-control form-control-lg"/>
-                                        </div>
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <label class="form-label" for="form3Example4cdg">Repite la contraseña</label>
-                                        <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-                                        </div>
-                                        <div class="form-check d-flex justify-content-center mb-5">
-                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-                                        <label class="form-check-label" for="form2Example3g">
-                                            Estoy de acuerdo con los <a href="#!" class="text-body"><u>Términos de uso</u></a>
-                                        </label>
+                                    <form action="datosregistro.php" method="post">
+                                        <div>
+                                        <input type="text" name="username" id="form3Example1cg" class="form-control mb-4" placeholder="Nombre de Usuario" required/>
+                                        <input type="email" name="email" id="form3Example3cg" class="form-control mb-4" placeholder="Correo Electrónico" required/>
+                                        <input type="password" name="password" id="form3Example4cg" class="form-control mb-4" placeholder="Contraseña" required/>
+                                        <input type="password" name="confirm_password" id="form3Example4cdg" class="form-control mb-4" placeholder="Repite la contraseña" required/>
+                                        <input type="checkbox" class="form-check-input me-2" id="form2Example3cg" required/>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                        <button type="button"
-                                            data-mdb-button-init data-mdb-ripple-init class="btn custom-btn2 fa-lg mb-3">¡Registrate ya!</button>
+                                        <button type="submit" name="submit" class="btn custom-btn2 fa-lg mb-3">¡Registrate ya!</button>
                                         </div>
                                         <p class="text-center mt-5 mb-0">Tienes ya una cuenta? <a href="#" class="fw-bold text-body"><u>Inicia sesión</u></a></p>
                                     </form>
@@ -70,5 +54,8 @@
             </div>
         </section>
     </main>
+    <footer>
+        <p>&copy; 2024 Session Zero. All rights reserved.</p>
+    </footer>
 </body>
 </html>
