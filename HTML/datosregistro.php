@@ -1,5 +1,5 @@
 <?php
-$servername = "http://localhost:8080/Proyecto_Final/";
+$servername = "localhost";
 $username = "root";
 $password = "zezaguso10";
 $database = "sessionzero";
@@ -34,7 +34,9 @@ if (isset($_POST['submit'])) {
 
     // Execute query
     if ($conn->query($sql) === TRUE) {
-        echo "Registro insertado correctamente";
+        // Registration successful, redirect to login page
+        header("Location: login.html");
+        exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

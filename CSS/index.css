@@ -13,26 +13,6 @@ button.custom-btn2, button.custom-btn2:hover {
 img {
     width:100%;
 }
-  
-  .bocadillo {
-    visibility: hidden;
-    width: 120px;
-    background-color: #fff;
-    color: #000;
-    text-align: center;
-    border: 1px solid #000;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-  }
-  
-  .contenedor:hover .bocadillo {
-    visibility: visible;
-  }
 
 /* Resetting some default styles */
 
