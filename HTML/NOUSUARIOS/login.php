@@ -10,17 +10,34 @@
 
 </head>
 <body>
-    <header>
-        <h1>SESSION ZERO</h1>
-        <nav>
-            <ul>
-                <li><a href="/HTML/index.php">Inicio</a></li>
-                <li><a href="../NOUSUARIOS/login.php">Iniciar Sesión</a></li>
-                <li><a href="../NOUSUARIOS/registro.php">Registro</a></li>
-            </ul>
-        </nav>
+    <header class="header0">
+        <div class="container">
+            <div class="row w-100">
+                <nav class="navbar navbar-expand-lg w-100">
+                    <a class="navbar-brand" href="#">
+                        <img class="imglogo" src="/images/5elogo.svg">
+                    </a>
+                    <button class="navbar-toggler justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/HTML/index.php">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="../NOUSUARIOS/login.php">Iniciar Sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../NOUSUARIOS/registro.php">Registro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
     </header>
-    <main>
+    <main class="site">
         <section>
             <div class="container">
                 <div class="row">
@@ -39,15 +56,15 @@
                                             <input type="password" name="password" id="formEx2" class="form-control mb-4" placeholder="" required>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button type="submit" name="submit" class="btn custom-btn fa-lg mb-4">Inicia Sesión</button>
+                                            <button type="submit" name="submit" class="btn btn-outline-danger mb-4">Iniciar Sesión</button>
                                         </div>
                                     
                                         <div>
-                                            <a class="d-flex justify-content-center text-muted mb-4" href="#!"><br>¿Olvidaste tu contraseña?</a>
+                                            <a class="d-flex justify-content-center text-muted mb-4" href="../NOUSUARIOS/recuperar_pw.php"><br>¿Olvidaste tu contraseña?</a>
                                         </div>
                                     
                                         <div class="d-flex align-items-center justify-content-center pb-4">
-                                            <p class="mb-0 me-2">Aún no tienes cuenta?</p>
+                                            <p class="mb-0 me-2">¿Aún no tienes cuenta?</p>
                                             <a href="../NOUSUARIOS/registro.php" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Crear nueva cuenta</a>
                                         </div>
                                     </form>
@@ -63,8 +80,8 @@
             </div>
         </section>
     </main>
-        <footer>
-        <p>&copy; 2024 Colorful Website. All rights reserved.</p>
+    <footer>
+        <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>
     </footer>
 
 </body>

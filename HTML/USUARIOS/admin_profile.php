@@ -3,16 +3,10 @@ session_start();
 
 // Comprobar si el usuario ha iniciado sesión
 if (isset($_SESSION['user_id'])) {
-    // Si el usuario es ADMIN, redirigirlo a su correspodiente URL
-    if ($_SESSION['is_admin']) {
-        header("Location: ../USUARIOS/admin_profile.php");
-        exit();
-    } else {
-        // Si no, continua con el proceso
-        $username = $_SESSION['username']; // Se le asigna el nombre de usuario que haya introducido
-    }
+    // Si es así, se le asigna el nombre de usuario que haya introducido
+    $username = $_SESSION['username'];
 } else {
-    // Si no ha iniciado sesión, se le llevará a la URL correspondiente
+    // Si no es así, se redirige al usuario al URL correspondiente
     header("Location: /HTML/index.php");
     exit();
 }
@@ -61,17 +55,17 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </header>
-    
+
     <main class="site">
-    <section class="container">
-        <?php if (isset($username)) : ?>
-            <h2>¡Bienvenid@, <?php echo $username;?>!</h2>
-        <?php else : ?>
-            <h2>¡Bienvenid@s a Sesión Zero!</h2>
-        <?php endif; ?>
-        <p></p>
-        <a href="#" class="cta-button">¡Empieza ya!</a>
-    </section>
+        <section class="container">
+            <?php if (isset($username)) : ?>
+                <h2>¡Bienvenid@, <?php echo $username;?>!</h2>
+            <?php else : ?>
+                <h2>¡Bienvenid@s a Sesión Zero!</h2>
+            <?php endif; ?>
+            <p>Create</p>
+            <a href="#" class="cta-button">¡Empieza ya!</a>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>

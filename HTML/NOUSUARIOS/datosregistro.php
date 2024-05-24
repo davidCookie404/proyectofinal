@@ -3,7 +3,7 @@
 // Detalles de la conexión a la base de datos
 $servername = "localhost";
 $username = "root";
-$password = "zezaguso10";
+$password = "1234";
 $database = "sessionzero";
 
 // Crear conexión a la base de datos
@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
     $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
 
     // Crear la consulta SQL para introducir los datos del form a la base de datos
-    $sql = "INSERT INTO usuario (nombre, correo_electronico, contraseña) VALUES ('$nombre', '$correo_electronico', '$hashed_password')";
+    $sql = "INSERT INTO usuario (nombre_usuario, correo_electronico, contraseña) VALUES ('$nombre', '$correo_electronico', '$hashed_password')";
 
     // Execute query Ejecución de la consulta
     if ($conn->query($sql) === TRUE) {

@@ -1,54 +1,53 @@
 <?php
 session_start();
 
-$error_message = ""; // Inicializa error en la URL si hubiese
+// Detalles de la conexión a la base de datos
+$servername = "localhost";
+$username = "root";
+$password = "1234";
+$database = "sessionzero";
 
+// Crear conexión a la base de datos
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Error si la conexión no se establece con éxito
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Comprobar los datos introducidos al form de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Comprobar si tanto el correo y contraseña están enviados correctamente
-    if (isset($_POST['email']) && isset($_POST['password'])) {
-        $correo_electronico = $_POST['email'];
-        $contraseña = $_POST['password'];
+    $correo_electronico = $_POST['email'];
+    $contraseña = $_POST['password'];
 
-        // Detalles de la conexión a la base de datos
-        $servername = "localhost";
-        $username = "root";
-        $password = "zezaguso10";
-        $database = "sessionzero";
+    // Crear la consulta SQL para introducir los datos del form a la base de datos
+    $sql = "SELECT * FROM usuario WHERE correo_electronico = '$correo_electronico'";
+    $result = $conn->query($sql);
 
-        // Crear conexión a la base de datos
-        $conn = new mysqli($servername, $username, $password, $database);
+    if ($result->num_rows == 1) {
+        // Se ha encontrado al usuario, busca la constraseña
+        $row = $result->fetch_assoc();
+        if (password_verify($contraseña, $row['contraseña'])) {
+            // La contraseña es correcta
+            $_SESSION['user_id'] = $row['usuario_id'];
+            $_SESSION['username'] = $row['nombre_usuario'];
+            $_SESSION['is_admin'] = $row['is_admin'];
 
-        // Comprobar el acceso o no a la base de datos
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Comprobar si el correo proporcionado existe
-        $sql = "SELECT * FROM usuario WHERE correo_electronico = '$correo_electronico'";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows == 1) {
-            // Se ha encontrado el correo, se verifica la contraseña
-            $row = $result->fetch_assoc();
-            if (password_verify($contraseña, $row['contraseña'])) {
-                //La contraseña es correcta, se inicia sesión y se guardan los datos
-                $_SESSION['user_id'] = $row['usuario_id'];
-                $_SESSION['username'] = $row['nombre'];
-                // Redigir al usuario a la URL correspondiente
-                header("Location: ../USUARIOS/profile.php");
-                exit();
+            // Se le dirige a diferent URL dependiendo del tipo de usuario
+            if ($_SESSION['is_admin']) {
+                header("Location: ../USUARIOS/admin_profile.php");
             } else {
-                $error_message = "Contraseña inválida. Vuelva a intentarlo";
+                header("Location: ../USUARIOS/profile.php");
             }
+            exit();
         } else {
-            $error_message = "El correo no se encuentra en la base de datos";
+            $error_message = "Contraseña equivocada. Vuelva a intentarlo";
         }
-        //Cerrar la conexión con la base de datos
-        $conn->close();
+    } else {
+        $error_message = "No se ha encontrado el correo en la base de datos";
     }
 }
 
-// Redirect to login page with error message
-header("Location: login.html?error=" . urlencode($error_message));
-exit();
+// Cerrar la conexión a la base de datos
+$conn->close();
 ?>
