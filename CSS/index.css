@@ -18,6 +18,7 @@
 
 
     /* Font-size */
+    --fs-13: 13px;
     --fs-16: 16px;
     --fs-24: 24px;
     --fs-32: 32px;
@@ -65,6 +66,25 @@ a {
     text-decoration: none;
     cursor:default;
     margin-top:-1vh;
+}
+
+@media (max-width:767px) {
+    .ch-button {
+        display: inline-block;
+        background-color: var(--bs-orange);
+        color: var(--bs-white);
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor:default;
+        margin-top:-1vh;
+    }
+    section .div h3 {
+        font-size: var(--fs-13)
+    }
+    .div0 h1 {
+        font-size: var(--fs-24)
+    }
 }
 
 .card {

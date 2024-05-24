@@ -20,6 +20,7 @@ if (isset($_SESSION['user_id'])) {
     <title>¡Bienvenid@!</title>
     <link rel="stylesheet" href="/CSS/index.css">
     <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -57,15 +58,58 @@ if (isset($_SESSION['user_id'])) {
     </header>
 
     <main class="site">
-        <section class="container">
-            <?php if (isset($username)) : ?>
-                <h2>¡Bienvenid@, <?php echo $username;?>!</h2>
-            <?php else : ?>
-                <h2>¡Bienvenid@s a Sesión Zero!</h2>
-            <?php endif; ?>
-            <p>Create</p>
-            <a href="#" class="cta-button">¡Empieza ya!</a>
-        </section>
+        <section>
+            <header>
+                <div class="container py-5 div0 d-flex justify-content-center">
+                    <h1> Personajes de <i><?php if (isset($username)) : ?>
+                                        <?php echo $username;?>
+                                        <?php else : ?>
+                                        <?php endif; ?></i>
+                    </h1>
+                </div>
+            </header>
+            <section>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center me-1">
+                        <div class="col-6 me-0">
+                            <h3>xexinho</h3>
+                        </div>
+                        <div class="col-2   ">
+                            <a href="#"><i class="bi bi-person-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-ban ch-button"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center me-2">
+                        <div class="col-6">
+                            <h3>xexinho</h3>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-person-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-ban ch-button"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center me-2">
+                    <div class="col-6">
+                            <h3>xexinho</h3>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-person-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-ban ch-button"></i></a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
     </main>
     <footer>
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>

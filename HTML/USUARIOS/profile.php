@@ -26,6 +26,7 @@ if (isset($_SESSION['user_id'])) {
     <title>¡Bienvenid@!</title>
     <link rel="stylesheet" href="/CSS/index.css">
     <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -76,18 +77,50 @@ if (isset($_SESSION['user_id'])) {
             </header>
             <section>
                 <div class="container div1 my-5">
-                    <div class="row py-5 d-flex align-items-center">
+                    <div class="row py-5 d-flex align-items-center me-2">
                         <div class="col-6">
                             <h3>Pepito23</h3>
                         </div>
                         <div class="col-2">
-                            <a href="" class="ch-button">Empieza ya</a>
+                            <a href="#"><i class="bi bi-pencil-fill ch-button"></i></a>
                         </div>
                         <div class="col-2">
-                            <a href="" class="ch-button">Empieza ya</a>
+                            <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
                         </div>
                         <div class="col-2">
-                            <a href="" class="ch-button">Empieza ya</a>
+                            <a href="#"><i class="bi bi-trash3-fill ch-button"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center me-2">
+                        <div class="col-6">
+                            <h3>xexinho</h3>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-pencil-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-trash3-fill ch-button"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center me-2">
+                        <div class="col-6">
+                            <h3>josefo</h3>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-pencil-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <a href="#"><i class="bi bi-trash3-fill ch-button"></i></a>
                         </div>
                     </div>
                 </div>
