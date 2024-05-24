@@ -63,15 +63,38 @@ if (isset($_SESSION['user_id'])) {
     </header>
     
     <main class="site">
-    <section class="container">
-        <?php if (isset($username)) : ?>
-            <h2>¡Bienvenid@, <?php echo $username;?>!</h2>
-        <?php else : ?>
-            <h2>¡Bienvenid@s a Sesión Zero!</h2>
-        <?php endif; ?>
-        <p></p>
-        <a href="#" class="cta-button">¡Empieza ya!</a>
-    </section>
+                                    
+        <section>
+            <header>
+                <div class="container py-5 div0 d-flex justify-content-center">
+                    <h1> Personajes de <i><?php if (isset($username)) : ?>
+                                        <?php echo $username;?>
+                                        <?php else : ?>
+                                        <?php endif; ?></i>
+                    </h1>
+                </div>
+            </header>
+            <section>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center">
+                        <div class="col-6">
+                            <h3>Pepito23</h3>
+                        </div>
+                        <div class="col-2">
+                            <a href="" class="ch-button">Empieza ya</a>
+                        </div>
+                        <div class="col-2">
+                            <a href="" class="ch-button">Empieza ya</a>
+                        </div>
+                        <div class="col-2">
+                            <a href="" class="ch-button">Empieza ya</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            </div>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>

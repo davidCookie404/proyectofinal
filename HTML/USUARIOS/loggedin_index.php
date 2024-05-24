@@ -29,7 +29,7 @@ if (isset($_SESSION['user_id'])) {
 <header>
 <body>
     <header class="header0">
-        <!-- <div class="container">
+        <div class="container">
             <div class="row w-100">
                 <nav class="navbar navbar-expand-lg w-100">
                     <a class="navbar-brand" href="#">
@@ -60,54 +60,13 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </nav>
             </div>
-        </div> -->
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-xxl">
-                <a class="navbar-brand" href="home.html">
-                    <img class="imglogo" src="/images/5elogo.svg" class="img-fluid" alt="Logo">
-                </a>
-                <div class="align-items-center d-xxl-none">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                        <div class="x-mark-icon">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
-                                <img src="images/x-mark-icon.png" alt="x-mark-icon" class="header-close">
-                            </button>
-                        </div>
-                    </div>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/HTML/index.php">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../USUARIOS/character_sheet.php">Personajes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../USUARIOS/profile.php">       
-                            <?php if (isset($username)) : ?>
-                            <?php echo $username;?>
-                            <?php else : ?>
-                            <?php endif; ?>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
         </div>
     </header>
 
     <main class="site">
-        <section class="container py-2">
-        <?php if (isset($username)) : ?>
-            <h2 class="text-center">¡Bienvenid@, <?php echo $username;?>!</h2>
-        <?php endif; ?>
-        </section>
 
         <!-- Comparador Imágenes -->
-        <section class="container pb-5">
+        <section class="container py-5">
             <div class="row">
                 <div class="col-lg-6 col-12 pt-2 div0 wrapper">
                     <div class="images">
@@ -125,7 +84,9 @@ if (isset($_SESSION['user_id'])) {
                 <div class="col-lg-5 col-12 p-4 div0">
                     <h3>¿Alguna vez has querido empezar pero te has sentido abrumado?</h3>
                     <h3>En <i>Session Zero</i> queremos que crear un personaje te sea llevadero</h3>
-                    <h3>¡Enhorabuena, ya eres parte de Session Zero!</h3>
+                    <?php if (isset($username)) : ?>
+                    <h3>¡Enhorabuena, <i><?php echo $username;?></i>, ya eres parte de Session Zero!</h3>
+                    <?php endif; ?>
                     <a href="../USUARIOS/profile.php" class="cta-button">Accede a tu perfil</a>
                 </div>
             </div>

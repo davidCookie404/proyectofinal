@@ -50,9 +50,9 @@
                                     </div>
                                     <form action="recuperarpw.php" method="post">
                                         <div>
-                                        <input type="email" name="email" id="form3Example3cg" class="form-control mb-4" placeholder="Correo Electrónico" required/>
-                                        <input type="password" name="password" id="form3Example4cg" class="form-control mb-4" placeholder="Contraseña" required/>
-                                        <input type="password" name="confirm_password" id="form3Example4cdg" class="form-control mb-4" placeholder="Repite la contraseña" required/>
+                                        <input type="email" name="email" class="form-control mb-4" placeholder="Correo Electrónico" required/>
+                                        <input type="password" name="password" class="form-control mb-4" placeholder="Contraseña" required/>
+                                        <input type="password" name="confirm_password" class="form-control mb-4" placeholder="Repite la contraseña" required/>
                                         </div>
                                         <div class="d-flex justify-content-center mt-3">
                                             <button type="submit" name="submit" class="btn custom-btn mb-4">Aceptar</button>
@@ -65,7 +65,7 @@
                                 <img src="/Images/login03.webp">
                             </div>
                         </div>
-                    </div>
+                    </div>x
                 </div>
             </div>
         </section>

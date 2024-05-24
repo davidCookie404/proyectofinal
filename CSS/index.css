@@ -56,6 +56,17 @@ a {
     margin-top: 10px;
 }
 
+.ch-button {
+    display: inline-block;
+    background-color: var(--bs-orange);
+    color: var(--bs-white);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor:default;
+    margin-top:-1vh;
+}
+
 .card {
     background-color: var(--bs-vr-dark-blue) !important;
 }
@@ -153,6 +164,20 @@ section .div0 {
 
 section .div0 i {
     color:var(--bs-orange);
+}
+
+section .div1 {
+    border: 6px solid var(--bs-white);
+    background-color: var(--bs-white);
+    border-radius: 25px;
+    color: var(--bs-black);
+    font-size: var(--fs-24);
+    box-shadow: 10px 10px;
+}
+
+section .div1 h3 {
+    margin-top:1vh;
+    margin-left: 3vh;
 }
 
 a {
