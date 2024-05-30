@@ -1,32 +1,130 @@
 <?php
 session_start();
 
-// Comprobar si el usuario ha iniciado sesión
-if (isset($_SESSION['user_id'])) {
-    // Si es así, se le asigna el nombre de usuario que haya introducido
-    $username = $_SESSION['username'];
-} else {
-    // Si no es así, se redirige al usuario al URL correspondiente
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to login page if not logged in
     header("Location: /HTML/index.php");
     exit();
 }
-?>
 
-<?php
+// Get the user ID from the session
+$user_id = $_SESSION['user_id'];
 
-include 'database.php';
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "1234";
+$dbname = "SessionZero";
 
-// Conectar a la base de datos
-$conn = connectToDatabase();
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Obtener opciones de la base de datos
-$claseOptions = getOptionsFromDatabase($conn, "clase", "clase_id", "nombre_clase");
-$trasfondoOptions = getOptionsFromDatabase($conn, "trasfondo", "trasfondo_id", "nombre_trasfondo");
-$razaOptions = getOptionsFromDatabase($conn, "raza", "raza_id", "nombre_raza");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-// Cerrar la conexión
+// Get the character ID from the GET parameters
+if(isset($_GET['personaje_id'])) {
+    $character_id = $_GET['personaje_id'];
+
+    // Retrieve character data from the database
+    $sql = "
+    SELECT 
+        p.nombre_personaje, 
+        c.nombre_clase, 
+        c.dado_golpe,
+        c.salvacion,
+        c.competencias_clase,
+        c.equipo_clase,
+        r.nombre_raza, 
+        r.velocidad,
+        r.competencias_raza,
+        t.nombre_trasfondo,
+        t.competencias_trasfondo,
+        t.equipo_trasfondo,
+        cr.nombre_rasgo AS clase_nombre_rasgo,
+        cr.descripcion_rasgo AS clase_descripcion_rasgo,
+        rr.nombre_rasgo AS raza_nombre_rasgo,
+        rr.descripcion_rasgo AS raza_descripcion_rasgo,
+        tr.nombre_rasgo AS trasfondo_nombre_rasgo,
+        tr.descripcion_rasgo AS trasfondo_descripcion_rasgo,
+        cpj.Fuerza,
+        cpj.Destreza,
+        cpj.Constitucion,
+        cpj.Inteligencia,
+        cpj.Sabiduria,
+        cpj.Carisma
+    FROM Personaje p
+    JOIN Clase c ON p.clase_id = c.clase_id
+    JOIN Raza r ON p.raza_id = r.raza_id
+    JOIN Trasfondo t ON p.trasfondo_id = t.trasfondo_id
+    LEFT JOIN clase_rasgo crl ON c.clase_id = crl.clase_id
+    LEFT JOIN rasgo cr ON crl.rasgo_id = cr.rasgo_id
+    LEFT JOIN raza_rasgo rrl ON r.raza_id = rrl.raza_id
+    LEFT JOIN rasgo rr ON rrl.rasgo_id = rr.rasgo_id
+    LEFT JOIN trasfondo_rasgo trl ON t.trasfondo_id = trl.trasfondo_id
+    LEFT JOIN rasgo tr ON trl.rasgo_id = tr.rasgo_id
+    LEFT JOIN caracteristica_pj cpj ON p.personaje_id = cpj.personaje_id
+    WHERE p.personaje_id = ? AND p.usuario_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $character_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Fetch the character data
+        $character = $result->fetch_assoc();
+    } else {
+        echo "No existe el personaje";
+        exit();
+    }
+
+    $stmt->close();
+} else {
+    echo "No se ha proporcionado personaje.";
+    exit();
+}
+
 $conn->close();
 ?>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Character</title>
+</head>
+<body>
+    <h1>Character Details</h1>
+    <p><strong>Name:</strong> <?php echo htmlspecialchars($character['nombre_personaje']); ?></p>x
+    <p><strong>Class:</strong> <?php echo htmlspecialchars($character['nombre_clase']); ?></p>x
+    <p><strong>Race:</strong> <?php echo htmlspecialchars($character['dado_golpe']); ?></p>x
+    <p><strong>Background:</strong> <?php echo htmlspecialchars($character['salvacion']); ?>x
+    <?php echo htmlspecialchars($character['clase_comp_habilidad']); ?>
+    <?php echo htmlspecialchars($character['competencias_clase']); ?>x
+    <?php echo htmlspecialchars($character['equipo_clase']); ?>x
+    <?php echo htmlspecialchars($character['conjurador']); ?>
+    <?php echo htmlspecialchars($character['espacio_conjuro']); ?>
+    <?php echo htmlspecialchars($character['caracteristica_conjuro']); ?>
+    <?php echo htmlspecialchars($character['ritual']); ?>
+    <?php echo htmlspecialchars($character['nombre_raza']); ?>x
+    <?php echo htmlspecialchars($character['velocidad']); ?>x
+    <?php echo htmlspecialchars($character['raza_comp_habilidad']); ?>
+    <?php echo htmlspecialchars($character['competencias_raza']); ?>x
+    <?php echo htmlspecialchars($character['nombre_trasfondo']); ?>x
+    <?php echo htmlspecialchars($character['trasfondo_comp_habilidad']); ?>
+    <?php echo htmlspecialchars($character['competencias_trasfondo']); ?>x
+    <?php echo htmlspecialchars($character['equipo_trasfondo']); ?>
+    <p><strong>Class Features:</strong> <?php echo htmlspecialchars($character['clase_rasgos']); ?></p>
+<p><strong>Race Features:</strong> <?php echo htmlspecialchars($character['raza_rasgos']); ?></p>
+<p><strong>Background Features:</strong> <?php echo htmlspecialchars($character['trasfondo_rasgos']); ?></p>
+  </p>
+    
+    Add more fields as needed
+</body>
+</html> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,39 +180,25 @@ $conn->close();
         </div>
     </header>
     <main>
-    <form class="charsheet" id="charsheet" action="updatecharacter.php" method="post">
+    <form class="charsheet" id="charsheet">
   <header>
-    <section class="charname">
-      <label for="charname">Character Name</label><input name="nombre0" id="charname" placeholder="Character Name" />
+  <section class="charname">
+        <label for="charname">Character Name</label>
+        <input name="charname" placeholder="Character Name" value="<?php echo htmlspecialchars($character['nombre_personaje']); ?>"/>
     </section>
     <section class="misc">
       <ul>
         <li>
         <label for="class1">Class</label>
-                <select name="class0" id="" onchange="updateData('class', this.value)">
-                    <option value="">-</option>
-                        <?php foreach ($claseOptions as $claseId => $claseNombre) { ?>
-                            <option value="<?php echo $claseId; ?>"><?php echo $claseNombre; ?></option>
-                        <?php } ?>
-                </select>
+        <?php echo htmlspecialchars($character['nombre_clase']); ?>
         </li>
         <li>
         <label for="race">Race</label>
-                <select name="race0" id="" onchange="updateData('race', this.value)">
-                    <option value="">-</option>
-                        <?php foreach ($razaOptions as $razaId => $razaNombre) { ?>
-                            <option value="<?php echo $razaId; ?>"><?php echo $razaNombre; ?></option>
-                        <?php } ?>
-                </select>
+        <?php echo htmlspecialchars($character['nombre_raza']); ?>
         </li>
         <li>
         <label for="background">Background</label>
-                <select name="bg0" id="" onchange="updateData('background', this.value)">
-                    <option value="">-</option>
-                        <?php foreach ($trasfondoOptions as $trasfondoId => $trasfondoNombre) { ?>
-                            <option value="<?php echo $trasfondoId; ?>"><?php echo $trasfondoNombre; ?></option>
-                        <?php } ?>
-                </select>
+        <?php echo htmlspecialchars($character['nombre_trasfondo']); ?>
         </li>
         <li>
           <label for="playername">Player Name</label>
@@ -124,8 +208,10 @@ $conn->close();
           <?php endif; ?></i>
         </li>
       </ul>
+      <p>Hover over this text to see the description: </p>
+
     </section>
- </header>
+  </header>
   <main>
     <section>
       <section class="attributes">
@@ -133,7 +219,7 @@ $conn->close();
           <ul>
             <li>
               <div class="score">
-                <label for="Strengthscore">Strength</label><input name="Strengthscore" placeholder="10" class="stat"/>
+                <label for="Strengthscore">Strength</label><input name="Strengthscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Fuerza']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Strengthmod" placeholder="+0" class="statmod"/>
@@ -141,7 +227,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Dexterityscore">Dexterity</label><input name="Dexterityscore" placeholder="10" class="stat"/>
+                <label for="Dexterityscore">Dexterity</label><input name="Dexterityscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Destreza']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Dexteritymod" placeholder="+0" class=statmod/>
@@ -149,7 +235,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Constitutionscore">Constitution</label><input name="Constitutionscore" placeholder="10" class="stat"/>
+                <label for="Constitutionscore">Constitution</label><input name="Constitutionscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Constitucion']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Constitutionmod" placeholder="+0" class="statmod"/>
@@ -161,7 +247,7 @@ $conn->close();
               </div>
               <div class="modifier">
                 <input name="Intelligencemod" placeholder="+0" class="statmod"/>
-              </div>
+              </div> 
             </li>
             <li>
               <div class="score">
@@ -215,6 +301,7 @@ $conn->close();
                 <label for="Charisma-save">Charisma</label><input name="Charismasave" placeholder="+0" type="text" class="statsave"/><input name="Charisma-save-prof" type="checkbox" class="prof"/>
               </li>
             </ul>
+            <?php echo htmlspecialchars($character['salvacion']); ?>
             <div class="label">
               Saving Throws
             </div>
@@ -222,99 +309,63 @@ $conn->close();
           <div class="skills list-section box">
             <ul>
               <li>
-                <label for="Acrobatics">Acrobatics <span class="skill">(Dex)</span></label>
-                <input name="Acrobaticsskill" placeholder="+0" type="text" />
-                <input name="Acrobatics-skill-prof" type="checkbox" class="prof"/>
+                <label for="Acrobatics">Acrobatics <span class="skill">(Dex)</span></label><input name="Acrobaticsskill" placeholder="+0" type="text" /><input name="Acrobatics-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label>
-                <input name="Animal-Handlingskill" placeholder="+0" type="text" />
-                <input name="Animal-Handling-skill-prof" type="checkbox" class="prof"/>
+                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label><input name="Animal-Handlingskill" placeholder="+0" type="text" /><input name="Animal-Handling-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Arcana">Arcana <span class="skill">(Int)</span></label>
-                <input name="Arcanaskill" placeholder="+0" type="text" />
-                <input name="Arcana-skill-prof" type="checkbox" class="prof"/>
+                <label for="Arcana">Arcana <span class="skill">(Int)</span></label><input name="Arcanaskill" placeholder="+0" type="text" /><input name="Arcana-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Athletics">Athletics <span class="skill">(Str)</span></label>
-                <input name="Athleticsskill" placeholder="+0" type="text" />
-                <input name="Athletics-skill-prof" type="checkbox" class="prof"/>
+                <label for="Athletics">Athletics <span class="skill">(Str)</span></label><input name="Athleticsskill" placeholder="+0" type="text" /><input name="Athletics-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Deception">Deception <span class="skill">(Cha)</span></label>
-                <input name="Deceptionskill" placeholder="+0" type="text" />
-                <input name="Deception-skill-prof" type="checkbox" class="prof"/>
+                <label for="Deception">Deception <span class="skill">(Cha)</span></label><input name="Deceptionskill" placeholder="+0" type="text" /><input name="Deception-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="History">History <span class="skill">(Int)</span></label>
-                <input name="Historyskill" placeholder="+0" type="text" />
-                <input name="History-skill-prof" type="checkbox" class="prof"/>
+                <label for="History">History <span class="skill">(Int)</span></label><input name="Historyskill" placeholder="+0" type="text" /><input name="History-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Insight">Insight <span class="skill">(Wis)</span></label>
-                <input name="Insightskill" placeholder="+0" type="text" />
-                <input name="Insight-skill-prof" type="checkbox" class="prof"/>
+                <label for="Insight">Insight <span class="skill">(Wis)</span></label><input name="Insightskill" placeholder="+0" type="text" /><input name="Insight-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label>
-                <input name="Intimidationskill" placeholder="+0" type="text" />
-                <input name="Intimidation-skill-prof" type="checkbox" class="prof"/>
+                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label><input name="Intimidationskill" placeholder="+0" type="text" /><input name="Intimidation-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Investigation">Investigation <span class="skill">(Int)</span></label>
-                <input name="Investigationskill" placeholder="+0" type="text" />
-                <input name="Investigation-skill-prof" type="checkbox" class="prof"/>
+                <label for="Investigation">Investigation <span class="skill">(Int)</span></label><input name="Investigationskill" placeholder="+0" type="text" /><input name="Investigation-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label>
-                <input name="Medicineskill" placeholder="+0" type="text" />
-                <input name="Medicine-skill-prof" type="checkbox" class="prof"/>
+                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label><input name="Medicineskill" placeholder="+0" type="text" /><input name="Medicine-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Nature">Nature <span class="skill">(Int)</span></label>
-                <input name="Natureskill" placeholder="+0" type="text" />
-                <input name="Nature-skill-prof" type="checkbox" class="prof"/>
+                <label for="Nature">Nature <span class="skill">(Int)</span></label><input name="Natureskill" placeholder="+0" type="text" /><input name="Nature-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Perception">Perception <span class="skill">(Wis)</span></label>
-                <input name="Perceptionskill" placeholder="+0" type="text" />
-                <input name="Perception-skill-prof" type="checkbox" class="prof"/>
+                <label for="Perception">Perception <span class="skill">(Wis)</span></label><input name="Perceptionskill" placeholder="+0" type="text" /><input name="Perception-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Performance">Performance <span class="skill">(Cha)</span></label>
-                <input name="Performanceskill" placeholder="+0" type="text" />
-                <input name="Performance-skill-prof" type="checkbox" class="prof"/>
+                <label for="Performance">Performance <span class="skill">(Cha)</span></label><input name="Performanceskill" placeholder="+0" type="text" /><input name="Performance-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label>
-                <input name="Persuasionskill" placeholder="+0" type="text" />
-                <input name="Persuasion-skill-prof" type="checkbox" class="prof"/>
+                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label><input name="Persuasionskill" placeholder="+0" type="text" /><input name="Persuasion-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Religion">Religion <span class="skill">(Int)</span></label>
-                <input name="Religionskill" placeholder="+0" type="text" />
-                <input name="Religion-skill-prof" type="checkbox" class="prof"/>
+                <label for="Religion">Religion <span class="skill">(Int)</span></label><input name="Religionskill" placeholder="+0" type="text" /><input name="Religion-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label>
-                <input name="Sleight-of-Handskill" placeholder="+0" type="text" />
-                <input name="Sleight-of-Hand-skill-prof" type="checkbox" class="prof"/>
+                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label><input name="Sleight-of-Handskill" placeholder="+0" type="text" /><input name="Sleight-of-Hand-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label>
-                <input name="Stealthskill" placeholder="+0" type="text" />
-                <input name="Stealth-skill-prof" type="checkbox" class="prof"/>
+                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label><input name="Stealthskill" placeholder="+0" type="text" /><input name="Stealth-skill-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Survival">Survival <span class="skill">(Wis)</span></label>
-                <input name="Survivalskill" placeholder="+0" type="text" />
-                <input name="Survival-skill-prof" type="checkbox" class="prof"/>
+                <label for="Survival">Survival <span class="skill">(Wis)</span></label><input name="Survivalskill" placeholder="+0" type="text" /><input name="Survival-skill-prof" type="checkbox" />
               </li>
             </ul>
-          <div class="label">
-            Skills
-          </div>
+            <div class="label">
+              Skills
+            </div>
           </div>
         </div>
       </section>
@@ -324,8 +375,6 @@ $conn->close();
         <div class="armorclass">
           <div>
             <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" />
-            <input type="hidden" name="baseac" value="0">
-          </div>
           </div>
         </div>
         <div class="initiative">
@@ -335,20 +384,19 @@ $conn->close();
         </div>
         <div class="speed">
           <div>
-            <label for="speed">Speed</label><input name="speed" placeholder="30ft" type="text" />
+            <label for="speed">Speed</label><input name="speed" placeholder="30ft" type="text" value="<?php echo htmlspecialchars($character['velocidad']); ?>"/>
           </div>
         </div>
 
         <!-- Copy above format for HP -->
         <div class="armorclass">
           <div>
-            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" />
-            <input type="hidden" name="basehp" value="0">
+            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['dado_golpe']); ?>"/>
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="maxhp">Hit Point Maximum</label><input name="maxhp" placeholder="10" type="text" />
+            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['dado_golpe']); ?>"/>
           </div>
         </div>
         <div class="speed">
@@ -394,14 +442,23 @@ $conn->close();
       </section>
       
       <div class="otherprofs box textblock">
-          <label for="otherprofs">Other Proficiencies and Languages</label><textarea name="otherprofs"></textarea>
+          <label for="otherprofs">Other Proficiencies and Languages</label><textarea name="otherprofs">
+          - Competencias de Clase: <?php echo htmlspecialchars($character['competencias_clase']); ?>&nbsp;
+          - Competencias de Raza: <?php echo htmlspecialchars($character['competencias_raza']); ?>&nbsp;
+          - Competencias de Trasfondo: <?php echo htmlspecialchars($character['competencias_trasfondo']); ?>
+          </textarea>
         </div>
 
     </section>
     <section>
       <section class="features">
         <div>
-          <label for="features-r">Features, Traits, & Feats</label><textarea name="features-r"></textarea>
+          <label for="features-r">Features, Traits, & Feats</label>
+          <textarea name="features-r">
+          - Rasgos de Clase: <?php echo htmlspecialchars($character['clase_nombre_rasgo']); ?>: <?php echo htmlspecialchars($character['clase_descripcion_rasgo']); ?>&nbsp;
+          - Rasgos de Raza: <?php echo htmlspecialchars($character['raza_nombre_rasgo']); ?>&nbsp;
+          - Rasgos de Trasfondo: <?php echo htmlspecialchars($character['trasfondo_nombre_rasgo']); ?>
+          </textarea>
         </div>
       </section>
       <div class="passive-perception box">
@@ -430,7 +487,10 @@ $conn->close();
       <section class="attacksandspellcasting" id="inventory">
           <div>
             <label>Inventory</label>
-            <textarea name="inventorynotes" placeholder="Additional inventory notes"></textarea>
+            <textarea name="inventorynotes" placeholder="Additional inventory notes">
+- <?php echo htmlspecialchars($character['equipo_clase']); ?> 
+- <?php echo htmlspecialchars($character['equipo_trasfondo']); ?>
+            </textarea>
           </div>
       </section>
   </header>
@@ -443,15 +503,6 @@ $conn->close();
       </div>
     </section>
   </header>
-
-<header>
-  <section>
-    <button name="buttonsave" type="submit" value="save" onclick="save_character()" style="width:100px;margin-bottom:5px;margin-right:30px;">Save Character</button>
-    <label for="buttonload" id="loadlabel" style="text-transform:Capitalize;">Load Character</label><input name="buttonload" id="buttonload" type="file" style="width:200px;margin-bottom:5px;" />
-    <button name="buttonrest" type="button" onclick="long_rest()" style="width:100px;margin-bottom:5px;margin-left:30px;">Long Rest</button>
-    <label for="autosave" style="text-transform:Capitalize;font-weight:bold;padding:0px 10px;">Autosave?</label><input name="autosave" id="autosave" type="checkbox" />
-</section>
-</header>
 
   <main>
     <!-- Hidden fields for dynamic tables -->
@@ -470,4 +521,4 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>
 </body>
-</html>
+</html> 

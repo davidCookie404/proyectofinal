@@ -289,6 +289,24 @@ a {
     display: block;
 }
 
+/* Tooltip container */
+.tooltip {
+    position: relative;
+  }
+  
+  /* Tooltip text */
+  .tooltip:hover::after {
+    content: "Description goes here";
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    border-radius: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 125%; /* Position the tooltip above the text */
+  }
+  
 /* .custom-carousel-img {
 
 } */

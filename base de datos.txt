@@ -1,0 +1,442 @@
+DROP DATABASE SessionZero;
+
+CREATE DATABASE IF NOT EXISTS SessionZero;
+
+USE SessionZero;
+
+CREATE TABLE IF NOT EXISTS Usuario (
+    usuario_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(255),
+    correo_electronico VARCHAR(255),
+    contraseña VARCHAR(255),
+    is_admin BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS Clase (
+    clase_id INT PRIMARY KEY,
+    nombre_clase VARCHAR(255),
+    dado_golpe INT,
+    salvacion VARCHAR(255),
+    competencias_clase VARCHAR(255),
+    equipo_clase VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Raza (
+    raza_id INT PRIMARY KEY,
+    nombre_raza VARCHAR(255),
+    incremento VARCHAR(255),
+    velocidad INT,
+    competencias_raza VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Trasfondo (
+    trasfondo_id INT PRIMARY KEY,
+    nombre_trasfondo VARCHAR(255),
+    competencias_trasfondo VARCHAR(255),
+    equipo_trasfondo VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Arma (
+	arma_id INT PRIMARY KEY,
+    nombre_arma VARCHAR(255),
+    daño_arma VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Armadura (
+	armadura_id INT PRIMARY KEY,
+    nombre_armadura VARCHAR(255),
+    clase_armadura INT
+);
+
+CREATE TABLE IF NOT EXISTS Arma_Clase (
+    arma_id INT,
+    clase_id INT,
+    FOREIGN KEY (arma_id) REFERENCES Arma(arma_id),
+    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
+    PRIMARY KEY (arma_id, clase_id)
+);
+
+CREATE TABLE IF NOT EXISTS Armadura_Clase (
+    armadura_id INT,
+    clase_id INT,
+    FOREIGN KEY (armadura_id) REFERENCES Armadura(armadura_id),
+    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
+    PRIMARY KEY (armadura_id, clase_id)
+);
+
+CREATE TABLE IF NOT EXISTS Conjuro (
+    conjuro_id INT PRIMARY KEY,
+    nombre_conjuro VARCHAR(255),
+    descripcion_conjuro TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Clase_Conjuro (
+    clase_id INT,
+    conjuro_id INT,
+    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
+    FOREIGN KEY (conjuro_id) REFERENCES Conjuro(conjuro_id),
+    PRIMARY KEY (clase_id, conjuro_id)
+);
+
+CREATE TABLE IF NOT EXISTS Raza_Conjuro (
+    raza_id INT,
+    conjuro_id INT,
+    FOREIGN KEY (raza_id) REFERENCES Raza(raza_id),
+    FOREIGN KEY (conjuro_id) REFERENCES Conjuro(conjuro_id),
+    PRIMARY KEY (raza_id, conjuro_id)
+);
+
+CREATE TABLE IF NOT EXISTS Rasgo (
+    rasgo_id INT PRIMARY KEY,
+    nombre_rasgo VARCHAR(255),
+    descripcion_rasgo TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Clase_Rasgo (
+    clase_id INT,
+    rasgo_id INT,
+    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
+    FOREIGN KEY (rasgo_id) REFERENCES Rasgo(rasgo_id),
+    PRIMARY KEY (clase_id, rasgo_id)
+);
+
+CREATE TABLE IF NOT EXISTS Raza_Rasgo (
+    raza_id INT,
+    rasgo_id INT,
+    FOREIGN KEY (raza_id) REFERENCES Raza(raza_id),
+    FOREIGN KEY (rasgo_id) REFERENCES Rasgo(rasgo_id),
+    PRIMARY KEY (raza_id, rasgo_id)
+);
+
+CREATE TABLE IF NOT EXISTS Trasfondo_Rasgo (
+    trasfondo_id INT,
+    rasgo_id INT,
+    FOREIGN KEY (trasfondo_id) REFERENCES Trasfondo(trasfondo_id),
+    FOREIGN KEY (rasgo_id) REFERENCES Rasgo(rasgo_id),
+    PRIMARY KEY (trasfondo_id, rasgo_id)
+);
+
+CREATE TABLE IF NOT EXISTS caracteristica_pj (
+    personaje_id INT,
+    Fuerza INT,
+    Destreza INT,
+    Constitucion INT,
+    Inteligencia INT,
+    Sabiduria INT,
+    Carisma INT,
+    FOREIGN KEY (personaje_id) REFERENCES Personaje(personaje_id)
+);
+
+CREATE TABLE IF NOT EXISTS Personaje (
+    personaje_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_personaje VARCHAR(255),
+    usuario_id INT,
+    raza_id INT,
+    clase_id INT,
+    trasfondo_id INT,
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(usuario_id),
+    FOREIGN KEY (raza_id) REFERENCES Raza(raza_id),
+    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
+    FOREIGN KEY (trasfondo_id) REFERENCES Trasfondo(trasfondo_id)
+);
+
+INSERT INTO Clase (clase_id, nombre_clase, dado_golpe, salvacion, competencias_clase, equipo_clase) VALUES 
+(1, 'Guerrero', 10, 'fuerza,constitucion', 'El guerrero es competente con todas las armas simples y marciales, y con todas las armaduras y escudos. Sus habilidades competentes son: Atletismo e intimidación.', '20 virotes, equipo de explorador.'),
+(2, 'Pícaro', 8, 'destreza,inteligencia', 'El pícaro es competente con todas las armas simples, la ballesta de mano, la espada larga, la espada corta y el estoque, también es competente con armaduras ligeras y herramientas de ladrón. Sus habilidades competentes son: Acrobacias, engaño, sigilo y juego de manos.', 'Carcaj con 20 flechas, equipo de ladrón, herramientas de ladrón.'),
+(3, 'Paladín', 10, 'sabiduria,carisma', 'El paladín es competente con todas las armas simples y marciales, y con todas las armaduras y escudos. Sus habilidades competentes son: Persuasión y religión', 'Equipo de explorador, símbolo sagrado.'),
+(4, 'Mago', 6, 'inteligencia,sabiduria', 'El mago es competente con el bastón, la ballesta ligera, la daga, el dardo y la honda. Sus habilidades competentes son: Conocimiento arcano e historia.', 'Bolsa de componentes de conjuro, equipo de erudito, libro de conjuros.'),
+(5, 'Clérigo de la vida', 8, 'sabiduria,carisma', 'El clérigo de la vida es competente con todas las armas simples y con todas las armaduras y escudos. Sus habilidades competentes son: Medicina y religión.', '20 virotes, equipo de sacerdote, símbolo sagrado.'),
+(6, 'Clérigo de la tempestad', 8, 'sabiduria,carisma', 'El clérigo de la tempestad es competente con todas las armas simples y marciales, y con todas las armaduras y escudos. Sus habilidades competentes son: Medicina y religión.', '20 virotes, equipo de sacerdote, símbolo sagrado.');
+
+INSERT INTO Raza (raza_id, nombre_raza, incremento, velocidad, competencias_raza) VALUES 
+(01, 'Enano de las colinas', '0,0,2,0,1,0', 25, 'El enano de las colinas es competente con el hacha de batalla, el hacha de mano, el martillo arrojadizo y el martillo de guerra, también es competente con las herramientas de herrero.\nSus idiomas son común y enano.'),
+(02, 'Enano de las montañas', '2,0,2,0,0,0,', 25, 'El enano de las colinas es competente con el hacha de batalla, el hacha de mano, el martillo arrojadizo y el martillo de guerra, también es competente con las herramientas de herrero y con las armaduras ligeras y medias.\nSus idiomas son común y enano.'),
+(03, 'Alto Elfo', '0,2,0,1,0,0', 30, 'El alto elfo es competente con la espada larga, la espada corta, el arco largo y el arco corto.\nSus idiomas son común, élfico y enano. Su habilidad competente es percepción.'),
+(04, 'Elfo de los bosques', '0,2,0,0,1,0', 35, 'El elfo de los bosques es competente con la espada larga, la espada corta, el arco largo y el arco corto.\nSus idiomas son común y élfico. Su habilidad competente es percepción.'),
+(05, 'Drow', '0,2,0,0,0,1', 30, 'El drow es competente con el estoque, la espada corta y la ballesta de mano.\nSus idiomas son común y élfico. Su habilidad competente es percepción.'),
+(06, 'Humano', '1,1,1,1,1,1', 30, 'Sus idiomas son común y élfico.');
+
+INSERT INTO Trasfondo (trasfondo_id, nombre_trasfondo, competencias_trasfondo, equipo_trasfondo) VALUES 
+(01, 'Acólito', 'Sus habilidades competentes son: Perspicacia y religión.', 'Un símbolo sagrado, un libro de oraciones, 5 barritas de incienso, vestiduras, un conjunto de ropa común y una bolsa que contiene 15 piezas de oro.'),
+(02, 'Criminal', 'El criminal es competente con el set de dados y las herramientas de ladrón. Sus habilidades competentes son: Engaño y sigilo.', 'una barreta, un conjunto de ropa común oscura, incluyendo una capucha, y una bolsa que contiene 15 piezas de oro.'),
+(03, 'Ermitaño', 'Sus habilidades competentes son: Medicina y religión', 'un rollo de pergamino lleno de notas de tus estudios, una frazada de invierno, una muda de ropa común, un kit de herboristería y una bolsa con 5 piezas de oro.'),
+(04, 'Forastero', 'El forastero es competente con el láud y habla el idioma mediano. Sus habilidades competentes son: Atletismo y supervivencia.', 'un bastón, una trampa de caza, un trofeo de un animal que mataste, un conjunto de ropa de viajero y una bolsa que contiene 10 piezas de oro.'),
+(05, 'Héroe del pueblo', 'El héroe del pueblo es competente con las herramientas de carpintero y los vehículos terrestres. Sus habilidades competentes son: Trato con los animales y supervivencia.', 'un conjunto de herramientas de carpintero, una pala, una olla de hierro, un conjunto de ropa común y una bolsa que contiene 10 piezas de oro.'),
+(06, 'Soldado', 'El soldado es competente con el set de dados y los vehículos terrestres. Sus habilidades competentes son: Atletismo e intimidación.', 'una insignia con tu rango, un trofeo tomado de un enemigo caído, un conjunto de dados de hueso, una muda de ropa común, y una bolsa que contiene 10 piezas de oro.');
+
+INSERT INTO Arma (arma_id, nombre_arma, daño_arma) VALUES
+(1, 'Espada larga', '1d8 + Fuerza de daño cortante (1d10 a dos manos)'),
+(2, 'Ballesta ligera', '1d8 + Destreza de daño perforante'),
+(3, 'Estoque', '1d8 + Fuerza o Destreza de daño perforante'),
+(4, 'Arco corto', '1d6 + Destreza de daño perforante'),
+(5, 'Daga', '1d4 + Fuerza o Destreza de daño perforante'),
+(6, 'Jabalina', '1d6 + Fuerza de daño perforante (Arrojadiza)'),
+(7, 'Bastón', '1d6 + Fuerza de daño contundente (1d8 a dos manos)'),
+(8, 'Maza', '1d6 + Fuerza de daño contundente'),
+(9, 'Martillo de guerra', '1d8 + Fuerza de daño contundente (1d10 a dos manos)'),
+(10, 'Escudo', '+2 de AC extra al equiparse');
+
+INSERT INTO Armadura (armadura_id, nombre_armadura, clase_armadura) VALUES 
+(1, 'Cota de malla', 16),
+(2, 'Armadura de cuero', 11),
+(3, '', 10);
+
+INSERT INTO Arma_Clase (arma_id, clase_id) VALUES
+(1, 01),
+(1, 03),
+(2, 01),
+(2, 05),
+(2, 06),
+(3, 02),
+(4, 02),
+(5, 02),
+(6, 03),
+(7, 04),
+(8, 05),
+(9, 06),
+(10, 01),
+(10, 03),
+(10, 05),
+(10, 06);
+
+INSERT INTO Armadura_Clase (armadura_id, clase_id) VALUES 
+(1, 01),
+(1, 03),
+(1, 05),
+(1, 06),
+(2, 02),
+(3, 04);
+
+INSERT INTO Rasgo (rasgo_id, nombre_rasgo, descripcion_rasgo) VALUES 
+(1, 'Visión en la Oscuridad', 'Tienes una visión superior en condiciones de oscuridad y luz tenue. Puedes ver en luz tenue a una distancia de 60 pies (18 m) desde ti como si estuviera bien iluminado, y en la oscuridad como si hubiese luz tenue. No puedes discernir colores en la oscuridad, tan solo tonos de gris.'),
+(2, 'Resistencia Enana', 'Tienes ventaja en las tiradas de salvación contra veneno, y posees resistencia contra el daño por veneno.'),
+(3, 'Afinidad con la Piedra', 'Cuando quiera que hagas una prueba de Inteligencia (Historia) relacionada con el origen de un trabajo hecho en piedra, eres considerado competente en la habilidad de Historia y añades el doble de tu bonificador de competencia a la tirada, en lugar de tu bonificador de competencia normal.'),
+(4, 'Dureza Enana', 'Tus Puntos de Golpe máximos aumentan en 1, y aumentan en 1 cada vez que ganes un nivel.'),
+(5, 'Ascendencia Feérica', 'Tienes ventaja en las tiradas de salvación contra Encantamiento, y no puedes ser dormido mediante la magia.'),
+(6, 'Trance', 'Los elfos no necesitan dormir. En lugar de eso, meditan profundamente, permaneciendo semiconscientes durante 4 horas al día. (La palabra en Común para tal meditación es “trance”). Mientras meditas, puedes soñar en cierta manera; tales sueños son en realidad ejercicios mentales que se han convertido en un reflejo a lo largo de años de práctica.'),
+(7, 'Máscara de la Espesura', 'Puedes intentar esconderte incluso cuando sólo estás ligeramente cubierto por el follaje, una lluvia fuerte, la nieve que cae, niebla y otros fenómenos naturales.'),
+(8, 'Visión en la Oscuridad Mejorada', 'Tienes una visión superior en condiciones de oscuridad y luz tenue. Puedes ver en luz tenue a una distancia de 120 pies (36,5 m) desde ti como si estuviera bien iluminado, y en la oscuridad como si hubiese luz tenue. No puedes discernir colores en la oscuridad, tan solo tonos de gris.'),
+(9, 'Sensibilidad a la Luz del Sol', 'Tienes desventaja en las tiradas de ataque y en las pruebas de Sabiduría (Percepción) basadas en la vista cuando el objetivo de tu ataque o lo que sea que intentes percibir está bajo luz del Sol directa.'),
+(10, 'Ira de la Tormenta', 'También en el nivel 1 puedes reprender con truenos a tus ata-cantes. Cuando una criatura en un rango de 5 pies (1,5 me-tros) de ti que puedas ver te golpee con un ataque, puedes usar tu reacción para que haga una tirada de salvación de Destreza. La criatura recibe 2d8 de daño sónico o eléctrico (a tu elección) con una tirada de salvación fallida, y la mitad con una salvación exitosa. Puedes usar este rasgo un número de veces igual a tu mo-dificador de Sabiduría (un mínimo de 1). Recuperas todos los usos gastados cuando finalizas un descanso prolongado.'),
+(11, 'Discípulo de la Vida', 'También a nivel 1 tus conjuros de sanación son más efectivos. Cada vez que uses un conjuro de nivel 1 o superior para restaurar Puntos de Golpe a una criatura, la criatura recupera Puntos de Golpe adicionales iguales a 2 + el nivel del conjuro.'),
+(12, 'Estilo de combate: Duelista', 'Cuando llevas un arma cuerpo a cuerpo en una mano y ningún arma más, ganas un bonificador de +2 a las tiradas de daño con esa arma.'),
+(13, 'Nuevas energías', 'Tienes una limitada capacidad de aguante que puedes usar para protegerte del peligro. En tu turno, puedes usar una acción adicional para ganar una cantidad de Puntos de Golpe igual a 1d10 + tu nivel de guerrero. Una vez que hayas usado este rasgo, debes hacer un descanso corto o prolongado antes de poder volver a usarlo.'),
+(14, 'Sentido divino', 'Tus sentidos captan la presencia de un terrible mal como un nauseabundo olor, y un bien poderoso resuena en tus oídos como música celestial. Como acción, puedes expandir tus sentidos para detectar esas fuerzas.'),
+(15, 'Imposición de manos', 'Tu toque bendito puede curar heridas. Tienes una reserva de poder curativo que se regenera cuando haces un descanso prolongado. Con esa reserva puedes restaurar un número total de Puntos de Golpe igual a tu nivel de paladín x 5. Como una acción, puedes tocar a una criatura y utilizar poder de tu reserva de curación para restaurar un número de Puntos de Golpe a esa criatura igual hasta, como máximo, el máximo que tengas en tu reserva. De forma alternativa, puedes gastar 5 puntos de tu reserva de curación para sanar al objetivo de una enfermedad o neutralizar un veneno que le esté afectando.'),
+(16, 'Experto', 'A nivel 1 escoge dos de tus competencias con habilidades o una de tus competencias con habilidades y tu competencia con las herramientas de ladrón. Tu bonificador de competencia será el doble para cualquier prueba de característica que hagas usando cualquiera de las competencias escogidas.'),
+(17, 'Ataque furtivo', 'Al comienzo del nivel 1 sabes cómo atacar sutilmente y aprovechar la distracción de tu oponente. Una vez por turno, si tienes ventaja en la tirada de ataque puedes infligir 1d6 de daño extra a la criatura que golpees. El ataque debe usar un arma sutil o a distancia. No necesitas ventaja en la tirada de ataque para realizar un Ataque Furtivo si tu objetivo tiene otro adversario a 5 pies (1,5 metros) que no esté incapacitado y tú no tengas desventaja en esta tirada.'),
+(18, 'Jerga de ladrones', 'Durante tu entrenamiento de pícaro aprendiste la jerga de los ladrones, una mezcla secreta de dialectos, argot y código que te permite esconder mensajes en lo que aparentemente sería una conversación normal. Solo otra criatura que conozca la jerga de los ladrones puede entender esos mensajes. Requiere cuatro veces más tiempo transmitir un mensaje de esta forma que hacerlo de manera convencional. Además, entiendes una serie de signos y símbolos secretos usados para transmitir mensajes simples y cortos, tales como que un área es peligrosa o el territorio de una cofradía de ladrones, si es que hay un botín cercano, o si es que las personas de un lugar son presa fácil, o si es que proveerán una casa segura para los ladrones que estén escapando.'),
+(19, 'Recuperación arcana', 'Has aprendido a recuperar parte de tus energías mágicas gracias al estudio de tu libro de conjuros. Una vez por día, cuando finalizas un descanso corto, puedes elegir qué espacios de conjuros quieres recuperar. Los espacios de conjuros pueden tener un nivel combinado igual a la mitad de tu nivel de mago (redondeando hacia arriba), aunque ninguno de los espacios de conjuros puede ser de nivel 6 o superior.'),
+(20, 'Refugio de los Fieles', 'Como acólito, mereces el respeto de aquellos que comparten tu fe y puedes realizar las ceremonias religiosas de tu deidad. Tus compañeros de aventuras y tú podéis recibir sanación gratuita y atención en un templo, santuario, u otra presencia establecida de tu fe, aunque debes proporcionar los componentes materiales necesarios para los conjuros. Aquellos que comparten tu religión te podrán proporcionar (pero sólo a ti) un estilo de vida modesto. También podrías tener vínculos con un templo específico dedicado a tu deidad o panteón y tener una residencia allí. Podría tratarse del templo que utilizas para realizar los servicios, si mantienes una buena relación con la comunidad, o un templo en el que has encontrado un nuevo hogar. Mientras estés cerca de tu templo, puedes llamar a los sacerdotes para que te asistan, siempre y cuando la ayuda que solicitas no ponga en peligro a quien la realiza y permanezcas en buena relación con tu templo.'),
+(21, 'Contacto Criminal', 'Tienes un contacto de confianza que actúa como enlace con una red de delincuentes. Sabes cómo hacerles llegar mensajes y te los envíen mediante ese contacto, incluso a grandes distancias; específicamente, conoces los mensajeros locales, conductores de caravana corruptos y marineros de mala muerte que te pueden entregar mensajes.'),
+(22, 'Descubrimiento', 'La reclusión pacífica de tu extendido aislamiento te dio acceso a un único y poderoso descubrimiento. La exacta naturaleza de esta revelación depende de la naturaleza de tu reclusión. Podría ser una gran verdad acerca del cosmos, las deidades, los seres poderosos de otros planos o las fuerzas de la naturaleza. Podría ser un sitio que nadie más vio nunca. Podrías haber descubierto un hecho que fue olvidado hace mucho, o desenterrado alguna reliquia del pasado que podría reescribir la historia. Podría ser información potencialmente dañina para la gente que te consignó al exilio, y he ahí la razón por la cual regresas a la sociedad. Trabaja con tu DM para determinar los detalles de tu descubrimiento y su impacto en la campaña.'),
+(23, 'Viajero', 'Tienes una excelente memoria para los mapas y la geografía y siempre puedes recordar la disposición general del terreno, los asentamientos y otras circunstancias de entorno que te rodea. Además, puedes encontrar comida y agua fresca para ti y para otras cinco personas cada día, siempre y cuando la tierra tenga bayas, algo de caza menor, agua y cosas por el estilo.'),
+(24, 'Hospitalidad Rústica', 'Dado que vienes de las filas de la gente común, encajas entre ellos con facilidad. Puedes encontrar un lugar para esconderte, descansar o recuperarte entre otros plebeyos, a menos que hayas demostrado ser un peligro para ellos. Te protegerán de la ley o de cualquier otra persona que te busque, aunque no arriesgarán sus vidas por ti.'),
+(25, 'Rango Militar', 'Tienes un rango militar de tu carrera como soldado. Aquellos leales a tu antigua organización militar aún reconocen tu autoridad e influencia, y se dirigirán a ti con respeto si son de un rango inferior. Puedes invocar tu rango para ejercer influencia sobre los demás soldados y requisar equipo simple o caballos para un uso temporal. Generalmente también puedes tener acceso a los campamentos y fortalezas amistosas en las que se reconozca tu rango militar.'),
+(26, 'Lanzamiento de conjuros: Mago', 'Como estudiante de la magia arcana, tienes un libro de conjuros que contiene conjuros que muestran los primeros destellos de tu verdadero poder. Consulta el Capítulo 10 para las reglas generales del lanzamiento de conjuros y el Capítulo 11 para ver la lista de conjuros del mago. Conoces 3 trucos, posees un libro de conjuros que contiene 6 conjuros y tienes 2 espacios de conjuro. Puedes lanzar conjuros rituales sin gastar espacios de conjuro.'),
+(27, 'Lanzamiento de conjuros: Clérigo', 'Como conductor de poder divino, eres capaz de lanzar conjuros de clérigo. Ve el Capítulo 10 para ver las reglas generales acerca de lanzar conjuros y al Capítulo 11 para ver la lista de conjuros del clérigo. Conoces 3 trucos, puedes preparar una cantidad de conjuros igual a tu modificador de sabiduría + tu nivel de clérgio y tienes 2 espacios de conjuro. Puedes lanzar conjuros rituales sin gastar espacios de conjuro.');
+
+INSERT INTO Conjuro (conjuro_id, nombre_conjuro, descripcion_conjuro) VALUES
+(1, 'Saeta de fuego', 'Truco, evocación
+Tiempo de lanzamiento. 1 acción
+Alcance: 120 pies (24 casillas, 36 m)
+Componenetes: V, S
+Duración: Instantánea
+Arrojas una mota de fuego a una criatura u ob-jeto dentro del alcance. Realiza un ataque de conjuro a distancia contra el objetivo. Con un impacto, el objetivo sufre 1d10 puntos de daño por fuego. Un objeto inflamable impac-tado por este conjuro se prende si no está siendo sujetado o transportado.'),
+(2, 'Luces danzantes', 'Truco, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: 120 pies (24 casillas, 36 m)
+Componenetes: V, S, M (un poco de fósforo o madera de bruja, o una luciérnaga)
+Duración: Concentración, hasta 1 minuto
+Puedes crear hasta cuatro luces del tamaño de una antorcha dentro del alcance del con-juro, haciendo que aparezcan como antor-chas, linternas u orbes brillantes que flotan en el aire mientras dura el conjuro. También pue-des combinar las cuatro luces en una forma brillante vagamente humanoide de tamaño Medio. En cualquiera de las formas que elijas, cada iluminación desprende luz tenue en un radio de 10 pies (2 casillas, 3 m).
+Como acción adicional en tu turno, pue-des mover las luces hasta 60 pies (12 casillas, 18 m) hasta una posición nueva que siga es-tando dentro del alcance del conjuro. Cada luz creada por este conjuro debe estar como muy lejos a 20 pies (4 casillas, 6 m) de las otras, y las luces se extinguen si exceden el alcance del conjuro.'),
+(3, 'Rayo de escarcha', 'Truco, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: 60 pies (12 casillas, 18 m)
+Componenetes: V, S
+Duración: Instantánea
+Un gélido rayo de luz blancoazulada sale dis-parada hacia una criatura dentro del alcance. Realiza una tirada de ataque de conjuro con-tra el objetivo. Con un impacto, éste sufre 1d8 puntos de daño por frío y su velocidad se re-duce en 10 pies (2 casillas, 3 m) hasta el inicio de tu próximo turno.'),
+(4, 'Mano de mago', 'Truco, conjuración
+Tiempo de lanzamiento: 1 acción
+Alcance: 30 pies (9 m)
+Componenetes: V, S
+Duración: 1 minuto
+Una flotante mano espectral aparece en un punto a tu elección dentro del alcance. La mano permanece mientras dure el conjuro o hasta que la canceles como una acción. La mano desaparece si llega a estar a más de 30 pies (6 casillas, 9 m) de ti o si lanzas este con-juro de nuevo.
+Puedes usar tu acción para controlar la mano. Puedes utilizar la mano para manipu-lar un objeto, abrir una puerta o contenedor no cerrado con llave, colocar o recuperar un objeto de un contenedor abierto o verter fuera los contenidos de un vial. Puedes mover la mano hasta 30 pies (6 casillas, 9 m) cada vez que la utilizas.
+La mano no puede atacar, activar objetos mágicos, o transportar más de 10 libras (4 kg).'),
+(5, 'Llama sagrada', 'Truco, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: 60 pies
+Componenetes: V, S
+Duración: Instantánea
+Un resplandor parecido a una llama des-ciende sobre una criatura que puedas ver y esté dentro del alance. El objetivo debe su-perar una tirada de salvación de Destreza o sufrir 1d8 puntos de daño radiante. El objetivo no gana ningún beneficio por cobertura para esta tirada de salvación.'),
+(6, 'Orientacion divina', 'Truco, adivinación
+Tiempo de lanzamiento: 1 acción
+Alcance: Toque
+Componenetes: V, S
+Duración: Concentración, hasta 1 minuto
+Tocas una criatura voluntaria. Antes de que el conjuro finalice el objetivo puede lanzar un d4 y agregar el resultado a una prueba de carac-terística que el elija. Puede tirar el dado antes o después de realizar su prueba de caracterís-tica. El conjuro entonces finaliza.'),
+(7, 'Taumaturgia', 'Truco, transmutación.
+Tiempo de lanzamiento: 1 acción
+Alcance: 30 pies (6 casillas, 9 m)
+Componenetes: V
+Duración: hasta 1 minuto
+Realizas una pequeña maravilla, un signo de un poder sobrenatural, dentro del alcance. Puedes crear uno de los siguientes efectos mágicos dentro del alcance:
+• Tu voz resuena hasta tres veces más fuerte de lo normal durante 1 minuto.
+• Creas llamas que parpadean, iluminan, se oscurecen o cambian de color durante 1 minuto.
+• Causas inofensivos temblores en el suelo durante 1 minuto.
+• Creas un sonido instantáneo que se ori-gina en un punto dentro del alcance a tu elección, como el estallido de un trueno, el llanto de un cuervo o murmullos omino-sos.
+• Haces que una puerta sin cerradura se abra de golpe o se cierre con un golpe.
+• Alteras la apariencia de tus ojos durante 1 minuto.
+Si lanzas este conjuro múltiples veces puedes tener activados hasta 3 efectos a la vez durante 1 minuto, y puedes hacer desaparecer uno de los efectos como acción.'),
+(8, 'Armadura de mago', 'Nivel 1 abjuración
+Tiempo de lanzamiento: 1 acción
+Alcance: Toque
+Componenetes: V, S, M (un trozo de cuero curtido)
+Duración: 8 horas
+Tocas a una criatura voluntaria, que no esté portando una armadura, y una fuerza mágica protectora la rodea hasta el fin de la duración del conjuro. La CA base del objetivo se vuelve 13 + su modificador de Destreza. El conjuro finaliza si el receptor se pone una armadura o si tú cancelas el conjuro como una acción.'),
+(9, 'Escudo', 'Nivel 1, abjuración
+Tiempo de lanzamiento: 1 reacción, que rea-lizas cuando eres impactado por un ataque o eres objetivo del conjuro misiles mágicos.
+Alcance: Personal
+Componenetes: V, S
+Duración: 1 asalto
+Creas una barrera invisible de fuerza mágica que te protege. Hasta el inicio de tu próximo turno, tienes un bonificador de +5 a tu CA, que incluye al ataque desencadenante, y no sufres daño del conjuro proyectil mágico.'),
+(10, 'Manos ardientes', 'Nivel 1, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: Personal (cono de 15 pies [3 casi-llas, 4,5 m])
+Componenetes: V, S
+Duración: Instantánea
+Mientras sostienes tus manos con los pulga-res tocándose y los dedos separados, una del-gada capa de llamas se extiende desde las ye-mas de tus dedos extendidos. Cada criatura en un cono de 15 pies (3 casillas, 4,5 m) debe realizar una tirada de salvación de Destreza. Si la tirada de salvación fracasa, una criatura sufre 3d6 puntos de daño por fuego, si tiene éxito en la tirada de salvación sólo recibirá la mitad de daño.
+El fuego prende cualquier objeto inflama-ble en el área que no esté siendo sujeto o transportado.'),
+(11, 'Orbe cromático', 'Nivel 1, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: 90 pies (18 casillas, 27 m)
+Componenetes: V, S, M (un diamante con va-lor de 50 po)
+Duración: Instantánea.
+Arrojas una esfera de energía de 4 pulgadas (10 cm) de diámetro a una criatura que pue-das ver dentro del alcance del conjuro. Elige el tipo de orbe que creas; ácido, frío, fuego, electrico, veneno o sonico, y luego realiza un ataque de conjuro a distancia contra el obje-tivo. Si el ataque impacta, la criatura sufre 3d8 puntos del daño correspondiente al tipo de orbe elegido.'),
+(12, 'Hechizar persona', 'Nivel 1, encantamiento
+Tiempo de lanzamiento: 1 acción
+Alcance: 30 pies (6 casillas, 9 m)
+Componenetes: V, S
+Duración: 1 hora
+Puedes intentar hechizar a un humanoide que veas dentro del alcance del conjuro. El obje-tivo debe realizar una tirada de salvación de Sabiduría, y lo hace con ventaja si tú o tus compañeros estáis luchando contra él. Si falla la tirada de salvación, queda encantado hasta que el conjuro finalice o hasta que tú o tus compañeros le hagáis algo perjudicial. La criatura encantada os considera amigos. Cuando finalice el conjuro, la criatura sabe que ha sido encantada por ti.'),
+(13, 'Detectar magia', 'Nivel 1, adivinación (ritual)
+Tiempo de lanzamiento: 1 acción
+Alcance: Personal
+Componenetes: V, S
+Duración: Concentración, hasta 10 minutos
+Mientras dura el conjuro, sientes la presencia de la magia a menos de 30 pies (6 casillas, 9 m) de ti. Si sientes magia de esta forma, pue-des utilizar tu acción para ver un aura débil al-rededor de cualquier criatura u objeto visibles en al área que posee magia, y averiguar su es-cuela de magia, si existe.
+El conjuro puede penetrar en la mayoría de barreras, pero es bloqueado por 1 pie (30 cm) de piedra, 1 pulgada (2,54 cm) de metal común, una delgada capa de plomo o 3 pies (90 cm) de madera o suciedad.'),
+(14, 'Curar heridas', 'Nivel 1, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: Toque
+Componenetes: V, S
+Duración: Instantánea
+Una criatura que tocas recupera un número de Puntos de Golpe igual a 1d8 + tu modifica-dor de característica para lanzar conjuros. Este conjuro no tiene efecto sobre muertos vi-vientes o constructos.'),
+(15, 'Palabra sanadora', 'Nivel 1, evocación
+Tiempo de lanzamiento: 1 acción adicional
+Alcance: 60 pies (12 casillas, 18 m)
+Componenetes: V
+Duración: Instantánea
+Una criatura de tu elección que puedas ver dentro del alcance recupera Puntos de Golpe iguales a 1d4 + tu modificador de caracterís-tica de lanzamiento de conjuros. Este conjuro no tiene ningún efecto sobre constructos o muertos vivientes.'),
+(16, 'Rayo guiado', 'Nivel 1, evocación
+Tiempo de lanzamiento: 1 acción
+Alcance: 120 pies (24 casillas, 36 m)
+Componenetes: V, S
+Duración: 1 asalto
+Un destello de luz golpea directamente a una criatura de tu elección dentro del alcance. Realiza un ataque de conjuro a distancia con-tra el objetivo. Si aciertas, el objetivo sufre 4d6 puntos de daño radiante, y el siguiente ataque realizado contra el objetivo antes de que finalice tu siguiente turno tiene ventaja, gracias a la tenue luz mística que brilla en el objetivo hasta entonces.'),
+(17, 'Santuario', 'Nivel 1, abjuración
+Tiempo de lanzamiento: 1 acción adicional
+Alcance: 30 pies (6 casillas, 9 m)
+Componenetes: V, S, M (un pequeño espejo de plata)
+Duración: 1 minuto
+Proteges a una criatura que esté dentro del al-cance. Hasta que el conjuro finalice, cualquier criatura que tenga como objetivo a la criatura protegida, bien sea con un ataque o un con-juro de daño, debe realizar una tirada de sal-vación de Sabiduría primero. Si falla la tirada, la criatura debe escoger otro objetivo o perder el ataque o el conjuro. Este conjuro no protege contra efectos de área, tales como la explo-sión de una bola de fuego [fireball].
+Si la criatura protegida realiza un ataque o lanza un conjuro que afecte una criatura enemiga, este conjuro finaliza.'),
+(18, 'Bendecir', 'Nivel 1, encantamiento
+Tiempo de lanzamiento: 1 acción
+Alcance: 30 pies (6 casillas, 9 m)
+Componenetes: V, S, M (una rociada de agua bendita)
+Duración: Concentración, hasta 1 minuto
+Bendices hasta a tres criaturas de tu elección dentro del alcance del conjuro. Siempre que el objetivo realice una tirada de ataque o una tirada de salvación antes de que finalice el conjuro, el objetivo puede tirar un d4 y añadir el resultado obtenido a la tirada de ataque o tirada de salvación.'),
+(19, 'Inflingir heridas', 'Nivel 1, nigromancia
+Tiempo de lanzamiento: 1 acción
+Alcance: Toque
+Componenetes: V, S
+Duración: Instantánea
+Realiza un ataque de conjuro cuerpo a cuerpo contra una criatura que tengas al alcance. En un impacto con éxito, el objetivo sufre 3d10 puntos de daño necrótico.');
+
+INSERT INTO Clase_Conjuro (clase_id, conjuro_id) VALUES
+(05, 5), 
+(05, 6), 
+(05, 7), 
+(05, 14), 
+(05, 15), 
+(05, 16), 
+(05, 17), 
+(05, 18), 
+(05, 19),
+(06, 5), 
+(06, 6), 
+(06, 7), 
+(06, 14), 
+(06, 15), 
+(06, 16), 
+(06, 17), 
+(06, 18), 
+(06, 19),
+(04, 1), 
+(04, 3), 
+(04, 4), 
+(04, 8), 
+(04, 9), 
+(04, 10), 
+(04, 11), 
+(04, 12), 
+(04, 13);
+
+INSERT INTO Raza_Conjuro (raza_id, conjuro_id) VALUES
+(03, 1),
+(05, 2);
+
+INSERT INTO raza_rasgo (raza_id, rasgo_id) VALUES
+(01, 1),
+(01, 2),
+(01, 3),
+(02, 1),
+(02, 2),
+(02, 3),
+(02, 4),
+(03, 1),
+(03, 5),
+(03, 6),
+(04, 1),
+(04, 5),
+(04, 6),
+(04, 7),
+(05, 8),
+(05, 5),
+(05, 6),
+(05, 9);
+
+INSERT INTO clase_rasgo (clase_id, rasgo_id) VALUES
+(01, 12),
+(01, 13),
+(02, 16),
+(02, 17),
+(02, 18),
+(03, 14),
+(03, 15),
+(04, 19),
+(05, 11),
+(06, 10),
+(04, 26),
+(05, 27),
+(06, 27);
+
+INSERT INTO trasfondo_rasgo (trasfondo_id, rasgo_id) VALUES
+(01, 20),
+(02, 21),
+(03, 22),
+(04, 23),
+(05, 24),
+(06, 25);

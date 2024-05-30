@@ -1,39 +1,35 @@
 <?php
 session_start();
 
-// Detalles de la conexión a la base de datos
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $servername = "localhost";
 $username = "root";
 $password = "1234";
 $database = "sessionzero";
 
-// Crear conexión a la base de datos
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Error si la conexión no se establece con éxito
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Comprobar los datos introducidos al form de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo_electronico = $_POST['email'];
     $contraseña = $_POST['password'];
 
-    // Crear la consulta SQL para introducir los datos del form a la base de datos
     $sql = "SELECT * FROM usuario WHERE correo_electronico = '$correo_electronico'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 1) {
-        // Se ha encontrado al usuario, busca la constraseña
         $row = $result->fetch_assoc();
         if (password_verify($contraseña, $row['contraseña'])) {
-            // La contraseña es correcta
             $_SESSION['user_id'] = $row['usuario_id'];
             $_SESSION['username'] = $row['nombre_usuario'];
             $_SESSION['is_admin'] = $row['is_admin'];
 
-            // Se le dirige a diferent URL dependiendo del tipo de usuario
             if ($_SESSION['is_admin']) {
                 header("Location: ../USUARIOS/admin_profile.php");
             } else {
@@ -41,13 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             exit();
         } else {
-            $error_message = "Contraseña equivocada. Vuelva a intentarlo";
+            header("Location: login.php?error=Contraseña%20equivocada.%20Vuelva%20a%20intentarlo");
+            exit();
         }
     } else {
-        $error_message = "No se ha encontrado el correo en la base de datos";
+        header("Location: login.php?error=No%20se%20ha%20encontrado%20el%20correo%20en%20la%20base%20de%20datos");
+        exit();
     }
 }
 
-// Cerrar la conexión a la base de datos
 $conn->close();
 ?>

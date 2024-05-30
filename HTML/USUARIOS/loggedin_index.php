@@ -55,6 +55,11 @@ if (isset($_SESSION['user_id'])) {
                                     <?php endif; ?>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="../USUARIOS/logout.php">
+                                    Cerrar Sesión
+                                </a>
+                            </li>
                             </ul>
                         </div>
                     </div>

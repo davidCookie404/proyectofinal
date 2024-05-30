@@ -3,7 +3,7 @@
 function connectToDatabase() {
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = "1234";
     $database = "SessionZero";
 
     // Crear la conexion
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             $row['armas'] = getRelationalData($conn, 'Clase', 'Arma_Clase', 'clase_id', $classId);
             mapRelationalData($conn, $row['armas'], 'Arma', 'arma_id', ['nombre_arma']);
             $row['armaduras'] = getRelationalData($conn, 'Clase', 'Armadura_Clase', 'clase_id', $classId);
-            mapRelationalData($conn, $row['armaduras'], 'Armadura', 'armadura_id', ['nombre_armadura', 'clase_armadura']);
+            mapRelationalData($conn, $row['armaduras'], 'Armadura', 'armadura_id', ['nombre_armadura']);
             $row['rasgos'] = getRelationalData($conn, 'Clase', 'Clase_Rasgo', 'clase_id', $classId);
             mapRelationalData($conn, $row['rasgos'], 'Rasgo', 'rasgo_id', ['nombre_rasgo', 'descripcion_rasgo']);
             $row['conjuros'] = getRelationalData($conn, 'Clase', 'Clase_Conjuro', 'clase_id', $classId);

@@ -50,11 +50,16 @@
                                     </div>
                                     <form action="login2.php" method="post">
                                         <div>
-                                            <label class="form-label" for="formEx1">Usuario</label>
-                                            <input type="text" name="email" id="formEx1" class="form-control mb-4" placeholder="Usuario o Correo Electrónico" required>
+                                            <label class="form-label" for="formEx1">Correo Electrónico</label>
+                                            <input type="text" name="email" id="formEx1" class="form-control mb-4" placeholder="" required>
                                             <label class="form-label" for="formEx2">Contraseña</label>
                                             <input type="password" name="password" id="formEx2" class="form-control mb-4" placeholder="" required>
                                         </div>
+                                        <?php
+                                    if(isset($_GET['error'])) {
+                                        echo '<p class="alert alert-danger text-dark d-inline-block">' . urldecode($_GET['error']) . '</p>';
+                                    }
+                                    ?>
                                         <div class="d-flex justify-content-center">
                                             <button type="submit" name="submit" class="btn btn-outline-danger mb-4">Iniciar Sesión</button>
                                         </div>
@@ -68,7 +73,6 @@
                                             <a href="../NOUSUARIOS/registro.php" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Crear nueva cuenta</a>
                                         </div>
                                     </form>
-                                    
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -84,5 +88,10 @@
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="/js/index.js"></script>
+    
 </body>
 </html>

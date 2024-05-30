@@ -1,21 +1,37 @@
 <?php
+
 session_start();
 
 // Comprobar si el usuario ha iniciado sesión
 if (isset($_SESSION['user_id'])) {
-    // Si el usuario es ADMIN, redirigirlo a su correspodiente URL
-    if ($_SESSION['is_admin']) {
-        header("Location: ../USUARIOS/admin_profile.php");
-        exit();
-    } else {
-        // Si no, continua con el proceso
-        $username = $_SESSION['username']; // Se le asigna el nombre de usuario que haya introducido
-    }
+    // Si es así, se le asigna el nombre de usuario que haya introducido
+    $username = $_SESSION['username'];
 } else {
-    // Si no ha iniciado sesión, se le llevará a la URL correspondiente
+    // Si no es así, se redirige al usuario al URL correspondiente
     header("Location: /HTML/index.php");
     exit();
 }
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "1234";
+$dbname = "SessionZero";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch characters for the current user
+$sql = "SELECT personaje_id, nombre_personaje FROM Personaje WHERE usuario_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -50,10 +66,15 @@ if (isset($_SESSION['user_id'])) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="../USUARIOS/profile.php">       
-                                <?php if (isset($username)) : ?>
-                                <?php echo $username;?>
+                                <?php if (isset($_SESSION['username'])) : ?>
+                                <?php echo $_SESSION['username'];?>
                                 <?php else : ?>
                                 <?php endif; ?>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../USUARIOS/logout.php">
+                                    Cerrar Sesión
                                 </a>
                             </li>
                         </ul>
@@ -68,62 +89,36 @@ if (isset($_SESSION['user_id'])) {
         <section>
             <header>
                 <div class="container py-5 div0 d-flex justify-content-center">
-                    <h1> Personajes de <i><?php if (isset($username)) : ?>
-                                        <?php echo $username;?>
-                                        <?php else : ?>
-                                        <?php endif; ?></i>
+                    <h1> Personajes de <i><?php if (isset($_SESSION['username'])) : ?>
+                                            <?php echo $_SESSION['username'];?>
+                                            <?php else : ?>
+                                            <?php endif; ?></i>
                     </h1>
                 </div>
             </header>
             <section>
+            <?php foreach ($result as $row): ?>
                 <div class="container div1 my-5">
                     <div class="row py-5 d-flex align-items-center me-2">
                         <div class="col-6">
-                            <h3>Pepito23</h3>
+                            <h3><?php echo htmlspecialchars($row['nombre_personaje']); ?></h3>
                         </div>
                         <div class="col-2">
-                            <a href="#"><i class="bi bi-pencil-fill ch-button"></i></a>
+                            <a href="view_character.php?personaje_id=<?php echo $row['personaje_id']; ?>">
+                                <i class="bi bi-pencil-fill ch-button"></i>
+                            </a>
                         </div>
                         <div class="col-2">
                             <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
                         </div>
                         <div class="col-2">
-                            <a href="#"><i class="bi bi-trash3-fill ch-button"></i></a>
+                            <a href="delete_character.php?personaje_id=<?php echo $row['personaje_id']; ?>">
+                                <i class="bi bi-trash3-fill ch-button"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="container div1 my-5">
-                    <div class="row py-5 d-flex align-items-center me-2">
-                        <div class="col-6">
-                            <h3>xexinho</h3>
-                        </div>
-                        <div class="col-2">
-                            <a href="#"><i class="bi bi-pencil-fill ch-button"></i></a>
-                        </div>
-                        <div class="col-2">
-                            <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
-                        </div>
-                        <div class="col-2">
-                            <a href="#"><i class="bi bi-trash3-fill ch-button"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="container div1 my-5">
-                    <div class="row py-5 d-flex align-items-center me-2">
-                        <div class="col-6">
-                            <h3>josefo</h3>
-                        </div>
-                        <div class="col-2">
-                            <a href="#"><i class="bi bi-pencil-fill ch-button"></i></a>
-                        </div>
-                        <div class="col-2">
-                            <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
-                        </div>
-                        <div class="col-2">
-                            <a href="#"><i class="bi bi-trash3-fill ch-button"></i></a>
-                        </div>
-                    </div>
-                </div>
+            <?php endforeach; ?>
             </section>
 
             </div>
@@ -132,5 +127,11 @@ if (isset($_SESSION['user_id'])) {
     <footer>
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="/js/index.js"></script>
+
 </body>
 </html>
