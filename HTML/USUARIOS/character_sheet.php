@@ -32,39 +32,40 @@ $conn->close();
       <label for="charname">Character Name</label><input name="charname" id="charname" placeholder="Character Name" />
     </section>
     <section class="misc">
-      <ul>
-        <li>
-        <label for="class">Class</label>
-                <select name="class" onchange="updateData('class', this.value)">
-                    <option value="">-</option>
-                        <?php foreach ($claseOptions as $claseId => $claseNombre) { ?>
-                            <option value="<?php echo $claseId; ?>"><?php echo $claseNombre; ?></option>
-                        <?php } ?>
-                </select>
-        </li>
-        <li>
-        <label for="race">Race</label>
-                <select name="race" onchange="updateData('race', this.value)">
-                    <option value="">-</option>
-                        <?php foreach ($razaOptions as $razaId => $razaNombre) { ?>
-                            <option value="<?php echo $razaId; ?>"><?php echo $razaNombre; ?></option>
-                        <?php } ?>
-                </select>
-        </li>
-        <li>
-        <label for="background">Background</label>
-                <select name="background" onchange="updateData('background', this.value)">
-                    <option value="">-</option>
-                        <?php foreach ($trasfondoOptions as $trasfondoId => $trasfondoNombre) { ?>
-                            <option value="<?php echo $trasfondoId; ?>"><?php echo $trasfondoNombre; ?></option>
-                        <?php } ?>
-                </select>
-        </li>
-        <li>
-          <label for="playername">Player Name</label><input name="playername" placeholder="Player Name">
-        </li>
-      </ul>
-    </section>
+  <ul>
+    <li>
+      <label for="class">Class</label>
+      <select name="class" onchange="updateData('class', this.value); disableDropdown(this);">
+        <option value="">-</option>
+        <?php foreach ($claseOptions as $claseId => $claseNombre) { ?>
+          <option value="<?php echo $claseId; ?>"><?php echo $claseNombre; ?></option>
+        <?php } ?>
+      </select>
+    </li>
+    <li>
+      <label for="race">Race</label>
+      <select name="race" onchange="updateData('race', this.value); disableDropdown(this);">
+        <option value="">-</option>
+        <?php foreach ($razaOptions as $razaId => $razaNombre) { ?>
+          <option value="<?php echo $razaId; ?>"><?php echo $razaNombre; ?></option>
+        <?php } ?>
+      </select>
+    </li>
+    <li>
+      <label for="background">Background</label>
+      <select name="background" onchange="updateData('background', this.value); disableDropdown(this);">
+        <option value="">-</option>
+        <?php foreach ($trasfondoOptions as $trasfondoId => $trasfondoNombre) { ?>
+          <option value="<?php echo $trasfondoId; ?>"><?php echo $trasfondoNombre; ?></option>
+        <?php } ?>
+      </select>
+    </li>
+    <li>
+      <label for="playername">Player Name</label>
+      <input name="playername" placeholder="Player Name">
+    </li>
+  </ul>
+</section>
   </header>
   <main>
     <section>
@@ -162,63 +163,99 @@ $conn->close();
           <div class="skills list-section box">
             <ul>
               <li>
-                <label for="Acrobatics">Acrobatics <span class="skill">(Dex)</span></label><input name="Acrobaticsskill" placeholder="+0" type="text" /><input name="Acrobatics-skill-prof" type="checkbox" />
+                <label for="Acrobatics">Acrobatics <span class="skill">(Dex)</span></label>
+                <input name="Acrobaticsskill" placeholder="+0" type="text" />
+                <input name="Acrobatics-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label><input name="Animal-Handlingskill" placeholder="+0" type="text" /><input name="Animal-Handling-skill-prof" type="checkbox" />
+                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label>
+                <input name="Animal-Handlingskill" placeholder="+0" type="text" />
+                <input name="Animal-Handling-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Arcana">Arcana <span class="skill">(Int)</span></label><input name="Arcanaskill" placeholder="+0" type="text" /><input name="Arcana-skill-prof" type="checkbox" />
+                <label for="Arcana">Arcana <span class="skill">(Int)</span></label>
+                <input name="Arcanaskill" placeholder="+0" type="text" />
+                <input name="Arcana-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Athletics">Athletics <span class="skill">(Str)</span></label><input name="Athleticsskill" placeholder="+0" type="text" /><input name="Athletics-skill-prof" type="checkbox" />
+                <label for="Athletics">Athletics <span class="skill">(Str)</span></label>
+                <input name="Athleticsskill" placeholder="+0" type="text" />
+                <input name="Athletics-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Deception">Deception <span class="skill">(Cha)</span></label><input name="Deceptionskill" placeholder="+0" type="text" /><input name="Deception-skill-prof" type="checkbox" />
+                <label for="Deception">Deception <span class="skill">(Cha)</span></label>
+                <input name="Deceptionskill" placeholder="+0" type="text" />
+                <input name="Deception-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="History">History <span class="skill">(Int)</span></label><input name="Historyskill" placeholder="+0" type="text" /><input name="History-skill-prof" type="checkbox" />
+                <label for="History">History <span class="skill">(Int)</span></label>
+                <input name="Historyskill" placeholder="+0" type="text" />
+                <input name="History-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Insight">Insight <span class="skill">(Wis)</span></label><input name="Insightskill" placeholder="+0" type="text" /><input name="Insight-skill-prof" type="checkbox" />
+                <label for="Insight">Insight <span class="skill">(Wis)</span></label>
+                <input name="Insightskill" placeholder="+0" type="text" />
+                <input name="Insight-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label><input name="Intimidationskill" placeholder="+0" type="text" /><input name="Intimidation-skill-prof" type="checkbox" />
+                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label>
+                <input name="Intimidationskill" placeholder="+0" type="text" />
+                <input name="Intimidation-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Investigation">Investigation <span class="skill">(Int)</span></label><input name="Investigationskill" placeholder="+0" type="text" /><input name="Investigation-skill-prof" type="checkbox" />
+                <label for="Investigation">Investigation <span class="skill">(Int)</span></label>
+                <input name="Investigationskill" placeholder="+0" type="text" />
+                <input name="Investigation-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label><input name="Medicineskill" placeholder="+0" type="text" /><input name="Medicine-skill-prof" type="checkbox" />
+                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label>
+                <input name="Medicineskill" placeholder="+0" type="text" />
+                <input name="Medicine-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Nature">Nature <span class="skill">(Int)</span></label><input name="Natureskill" placeholder="+0" type="text" /><input name="Nature-skill-prof" type="checkbox" />
+                <label for="Nature">Nature <span class="skill">(Int)</span></label>
+                <input name="Natureskill" placeholder="+0" type="text" />
+                <input name="Nature-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Perception">Perception <span class="skill">(Wis)</span></label><input name="Perceptionskill" placeholder="+0" type="text" /><input name="Perception-skill-prof" type="checkbox" />
+                <label for="Perception">Perception <span class="skill">(Wis)</span></label>
+                <input name="Perceptionskill" placeholder="+0" type="text" />
+                <input name="Perception-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Performance">Performance <span class="skill">(Cha)</span></label><input name="Performanceskill" placeholder="+0" type="text" /><input name="Performance-skill-prof" type="checkbox" />
+                <label for="Performance">Performance <span class="skill">(Cha)</span></label>
+                <input name="Performanceskill" placeholder="+0" type="text" />
+                <input name="Performance-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label><input name="Persuasionskill" placeholder="+0" type="text" /><input name="Persuasion-skill-prof" type="checkbox" />
+                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label>
+                <input name="Persuasionskill" placeholder="+0" type="text" />
+                <input name="Persuasion-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Religion">Religion <span class="skill">(Int)</span></label><input name="Religionskill" placeholder="+0" type="text" /><input name="Religion-skill-prof" type="checkbox" />
+                <label for="Religion">Religion <span class="skill">(Int)</span></label>
+                <input name="Religionskill" placeholder="+0" type="text" />
+                <input name="Religion-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label><input name="Sleight-of-Handskill" placeholder="+0" type="text" /><input name="Sleight-of-Hand-skill-prof" type="checkbox" />
+                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label>
+                <input name="Sleight-of-Handskill" placeholder="+0" type="text" />
+                <input name="Sleight-of-Hand-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label><input name="Stealthskill" placeholder="+0" type="text" /><input name="Stealth-skill-prof" type="checkbox" />
+                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label>
+                <input name="Stealthskill" placeholder="+0" type="text" />
+                <input name="Stealth-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Survival">Survival <span class="skill">(Wis)</span></label><input name="Survivalskill" placeholder="+0" type="text" /><input name="Survival-skill-prof" type="checkbox" />
+                <label for="Survival">Survival <span class="skill">(Wis)</span></label>
+                <input name="Survivalskill" placeholder="+0" type="text" />
+                <input name="Survival-skill-prof" type="checkbox" class="prof"/>
               </li>
             </ul>
-            <div class="label">
-              Skills
-            </div>
+          <div class="label">
+            Skills
+          </div>
           </div>
         </div>
       </section>
@@ -228,6 +265,8 @@ $conn->close();
         <div class="armorclass">
           <div>
             <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" />
+            <input type="hidden" name="baseac" value="0">
+          </div>
           </div>
         </div>
         <div class="initiative">
@@ -245,6 +284,7 @@ $conn->close();
         <div class="armorclass">
           <div>
             <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" />
+            <input type="hidden" name="basehp" value="0">
           </div>
         </div>
         <div class="initiative">
@@ -328,308 +368,21 @@ $conn->close();
   </main>
 
   <header>
-      <section class="attacksandspellcasting">
+      <section class="attacksandspellcasting" id="inventory">
           <div>
-            <label>Attacks & Spellcasting</label>
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    Name
-                  </th>
-                  <th>
-                    Attack Bonus
-                  </th>
-                  <th>
-                    Damage/Type
-                  </th>
-                  <th colspan="2">
-                    Notes
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="attacktable">
-                <tr>
-                  <td>
-                    <input name="atkname0" type="text" />
-                  </td>
-                  <td>
-                    <input name="atkbonus0" type="text" />
-                  </td>
-                  <td>
-                    <input name="atkdamage0" type="text" />
-                  </td>
-                  <td colspan="2">
-                    <input name="atknotes0" type="text" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input name="atkname1" type="text" />
-                  </td>
-                  <td>
-                    <input name="atkbonus1" type="text" />
-                  </td>
-                  <td>
-                    <input name="atkdamage1" type="text" />
-                  </td>
-                  <td colspan="2">
-                    <input name="atknotes1" type="text" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <span>
-              <button name="button-addattack" type="button" onclick="add_attack()" style="width:20%;">Add New Attack</button>
-              <button name="button-removeattack" type="button" onclick="remove_last_row('attacktable')" style="width:20%;">Remove Attack</button>
-            </span>
-            <textarea name="attacksnotes"></textarea>
+            <label>Inventory</label>
+            <textarea name="inventorynotes" placeholder="Additional inventory notes"></textarea>
           </div>
       </section>
-  </header>
-
-  <header>
-    <section class="attacksandspellcasting" id="spellslots">
-      <div>
-        <label>Spell Slots</label>
-        <table>
-          <thead>
-            <tr>
-              <th>Level</th>
-              <th>1</th>
-              <th>2</th>
-              <th>3</th>
-              <th>4</th>
-              <th>5</th>
-              <th>6</th>
-              <th>7</th>
-              <th>8</th>
-              <th>9</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Available</td>
-              <td><input name="spellslots1" type="text" placeholder=""/></td>
-              <td><input name="spellslots2" type="text" placeholder=""/></td>
-              <td><input name="spellslots3" type="text" placeholder=""/></td>
-              <td><input name="spellslots4" type="text" placeholder=""/></td>
-              <td><input name="spellslots5" type="text" placeholder=""/></td>
-              <td><input name="spellslots6" type="text" placeholder=""/></td>
-              <td><input name="spellslots7" type="text" placeholder=""/></td>
-              <td><input name="spellslots8" type="text" placeholder=""/></td>
-              <td><input name="spellslots9" type="text" placeholder=""/></td>
-            </tr>
-            <tr>
-              <td>Maximum</td>
-              <td><input name="spellslotsmax1" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax2" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax3" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax4" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax5" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax6" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax7" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax8" type="text" placeholder="0"/></td>
-              <td><input name="spellslotsmax9" type="text" placeholder="0"/></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
   </header>
 
   <header>
     <section class="attacksandspellcasting" id="spells">
       <div>
-        <label>Spell List</label>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                Prepared
-              </th>
-              <th>
-                Name
-              </th>
-              <th>
-                Level
-              </th>
-              <th>
-                Source
-              </th>
-              <th>
-                Attack/Save
-              </th>
-              <th>
-                Cast Time
-              </th>
-              <th>
-                Range/Shape
-              </th>
-              <th>
-                Duration
-              </th>
-              <th>
-                Components
-              </th>
-              <th>
-                Notes
-              </th>
-            </tr>
-          </thead>
-          <tbody id="spelltable">
-            <tr>
-              <td>
-                <input name="spellprep1" type="checkbox" />
-              </td>
-              <td>
-                <input name="spellname0" type="text" />
-              </td>
-              <td>
-                <input name="spelllevel0" type="text" />
-              </td>
-              <td>
-                <input name="spellsource0" type="text" />
-              </td>
-              <td>
-                <input name="spellattacksave0" type="text" />
-              </td>
-              <td>
-                <input name="spelltime0" type="text" />
-              </td>
-              <td>
-                <input name="spellrange0" type="text" />
-              </td>
-              <td>
-                <input name="spellduration0" type="text" />
-              </td>
-              <td>
-                <input name="spellcomponents0" type="text" />
-              </td>
-              <td>
-                <input name="spellnotes0" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input name="spellprep1" type="checkbox" />
-              </td>
-              <td>
-                <input name="spellname1" type="text" />
-              </td>
-              <td>
-                <input name="spelllevel1" type="text" />
-              </td>
-              <td>
-                <input name="spellsource1" type="text" />
-              </td>
-              <td>
-                <input name="spellattacksave1" type="text" />
-              </td>
-              <td>
-                <input name="spelltime1" type="text" />
-              </td>
-              <td>
-                <input name="spellrange1" type="text" />
-              </td>
-              <td>
-                <input name="spellduration1" type="text" />
-              </td>
-              <td>
-                <input name="spellcomponents1" type="text" />
-              </td>
-              <td>
-                <input name="spellnotes1" type="text" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <span>
-          <button name="button-addspell" type="button" onclick="add_spell()" style="width:20%;">Add New Spell</button>
-          <button name="button-removespell" type="button" onclick="remove_last_row('spelltable')" style="width:20%;">Remove Spell</button>
-        </span>
+        <label>Spells</label>
         <textarea name="spellsnotes" placeholder="Additional spell notes"></textarea>
       </div>
     </section>
-  </header>
-
-  <header>
-      <section class="attacksandspellcasting" id="inventory">
-          <div>
-            <label>Inventory</label>
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    Equipped
-                  </th>
-                  <th>
-                    Name
-                  </th>
-                  <th>
-                    Count
-                  </th>
-                  <th>
-                    Weight
-                  </th>
-                  <th>
-                    Value
-                  </th>
-                  <th>
-                    Notes
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="inventorytable">
-                <tr>
-                  <td>
-                    <input name="itemequipped0" type="checkbox" />
-                  </td>
-                  <td>
-                    <input name="itemname0" type="text" />
-                  </td>
-                  <td>
-                    <input name="itemcount0" type="text" onchange="calc_carry_weight()" />
-                  </td>
-                  <td>
-                    <input name="itemweight0" type="text" onchange="calc_carry_weight()" />
-                  </td>
-                  <td>
-                    <input name="itemvalue0" type="text" />
-                  </td>
-                  <td>
-                    <input name="itemnotes0" type="text" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input name="itemequipped1" type="checkbox" />
-                  </td>
-                  <td>
-                    <input name="itemname1" type="text" />
-                  </td>
-                  <td>
-                    <input name="itemcount1" type="text" onchange="calc_carry_weight()" />
-                  </td>
-                  <td>
-                    <input name="itemweight1" type="text" onchange="calc_carry_weight()" />
-                  </td>
-                  <td>
-                    <input name="itemvalue1" type="text" />
-                  </td>
-                  <td>
-                    <input name="itemnotes1" type="text" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <span>
-              <button name="button-additem" type="button" onclick="add_inventory()" style="width:20%;">Add New Item</button>
-              <button name="button-removeitem" type="button" onclick="remove_last_row('inventorytable');calc_carry_weight();" style="width:20%;">Remove Item</button>
-            </span>
-            <textarea name="inventorynotes" placeholder="Additional inventory notes"></textarea>
-          </div>
-      </section>
   </header>
 
 <header>
