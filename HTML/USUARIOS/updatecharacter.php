@@ -46,7 +46,7 @@
     $checkbox_fuerza = isset($_POST['Strength-save-prof']) ? 1 : 0;
     $checkbox_destreza = isset($_POST['Dexterity-save-prof']) ? 1 : 0;
     $checkbox_constitucion = isset($_POST['Constitution-save-prof']) ? 1 : 0;
-    $checkbox_inteligencia = isset($_POST['Inteligence-save-prof']) ? 1 : 0;
+    $checkbox_inteligencia = isset($_POST['Intelligence-save-prof']) ? 1 : 0;
     $checkbox_sabiduria = isset($_POST['Wisdom-save-prof']) ? 1 : 0;
     $checkbox_carisma = isset($_POST['Charisma-save-prof']) ? 1 : 0;
     $checkbox_acrobacia = isset($_POST['Acrobatics-skill-prof']) ? 1 : 0;
