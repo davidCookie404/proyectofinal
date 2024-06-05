@@ -252,12 +252,13 @@ function remove_last_row(tableId) {
 }
 
 
+function disableDropdown(element) {
+  if (element.value !== "") {
+    element.disabled = true;
+  }
+}
 
 
-
-
-
-// Function to handle input changes and calculate the modifier
 $('.stat').bind('input', function() {
   const inputName = $(this).attr('name');
   let mod = parseInt($(this).val()) - 10;
@@ -271,35 +272,54 @@ $('.stat').bind('input', function() {
   $("[name='" + modName + "']").val(mod);
   $("[name='" + saveName + "']").val(mod);
   updateSkills(scoreName, mod);
+  
+  // Update maxhp based on Constitution modifier
+  if (scoreName === "Constitution") {
+    updateMaxHp();
+  }
+  // Update passives based on Wisdom modifier
+  if (scoreName === "Wisdom") {
+    updatePassives();
+  }
+  if (scoreName === "Intelligence") {
+    updatePassives();
+  }
+  // Update AC if Dexterity is modified
+  if (scoreName === "Dexterity") {
+    updateAC();
+  }
 });
+
 
 // Function to update skill modifiers based on corresponding stat modifiers
 function updateSkills(attribute, mod) {
   const skills = {
-      Strength: ["Athleticsskill"],
-      Dexterity: ["Acrobaticsskill", "Sleight-of-Handskill", "Stealthskill"],
-      Intelligence: ["Arcanaskill", "Historyskill", "Investigationskill", "Natureskill", "Religionskill"],
-      Wisdom: ["Animal-Handlingskill", "Insightskill", "Medicineskill", "Perceptionskill", "Survivalskill"],
-      Charisma: ["Deceptionskill", "Intimidationskill", "Performanceskill", "Persuasionskill"]
+    Strength: ["Athleticsskill"],
+    Dexterity: ["Acrobaticsskill", "Sleight-of-Handskill", "Stealthskill"],
+    Intelligence: ["Arcanaskill", "Historyskill", "Investigationskill", "Natureskill", "Religionskill"],
+    Wisdom: ["Animal-Handlingskill", "Insightskill", "Medicineskill", "Perceptionskill", "Survivalskill"],
+    Charisma: ["Deceptionskill", "Intimidationskill", "Performanceskill", "Persuasionskill"]
   };
 
   if (skills[attribute]) {
-      skills[attribute].forEach(function(skill) {
-          $("[name='" + skill + "']").val(mod);
-      });
+    skills[attribute].forEach(function(skill) {
+      $("[name='" + skill + "']").val(mod);
+    });
   }
 }
 
 // Function to handle changes in the stat mod inputs
 $('.statmod').bind('change', function() {
   const name = $(this).attr('name');
-  name = "uses" + name.slice(0, name.indexOf('mod'));
+  const usesName = "uses" + name.slice(0, name.indexOf('mod'));
+  console.log(usesName); // Example action, replace with actual functionality
 });
 
 // Function to handle changes in the stat save inputs
 $('.statsave').bind('change', function() {
   const name = $(this).attr('name');
-  name = "uses" + name.slice(0, name.indexOf('save'));
+  const usesName = "uses" + name.slice(0, name.indexOf('save'));
+  console.log(usesName); // Example action, replace with actual functionality
 });
 
 // Function to handle checkbox changes
@@ -324,11 +344,53 @@ $('.prof').bind('change', function() {
   skillInput.val((currentSkillValue >= 0 ? "+" : "") + currentSkillValue);
 });
 
-
 $("[name='class']").bind('input', function() {
   $("[name='proficiencybonus']").val("+2");
 });
 
+// Function to update maxhp based on Constitution modifier
+function updateMaxHp() {
+  const conMod = parseInt($("[name='Constitutionmod']").val());
+  const baseHp = parseInt($("[name='basehp']").val());
+  const maxHp = baseHp + (isNaN(conMod) ? 0 : conMod);
+
+  $("[name='maxhp']").val(maxHp);
+  $("[name='currenthp']").val(maxHp);
+}
+
+// Function to update passive perception and insight based on Wisdom modifier
+function updatePassives() {
+  const wisMod = parseInt($("[name='Wisdommod']").val());
+  const intMod = parseInt($("[name='Intelligencemod']").val());
+  const basePassive = 10;
+  const passivePerception = basePassive + (isNaN(wisMod) ? 0 : wisMod);
+  const passiveInsight = basePassive + (isNaN(wisMod) ? 0 : wisMod);
+  const passiveInvestigation = basePassive + (isNaN(intMod) ? 0 : intMod);
+
+  $("[name='passiveperception']").val(passivePerception);
+  $("[name='passiveinsight']").val(passiveInsight);
+  $("[name='passiveinvestigation']").val(passiveInvestigation);
+}
+
+// Function to update AC based on base AC and Dexterity modifier
+function updateAC() {
+  const baseAC = parseInt($("[name='baseac']").val()) || 0;
+  const dexMod = parseInt($("[name='Dexteritymod']").val()) || 0;
+  let dexModifierToAdd = 0;
+
+  // Apply logic based on base AC value
+  if (baseAC === 16) {
+    dexModifierToAdd = Math.min(2, dexMod);
+  } else if (baseAC > 16) {
+    dexModifierToAdd = Math.min(2, dexMod) + Math.max(0, dexMod - 2);
+  } else {
+    dexModifierToAdd = dexMod;
+  }
+
+  let totalAC = baseAC + (dexModifierToAdd > 0 ? dexModifierToAdd : 0); // Only add positive Dexterity modifier
+
+  $("[name='ac']").val(totalAC);
+}
 
 
 
@@ -345,11 +407,22 @@ function updateClassData(response) {
     return val + "\nEquipo de la clase: " + response.equipo_clase;
   });
 
-  $('input[name="maxhp"]').val(response.dado_golpe);
-  $('input[name="currenthp"]').val(response.dado_golpe);
+  const conMod = parseInt($("[name='Constitutionmod']").val()) || 0;
+  const baseHp = response.dado_golpe;
+
+  $('input[name="basehp"]').val(baseHp);
+  $('input[name="maxhp"]').val(baseHp + conMod);
+  $('input[name="currenthp"]').val(baseHp + conMod);
   $('input[name="temphp"]').val(0);
-  $('input[name="totalhd"]').val("1d" + response.dado_golpe);
-  $('input[name="remaininghd"]').val("1d" + response.dado_golpe);
+  $('input[name="totalhd"]').val("1d" + baseHp);
+  $('input[name="remaininghd"]').val("1d" + baseHp);
+
+  const wisMod = parseInt($("[name='Wisdommod']").val()) || 0;
+  $('input[name="passiveperception"]').val(10 + wisMod);
+  $('input[name="passiveinsight"]').val(10 + wisMod);
+
+  const intMod = parseInt($("[name='Intelligencemod']").val()) || 0;
+  $('input[name="passiveinvestigation"]').val(10 + intMod);
 
   $('textarea[name="otherprofs"]').val((i, val) => {
     // Limpiar la información antigua de competencias de clase
@@ -366,13 +439,20 @@ function updateClassData(response) {
     });
   }
 
-  // Añadir armaduras de la clase
-  if (response.armaduras) {
-    $('textarea[name="inventorynotes"]').val((i, val) => {
-      let armaduras = response.armaduras.map(a => a.nombre_armadura).join(', ');
-      return val + "\nArmaduras de la clase: " + armaduras;
-    });
-  }
+// Añadir armaduras de la clase
+if (response.armaduras) {
+  // Añadir nombres de armaduras al textarea
+  $('textarea[name="inventorynotes"]').val((i, val) => {
+    let armaduras = response.armaduras.map(a => a.nombre_armadura).join(', ');
+    return val + "\nArmaduras de la clase: " + armaduras;
+  });
+
+  let claseArmadura = response.armaduras.map(a => a.clase_armadura).join(', ');
+  $('input[name="baseac"]').val(claseArmadura);
+
+  // Actualizar el AC
+  updateAC();
+}
 
   // Añadir rasgos de la clase
   if (response.rasgos) {
@@ -384,12 +464,18 @@ function updateClassData(response) {
 
   // Añadir conjuros de la clase
   if (response.conjuros) {
-    $('textarea[name="attacksnotes"]').val((i, val) => {
+    $('textarea[name="spellsnotes"]').val((i, val) => {
       let conjuros = response.conjuros.map(c => c.nombre_conjuro + ": " + c.descripcion_conjuro).join('\n');
       return val + "\nConjuros de la clase:\n" + conjuros;
     });
   }
 }
+
+// Initial update of maxhp and passives
+updateMaxHp();
+updatePassives();
+updateAC();
+
 
 function updateRaceData(response) {
   if (response.error) {
@@ -403,7 +489,7 @@ function updateRaceData(response) {
     // Limpiar la información antigua de competencias de raza
     val = val.replace(/Competencias de la raza: ([\s\S]*?)\./, '');
     // Añadir nueva información de competencias de raza
-    return val + "Competencias de la raza: " + response.competencias_raza;
+    return val + "\nCompetencias de la raza: " + response.competencias_raza;
   });
 
   // Añadir rasgos de la raza

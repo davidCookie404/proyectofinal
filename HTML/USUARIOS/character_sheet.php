@@ -206,7 +206,7 @@ $conn->close();
                 <label for="Constitution-save">Constitution</label><input name="Constitutionsave" placeholder="+0" type="text" class="statsave"/><input name="Constitution-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Intelligence-save">Intelligence</label><input name="Intelligencesave" placeholder="+0" type="text" class="statsave"/><input name="Intelligence-save-prof" type="checkbox" class="prof"/>
+                <label for="Intelligence-save">Intelligence</label><input name="Intelligencesave" placeholder="+0" type="text" class="statsave"/><input name="Inteligence-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
                 <label for="Wisdom-save">Wisdom</label><input name="Wisdomsave" placeholder="+0" type="text" class="statsave"/><input name="Wisdom-save-prof" type="checkbox" class="prof"/>
