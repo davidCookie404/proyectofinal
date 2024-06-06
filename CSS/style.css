@@ -19,7 +19,7 @@
 .wrapper .images .img-1 {
   height: 100%;
   width: 100%;
-  background: url("/images/charact_sheet0.jpeg") no-repeat;
+  background: url("../images/charact_sheet0.jpeg") no-repeat;
   background-size: cover;
 }
 
@@ -27,7 +27,7 @@
   position: absolute;
   height: 100%;
   width: 50%;
-  background-image: url("/images/charact_sheet01.png");
+  background-image: url("../images/charact_sheet01.png");
   background-size: cover;
 }
 

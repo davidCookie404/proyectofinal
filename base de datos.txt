@@ -116,6 +116,20 @@ CREATE TABLE IF NOT EXISTS Trasfondo_Rasgo (
     PRIMARY KEY (trasfondo_id, rasgo_id)
 );
 
+CREATE TABLE IF NOT EXISTS Personaje (
+    personaje_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_personaje VARCHAR(255),
+    usuario_id INT,
+    raza_id INT,
+    clase_id INT,
+    trasfondo_id INT,
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(usuario_id),
+    FOREIGN KEY (raza_id) REFERENCES Raza(raza_id),
+    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
+    FOREIGN KEY (trasfondo_id) REFERENCES Trasfondo(trasfondo_id)
+);
+
+
 CREATE TABLE IF NOT EXISTS caracteristica_pj (
     personaje_id INT,
     Fuerza INT,
@@ -124,6 +138,7 @@ CREATE TABLE IF NOT EXISTS caracteristica_pj (
     Inteligencia INT,
     Sabiduria INT,
     Carisma INT,
+    checkbox_attribute VARCHAR (255),
     habilidadesCheck JSON,
     FuerzaS BOOLEAN,
     DestrezaS BOOLEAN,
@@ -142,27 +157,21 @@ CREATE TABLE IF NOT EXISTS caracteristica_pj (
     InvestigacionH BOOLEAN,
     MedicinaH BOOLEAN,
     NaturalezaH BOOLEAN,
-    PercepcionH BOOLEAN,
+    PercepcionH BOOLEAN, 
     InterpretacionH BOOLEAN,
     PersuasionH BOOLEAN,
     ReligionH BOOLEAN,
     JuegoManoH BOOLEAN,
     SigiloH BOOLEAN,
     SupervivenciaH BOOLEAN,
+    AC INT,  
+    PVA INT, 
+    PVM INT, 
+    PVT INT,
+    Percepcion_pas INT, 
+    Perspicacia_pas INT, 
+    Investigacion_pas INT
     FOREIGN KEY (personaje_id) REFERENCES Personaje(personaje_id)
-);
-
-CREATE TABLE IF NOT EXISTS Personaje (
-    personaje_id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_personaje VARCHAR(255),
-    usuario_id INT,
-    raza_id INT,
-    clase_id INT,
-    trasfondo_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES Usuario(usuario_id),
-    FOREIGN KEY (raza_id) REFERENCES Raza(raza_id),
-    FOREIGN KEY (clase_id) REFERENCES Clase(clase_id),
-    FOREIGN KEY (trasfondo_id) REFERENCES Trasfondo(trasfondo_id)
 );
 
 INSERT INTO Clase (clase_id, nombre_clase, dado_golpe, salvacion, competencias_clase, equipo_clase) VALUES 

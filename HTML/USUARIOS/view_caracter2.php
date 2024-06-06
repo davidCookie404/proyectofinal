@@ -139,6 +139,28 @@ if(isset($_GET['personaje_id'])) {
 <p><strong>Background Features:</strong> <?php echo htmlspecialchars($character['trasfondo_rasgos']); ?></p>
   </p>
     
+  
+      $tirada_salvacion = json_decode($character['salvacionS'], true);
+      if (json_last_error() === JSON_ERROR_NONE) {
+          // Acceso a los modificadores que devuelve el JSON
+          $salv_fue = $tirada_salvacion['salv_fue'] ?? null;
+          $salv_des = $tirada_salvacion['salv_des'] ?? null;
+          $salv_con = $tirada_salvacion['salv_con'] ?? null;
+          $salv_int = $tirada_salvacion['salv_int'] ?? null;
+          $salv_sab = $tirada_salvacion['salv_sab'] ?? null;
+          $salv_car = $tirada_salvacion['salv_car'] ?? null;
+      } else {
+          echo "Error decoding JSON: " . json_last_error_msg();
+          exit()
+
+          $tirada_salvacion = json_encode ([
+        'salv_fue' => $salv_fuerza,
+        'salv_des' => $salv_destreza,
+        'salv_con' => $salv_constitucion,
+        'salv_int' => $salv_inteligencia,
+        'salv_sab' => $salv_sabiduria,
+        'salv_car' => $salv_carisma
+    ]);
     Add more fields as needed
 </body>
 </html> -->

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Inicia Sesión!</title>
     <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
-    <link rel="stylesheet" href="/CSS/index.css">
+    <link rel="stylesheet" href="/proyectofinal-main/CSS/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -15,7 +15,7 @@
             <div class="row w-100">
                 <nav class="navbar navbar-expand-lg w-100">
                     <a class="navbar-brand" href="#">
-                        <img class="imglogo" src="/images/5elogo.svg">
+                        <img class="imglogo" src="/proyectofinal-main/images/5elogo.svg">
                     </a>
                     <button class="navbar-toggler justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/HTML/index.php">Inicio</a>
+                                <a class="nav-link" aria-current="page" href="/proyectofinal-main/HTML/index.php">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="../NOUSUARIOS/login.php">Iniciar Sesión</a>
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <img src="/Images/login01.webp">
+                                <img src="/proyectofinal-main/Images/login01.webp">
                             </div>
                         </div>
                     </div>

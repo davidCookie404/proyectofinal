@@ -32,8 +32,11 @@
     $intmod = $_POST['Intelligencemod'];
     $sabmod = $_POST['Wisdommod'];
     $carmod = $_POST['Charismamod'];
+    $clase_armadura = $_POST['ac'];
+    $pv_actuales = $_POST['currenthp'];
+    $pv_maximos = $_POST['maxhp'];
+    $pv_temp = $_POST['temphp'];
     $proficiencyBonus = $_POST['proficiencybonus'];
-
     $habilidadesCheck = json_encode([
         'FuerzaM' => $fuemod,
         'DestrezaM' => $desmod,
@@ -42,7 +45,6 @@
         'SabiduriaM' => $sabmod,
         'CarismaM' => $carmod
     ]);
-
     $checkbox_fuerza = isset($_POST['Strength-save-prof']) ? 1 : 0;
     $checkbox_destreza = isset($_POST['Dexterity-save-prof']) ? 1 : 0;
     $checkbox_constitucion = isset($_POST['Constitution-save-prof']) ? 1 : 0;
@@ -67,8 +69,11 @@
     $checkbox_juego_mano = isset($_POST['Sleight-of-Hand-skill-prof']) ? 1 : 0;
     $checkbox_sigilo = isset($_POST['Stealth-skill-prof']) ? 1 : 0;
     $checkbox_supervivencia = isset($_POST['Survival-skill-prof']) ? 1 : 0;
+    $percepcion_pas = $_POST['passiveperception'];
+    $perspicacia_pas = $_POST['passiveinsight'];
+    $investigacion_pas = $_POST['passiveinvestigation'];
 
-    // Database connection
+    // Database contnection
     $servername = "localhost";
     $username = "root";
     $password = "1234";
@@ -100,7 +105,7 @@
         $personaje_id = $conn->insert_id;
 
         // Insert data into the caracteristica_pj table
-        $sql = "INSERT INTO caracteristica_pj (personaje_id, Fuerza, Destreza, Constitucion, Inteligencia, Sabiduria, Carisma, habilidadesCheck, FuerzaS, DestrezaS, ConstitucionS, InteligenciaS, SabiduriaS, CarismaS, AcrobaciaH, TratoAnimalH, ArcanaH, AtletismoH, EnganoH, HistoriaH, PerspicaciaH, IntimidacionH, InvestigacionH, MedicinaH, NaturalezaH, PercepcionH, InterpretacionH, PersuasionH, ReligionH, JuegoManoH, SigiloH, SupervivenciaH) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO caracteristica_pj (personaje_id, Fuerza, Destreza, Constitucion, Inteligencia, Sabiduria, Carisma, checkbox_attribute, habilidadesCheck, FuerzaS, DestrezaS, ConstitucionS, InteligenciaS, SabiduriaS, CarismaS, AcrobaciaH, TratoAnimalH, ArcanaH, AtletismoH, EnganoH, HistoriaH, PerspicaciaH, IntimidacionH, InvestigacionH, MedicinaH, NaturalezaH, PercepcionH, InterpretacionH, PersuasionH, ReligionH, JuegoManoH, SigiloH, SupervivenciaH, AC, PVA, PVM, PVT, Percepcion_pas, Perspicacia_pas, Investigacion_pas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
 
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
@@ -108,7 +113,7 @@
         }
         
         // Binding parameters in the prepared statement
-        $stmt->bind_param("iiiiiiisiiiiiiiiiiiiiiiiiiiiiiii", $personaje_id, $fuerza, $destreza, $constitucion, $inteligencia, $sabiduria, $carisma, $habilidadesCheck, $checkbox_fuerza, $checkbox_destreza, $checkbox_constitucion, $checkbox_inteligencia, $checkbox_sabiduria, $checkbox_carisma, $checkbox_acrobacia, $checkbox_trato_animal, $checkbox_arcana, $checkbox_atletismo, $checkbox_engano, $checkbox_historia, $checkbox_perspicacia, $checkbox_intimidacion, $checkbox_investigacion, $checkbox_medicina, $checkbox_naturaleza, $checkbox_percepcion, $checkbox_interpretacion, $checkbox_persuasion, $checkbox_religion, $checkbox_juego_mano, $checkbox_sigilo, $checkbox_supervivencia);
+        $stmt->bind_param("iiiiiiiisiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", $personaje_id, $fuerza, $destreza, $constitucion, $inteligencia, $sabiduria, $carisma, $proficiencyBonus, $habilidadesCheck, $checkbox_fuerza, $checkbox_destreza, $checkbox_constitucion, $checkbox_inteligencia, $checkbox_sabiduria, $checkbox_carisma, $checkbox_acrobacia, $checkbox_trato_animal, $checkbox_arcana, $checkbox_atletismo, $checkbox_engano, $checkbox_historia, $checkbox_perspicacia, $checkbox_intimidacion, $checkbox_investigacion, $checkbox_medicina, $checkbox_naturaleza, $checkbox_percepcion, $checkbox_interpretacion, $checkbox_persuasion, $checkbox_religion, $checkbox_juego_mano, $checkbox_sigilo, $checkbox_supervivencia, $clase_armadura, $pv_actuales, $pv_maximos, $pv_temp, $percepcion_pas, $perspicacia_pas, $investigacion_pas );
 
         if (!$stmt->execute()) {
             throw new Exception("Error inserting characteristics data: " . $stmt->error);

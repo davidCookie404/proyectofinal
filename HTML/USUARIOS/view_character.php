@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-// Check if the user is logged in
+// Comprobar si el usuario actual ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page if not logged in
+    // Redigir al URL conveniente si no lo ha hecho
     header("Location: /HTML/index.php");
     exit();
 }
 
-// Get the user ID from the session
+// Obtener el ID del usuario de la sesion
 $user_id = $_SESSION['user_id'];
 
-// Database connection
+// Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "1234";
@@ -79,7 +79,14 @@ if(isset($_GET['personaje_id'])) {
       cpj.ReligionH,
       cpj.JuegoManoH,
       cpj.SigiloH,
-      cpj.SupervivenciaH
+      cpj.SupervivenciaH,
+      cpj.AC,
+      cpj.PVA,
+      cpj.PVM,
+      cpj.PVT,
+      cpj.Percepcion_pas,
+      cpj.Perspicacia_pas,
+      cpj.Investigacion_pas
   FROM Personaje p
   JOIN Clase c ON p.clase_id = c.clase_id
   JOIN Raza r ON p.raza_id = r.raza_id
@@ -158,8 +165,8 @@ if(isset($_GET['personaje_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/CSS/index.css">
-    <link rel="stylesheet" href="/CSS/character_sheet.css">
+    <link rel="stylesheet" href="/proyectofinal-main/CSS/index.css">
+    <link rel="stylesheet" href="/proyectofinal-main/CSS/character_sheet.css">
     <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -173,7 +180,7 @@ if(isset($_GET['personaje_id'])) {
             <div class="row w-100">
                 <nav class="navbar navbar-expand-lg w-100">
                     <a class="navbar-brand" href="#">
-                        <img class="imglogo" src="/images/5elogo.svg">
+                        <img class="imglogo" src="/proyectofinal-main/images/5elogo.svg">
                     </a>
                     <button class="navbar-toggler justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -181,7 +188,7 @@ if(isset($_GET['personaje_id'])) {
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/HTML/index.php">Inicio</a>
+                                <a class="nav-link" aria-current="page" href="/proyectofinal-main/HTML/index.php">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="../USUARIOS/character_sheet.php">Personajes</a>
@@ -338,10 +345,10 @@ if(isset($_GET['personaje_id'])) {
                 <label for="Acrobatics">Acrobatics 
                   <span class="skill">(Dex)</span>
                 </label>
-                <input name="Acrobaticsskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/><input name="prof" type="checkbox" />
+                <input name="Acrobaticsskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/><input name="prof" type="checkbox" <?php echo $checkbox_acro ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label><input name="Animal-Handlingskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Animal-Handling-skill-prof" type="checkbox" <?php echo $checkbox_acro ? 'checked' : ''; ?>/>
+                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label><input name="Animal-Handlingskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Animal-Handling-skill-prof" type="checkbox" <?php echo $checkbox_trat ? 'checked' : ''; ?>/>
               </li>
               <li>
                 <label for="Arcana">Arcana <span class="skill">(Int)</span></label><input name="Arcanaskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Arcana-skill-prof" type="checkbox" <?php echo $checkbox_arca ? 'checked' : ''; ?>/>
@@ -403,12 +410,12 @@ if(isset($_GET['personaje_id'])) {
       <section class="combat">
         <div class="armorclass">
           <div>
-            <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" />
+            <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['AC']); ?>"/>
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="initiative">Initiative</label><input name="Dexteritymod" placeholder="+0" type="text" />
+            <label for="initiative">Initiative</label><input name="Dexteritymod" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/>
           </div>
         </div>
         <div class="speed">
@@ -420,23 +427,23 @@ if(isset($_GET['personaje_id'])) {
         <!-- Copy above format for HP -->
         <div class="armorclass">
           <div>
-            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['dado_golpe']); ?>"/>
+            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['PVA']); ?>"/>
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['dado_golpe']); ?>"/>
+            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['PVM']); ?>"/>
           </div>
         </div>
         <div class="speed">
           <div>
-            <label for="temphp">Temporary Hit Points</label><input name="temphp" placeholder="0" type="text" />
+            <label for="temphp">Temporary Hit Points</label><input name="temphp" placeholder="0" type="text" value="<?php echo htmlspecialchars($character['PVT']); ?>"/>
           </div>
         </div>
         <div class="hitdice">
           <div>
             <div class="total">
-              <label for="totalhd">Total</label><input name="totalhd" placeholder="_d__" type="text" />
+              <label for="totalhd">Total</label><input name="totalhd" placeholder="_d__" type="text" value="1d<?php echo htmlspecialchars($character['dado_golpe']); ?>"/>
             </div>
             <div class="remaining">
               <label for="remaininghd">Hit Dice</label><input name="remaininghd" type="text" />
@@ -497,19 +504,19 @@ if(isset($_GET['personaje_id'])) {
         <div class="label-container">
           <label for="passiveperception">Passive Wisdom (Perception)</label>
         </div>
-        <input name="passiveperception" placeholder="10" />
+        <input name="passiveperception" placeholder="10" value="<?php echo htmlspecialchars($character['Percepcion_pas']); ?>"/>
       </div>
       <div class="passive-perception box">
         <div class="label-container">
           <label for="passiveinsight">Passive Wisdom (Insight)</label>
         </div>
-        <input name="passiveinsight" placeholder="10" />
+        <input name="passiveinsight" placeholder="10" value="<?php echo htmlspecialchars($character['Perspicacia_pas']); ?>"/>
       </div>
       <div class="passive-perception box">
         <div class="label-container">
           <label for="passiveinvestigation">Passive Intelligence (Investigation)</label>
         </div>
-        <input name="passiveinvestigation" placeholder="10" />
+        <input name="passiveinvestigation" placeholder="" value="<?php echo htmlspecialchars($character['Investigacion_pas']); ?>"/>
       </div>
     </section>
 
@@ -538,7 +545,7 @@ if(isset($_GET['personaje_id'])) {
 
   <main>
     <!-- Hidden fields for dynamic tables -->
-    <input name="rows_attacks" type="hidden" value="2"/>
+    <input name="rows_attacks" type="hidden" value="2"/c>
     <input name="rows_inventory" type="hidden" value="2"/>
     <input name="rows_spells" type="hidden" value="2"/>
   </main>
@@ -551,6 +558,6 @@ if(isset($_GET['personaje_id'])) {
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <script src="/js/script.js"></script>
+    <script src="/proyectofinal-main/js/script.js"></script>
 </body>
 </html> 
