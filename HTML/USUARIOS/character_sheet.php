@@ -192,7 +192,7 @@ $conn->close();
             <div class="label-container">
               <label for="proficiencybonus">Proficiency Bonus</label>
             </div>
-            <input name="proficiencybonus" placeholder="+2" />
+            <input name="proficiencybonus" value="+2" />
           </div>
           <div class="saves list-section box">
             <ul>
