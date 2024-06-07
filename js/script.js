@@ -252,10 +252,39 @@ function remove_last_row(tableId) {
 }
 
 
-function disableDropdown(element) {
-  if (element.value !== "") {
-    element.disabled = true;
+
+
+
+
+function updateSkillModifiers(skill) {
+  const skillName = skill + 'skill';
+  const skillProfName = skill + '-skill-prof';
+  const skillInput = $("[name='" + skillName + "']");
+  const skillProfCheckbox = $("[name='" + skillProfName + "']");
+  const scoreMod = parseInt($("[name='" + skill + "mod']").val());
+
+  let skillValue = isNaN(scoreMod) ? 0 : scoreMod;
+  if (skillProfCheckbox.is(':checked')) {
+    skillValue += 0; // Add proficiency bonus if checked
   }
+
+  skillInput.val((skillValue >= 0 ? "+" : "") + skillValue);
+}
+
+// Función para actualizar un solo save
+function updateSavingThrow(save) {
+  const saveName = save + 'save';
+  const saveProfName = save + '-save-prof';
+  const saveInput = $("[name='" + saveName + "']");
+  const saveProfCheckbox = $("[name='" + saveProfName + "']");
+  const scoreMod = parseInt($("[name='" + save + "mod']").val());
+
+  let saveValue = isNaN(scoreMod) ? 0 : scoreMod;
+  if (saveProfCheckbox.is(':checked')) {
+    saveValue += 0; // Añadir el bono de competencia si está marcado
+  }
+
+  saveInput.val((saveValue >= 0 ? "+" : "") + saveValue);
 }
 
 
@@ -288,6 +317,8 @@ $('.stat').bind('input', function() {
   if (scoreName === "Dexterity") {
     updateAC();
   }
+  updateSavingThrow(scoreName);
+  updateSkillModifiers(skillName);
 });
 
 
@@ -344,10 +375,6 @@ $('.prof').bind('change', function() {
   skillInput.val((currentSkillValue >= 0 ? "+" : "") + currentSkillValue);
 });
 
-$("[name='class']").bind('input', function() {
-  $("[name='proficiencybonus']").val("+2");
-});
-
 // Function to update maxhp based on Constitution modifier
 function updateMaxHp() {
   const conMod = parseInt($("[name='Constitutionmod']").val());
@@ -391,6 +418,8 @@ function updateAC() {
 
   $("[name='ac']").val(totalAC);
 }
+
+
 
 
 
@@ -469,6 +498,26 @@ if (response.armaduras) {
       return val + "\nConjuros de la clase:\n" + conjuros;
     });
   }
+
+  // Actualizar los saves según la información de salvación
+  response.salvacion.split(',').forEach(save => {
+    // Actualizar el saving throw
+    updateSavingThrow(save.trim());
+
+    // Marcar la casilla de verificación correspondiente al saving throw
+    const saveCheckboxName = save.trim() + '-save-prof';
+    $("[name='" + saveCheckboxName + "']").prop('checked', true);
+  });
+
+    // Actualizar los saves según la información de salvación
+    response.habilidad.split(',').forEach(skill => {
+      // Actualizar el saving throw
+      updateSkillModifiers(skill.trim());
+  
+      // Marcar la casilla de verificación correspondiente al saving throw
+      const skillCheckboxName = skill.trim() + '-skill-prof';
+      $("[name='" + skillCheckboxName + "']").prop('checked', true);
+    });
 }
 
 // Initial update of maxhp and passives
@@ -507,6 +556,15 @@ function updateRaceData(response) {
       return val + "\nConjuros de la raza:\n" + conjuros;
     });
   }
+      // Actualizar los saves según la información de salvación
+      response.habilidad.split(',').forEach(skill => {
+        // Actualizar el saving throw
+        updateSkillModifiers(skill.trim());
+    
+        // Marcar la casilla de verificación correspondiente al saving throw
+        const skillCheckboxName = skill.trim() + '-skill-prof';
+        $("[name='" + skillCheckboxName + "']").prop('checked', true);
+      });
 }
 
 function updateBackgroundData(response) {
@@ -536,6 +594,15 @@ function updateBackgroundData(response) {
       return val + "\nRasgos del trasfondo:\n" + rasgos;
     });
   }
+        // Actualizar los saves según la información de salvación
+        response.habilidad.split(',').forEach(skill => {
+          // Actualizar el saving throw
+          updateSkillModifiers(skill.trim());
+      
+          // Marcar la casilla de verificación correspondiente al saving throw
+          const skillCheckboxName = skill.trim() + '-skill-prof';
+          $("[name='" + skillCheckboxName + "']").prop('checked', true);
+        });
 }
 
 // Función que actualiza la información y la coloca en la hoja
