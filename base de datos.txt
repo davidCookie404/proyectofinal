@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS Clase (
     nombre_clase VARCHAR(255),
     dado_golpe INT,
     salvacion VARCHAR(255),
+    habilidad VARCHAR(255),
     competencias_clase VARCHAR(255),
     equipo_clase VARCHAR(255)
 );
@@ -25,6 +26,7 @@ CREATE TABLE IF NOT EXISTS Raza (
     raza_id INT PRIMARY KEY,
     nombre_raza VARCHAR(255),
     incremento VARCHAR(255),
+    habilidad VARCHAR(255),
     velocidad INT,
     competencias_raza VARCHAR(255)
 );
@@ -32,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Raza (
 CREATE TABLE IF NOT EXISTS Trasfondo (
     trasfondo_id INT PRIMARY KEY,
     nombre_trasfondo VARCHAR(255),
+    habilidad VARCHAR(255),
     competencias_trasfondo VARCHAR(255),
     equipo_trasfondo VARCHAR(255)
 );
@@ -129,7 +132,6 @@ CREATE TABLE IF NOT EXISTS Personaje (
     FOREIGN KEY (trasfondo_id) REFERENCES Trasfondo(trasfondo_id)
 );
 
-
 CREATE TABLE IF NOT EXISTS caracteristica_pj (
     personaje_id INT,
     Fuerza INT,
@@ -170,33 +172,33 @@ CREATE TABLE IF NOT EXISTS caracteristica_pj (
     PVT INT,
     Percepcion_pas INT, 
     Perspicacia_pas INT, 
-    Investigacion_pas INT
+    Investigacion_pas INT,
     FOREIGN KEY (personaje_id) REFERENCES Personaje(personaje_id)
 );
 
-INSERT INTO Clase (clase_id, nombre_clase, dado_golpe, salvacion, competencias_clase, equipo_clase) VALUES 
-(1, 'Guerrero', 10, 'fuerza,constitucion', 'El guerrero es competente con todas las armas simples y marciales, y con todas las armaduras y escudos. Sus habilidades competentes son: Atletismo e intimidación.', '20 virotes, equipo de explorador.'),
-(2, 'Pícaro', 8, 'destreza,inteligencia', 'El pícaro es competente con todas las armas simples, la ballesta de mano, la espada larga, la espada corta y el estoque, también es competente con armaduras ligeras y herramientas de ladrón. Sus habilidades competentes son: Acrobacias, engaño, sigilo y juego de manos.', 'Carcaj con 20 flechas, equipo de ladrón, herramientas de ladrón.'),
-(3, 'Paladín', 10, 'sabiduria,carisma', 'El paladín es competente con todas las armas simples y marciales, y con todas las armaduras y escudos. Sus habilidades competentes son: Persuasión y religión', 'Equipo de explorador, símbolo sagrado.'),
-(4, 'Mago', 6, 'inteligencia,sabiduria', 'El mago es competente con el bastón, la ballesta ligera, la daga, el dardo y la honda. Sus habilidades competentes son: Conocimiento arcano e historia.', 'Bolsa de componentes de conjuro, equipo de erudito, libro de conjuros.'),
-(5, 'Clérigo de la vida', 8, 'sabiduria,carisma', 'El clérigo de la vida es competente con todas las armas simples y con todas las armaduras y escudos. Sus habilidades competentes son: Medicina y religión.', '20 virotes, equipo de sacerdote, símbolo sagrado.'),
-(6, 'Clérigo de la tempestad', 8, 'sabiduria,carisma', 'El clérigo de la tempestad es competente con todas las armas simples y marciales, y con todas las armaduras y escudos. Sus habilidades competentes son: Medicina y religión.', '20 virotes, equipo de sacerdote, símbolo sagrado.');
+INSERT INTO Clase (clase_id, nombre_clase, dado_golpe, salvacion, habilidad, competencias_clase, equipo_clase) VALUES 
+(1, 'Guerrero', 10, 'Strength,Constitution', 'Athletics,Intimidation', 'El guerrero es competente con todas las armas simples y marciales, y con todas las armaduras y escudos.', '20 virotes, equipo de explorador.'),
+(2, 'Pícaro', 8, 'Dexterity,Intelligence', 'Acrobatics,Deception,Stealth,Sleight-of-Hand', 'El pícaro es competente con todas las armas simples, la ballesta de mano, la espada larga, la espada corta y el estoque, también es competente con armaduras ligeras y herramientas de ladrón.', 'Carcaj con 20 flechas, equipo de ladrón, herramientas de ladrón.'),
+(3, 'Paladín', 10, 'Wisdom,Charisma', 'Persuasion,Religion', 'El paladín es competente con todas las armas simples y marciales, y con todas las armaduras y escudos.', 'Equipo de explorador, símbolo sagrado.'),
+(4, 'Mago', 6, 'Intelligence,Wisdom', 'Arcana,History', 'El mago es competente con el bastón, la ballesta ligera, la daga, el dardo y la honda.', 'Bolsa de componentes de conjuro, equipo de erudito, libro de conjuros.'),
+(5, 'Clérigo de la vida', 8, 'Wisdom,Charisma', 'Medicine,Religion', 'El clérigo de la vida es competente con todas las armas simples y con todas las armaduras y escudos.', '20 virotes, equipo de sacerdote, símbolo sagrado.'),
+(6, 'Clérigo de la tempestad', 8, 'Wisdom,Charisma', 'Medicine,Religion', 'El clérigo de la tempestad es competente con todas las armas simples y marciales, y con todas las armaduras y escudos.', '20 virotes, equipo de sacerdote, símbolo sagrado.');
 
-INSERT INTO Raza (raza_id, nombre_raza, incremento, velocidad, competencias_raza) VALUES 
-(01, 'Enano de las colinas', '0,0,2,0,1,0', 25, 'El enano de las colinas es competente con el hacha de batalla, el hacha de mano, el martillo arrojadizo y el martillo de guerra, también es competente con las herramientas de herrero.\nSus idiomas son común y enano.'),
-(02, 'Enano de las montañas', '2,0,2,0,0,0,', 25, 'El enano de las colinas es competente con el hacha de batalla, el hacha de mano, el martillo arrojadizo y el martillo de guerra, también es competente con las herramientas de herrero y con las armaduras ligeras y medias.\nSus idiomas son común y enano.'),
-(03, 'Alto Elfo', '0,2,0,1,0,0', 30, 'El alto elfo es competente con la espada larga, la espada corta, el arco largo y el arco corto.\nSus idiomas son común, élfico y enano. Su habilidad competente es percepción.'),
-(04, 'Elfo de los bosques', '0,2,0,0,1,0', 35, 'El elfo de los bosques es competente con la espada larga, la espada corta, el arco largo y el arco corto.\nSus idiomas son común y élfico. Su habilidad competente es percepción.'),
-(05, 'Drow', '0,2,0,0,0,1', 30, 'El drow es competente con el estoque, la espada corta y la ballesta de mano.\nSus idiomas son común y élfico. Su habilidad competente es percepción.'),
-(06, 'Humano', '1,1,1,1,1,1', 30, 'Sus idiomas son común y élfico.');
+INSERT INTO Raza (raza_id, nombre_raza, incremento, habilidad, velocidad, competencias_raza) VALUES 
+(01, 'Enano de las colinas', '0,0,2,0,1,0','', 25, 'El enano de las colinas es competente con el hacha de batalla, el hacha de mano, el martillo arrojadizo y el martillo de guerra, también es competente con las herramientas de herrero.\nSus idiomas son común y enano.'),
+(02, 'Enano de las montañas', '2,0,2,0,0,0,','', 25, 'El enano de las colinas es competente con el hacha de batalla, el hacha de mano, el martillo arrojadizo y el martillo de guerra, también es competente con las herramientas de herrero y con las armaduras ligeras y medias.\nSus idiomas son común y enano.'),
+(03, 'Alto Elfo', '0,2,0,1,0,0','Perception', 30, 'El alto elfo es competente con la espada larga, la espada corta, el arco largo y el arco corto.\nSus idiomas son común, élfico y enano.'),
+(04, 'Elfo de los bosques', '0,2,0,0,1,0','Perception', 35, 'El elfo de los bosques es competente con la espada larga, la espada corta, el arco largo y el arco corto.\nSus idiomas son común y élfico.'),
+(05, 'Drow', '0,2,0,0,0,1','Perception', 30, 'El drow es competente con el estoque, la espada corta y la ballesta de mano.\nSus idiomas son común y élfico.'),
+(06, 'Humano', '1,1,1,1,1,1','', 30, 'Sus idiomas son común y élfico.');
 
-INSERT INTO Trasfondo (trasfondo_id, nombre_trasfondo, competencias_trasfondo, equipo_trasfondo) VALUES 
-(01, 'Acólito', 'Sus habilidades competentes son: Perspicacia y religión.', 'Un símbolo sagrado, un libro de oraciones, 5 barritas de incienso, vestiduras, un conjunto de ropa común y una bolsa que contiene 15 piezas de oro.'),
-(02, 'Criminal', 'El criminal es competente con el set de dados y las herramientas de ladrón. Sus habilidades competentes son: Engaño y sigilo.', 'una barreta, un conjunto de ropa común oscura, incluyendo una capucha, y una bolsa que contiene 15 piezas de oro.'),
-(03, 'Ermitaño', 'Sus habilidades competentes son: Medicina y religión', 'un rollo de pergamino lleno de notas de tus estudios, una frazada de invierno, una muda de ropa común, un kit de herboristería y una bolsa con 5 piezas de oro.'),
-(04, 'Forastero', 'El forastero es competente con el láud y habla el idioma mediano. Sus habilidades competentes son: Atletismo y supervivencia.', 'un bastón, una trampa de caza, un trofeo de un animal que mataste, un conjunto de ropa de viajero y una bolsa que contiene 10 piezas de oro.'),
-(05, 'Héroe del pueblo', 'El héroe del pueblo es competente con las herramientas de carpintero y los vehículos terrestres. Sus habilidades competentes son: Trato con los animales y supervivencia.', 'un conjunto de herramientas de carpintero, una pala, una olla de hierro, un conjunto de ropa común y una bolsa que contiene 10 piezas de oro.'),
-(06, 'Soldado', 'El soldado es competente con el set de dados y los vehículos terrestres. Sus habilidades competentes son: Atletismo e intimidación.', 'una insignia con tu rango, un trofeo tomado de un enemigo caído, un conjunto de dados de hueso, una muda de ropa común, y una bolsa que contiene 10 piezas de oro.');
+INSERT INTO Trasfondo (trasfondo_id, nombre_trasfondo, habilidad, competencias_trasfondo, equipo_trasfondo) VALUES 
+(01, 'Acólito','Insight,Religion', '', 'Un símbolo sagrado, un libro de oraciones, 5 barritas de incienso, vestiduras, un conjunto de ropa común y una bolsa que contiene 15 piezas de oro.'),
+(02, 'Criminal','Deception,Stealth', 'El criminal es competente con el set de dados y las herramientas de ladrón.', 'una barreta, un conjunto de ropa común oscura, incluyendo una capucha, y una bolsa que contiene 15 piezas de oro.'),
+(03, 'Ermitaño','Medicine,Religion', '', 'un rollo de pergamino lleno de notas de tus estudios, una frazada de invierno, una muda de ropa común, un kit de herboristería y una bolsa con 5 piezas de oro.'),
+(04, 'Forastero','Athletics,Survival', 'El forastero es competente con el láud y habla el idioma mediano.', 'un bastón, una trampa de caza, un trofeo de un animal que mataste, un conjunto de ropa de viajero y una bolsa que contiene 10 piezas de oro.'),
+(05, 'Héroe del pueblo','Animal-Handling,Survival', 'El héroe del pueblo es competente con las herramientas de carpintero y los vehículos terrestres.', 'un conjunto de herramientas de carpintero, una pala, una olla de hierro, un conjunto de ropa común y una bolsa que contiene 10 piezas de oro.'),
+(06, 'Soldado','Athletics,Intimidation', 'El soldado es competente con el set de dados y los vehículos terrestres.', 'una insignia con tu rango, un trofeo tomado de un enemigo caído, un conjunto de dados de hueso, una muda de ropa común, y una bolsa que contiene 10 piezas de oro.');
 
 INSERT INTO Arma (arma_id, nombre_arma, daño_arma) VALUES
 (1, 'Espada larga', '1d8 + Fuerza de daño cortante (1d10 a dos manos)'),
