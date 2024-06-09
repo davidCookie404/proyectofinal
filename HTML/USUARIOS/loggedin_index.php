@@ -19,8 +19,8 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session Zero</title>
     <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
-    <link rel="stylesheet" href="/proyectofinal-main/CSS/style.css">
     <link rel="stylesheet" href="/proyectofinal-main/CSS/index.css">
+    <link rel="stylesheet" href="/proyectofinal-main/CSS/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -110,16 +110,20 @@ if (isset($_SESSION['user_id'])) {
                     <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
                     <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
                     <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
                 </div>
                 <div class="carousel-inner p-2 div0">
                     <div class="carousel-item active">
-                        <img src="/proyectofinal-main/images/login01.webp" class="img-fluid carousel-image" alt="Los Angeles" class="d-block w-100">
+                        <img src="/proyectofinal-main/images/bg01.webp" class="img-fluid carousel-image" alt="Los Angeles" class="d-block w-100">
                     </div>
                     <div class="carousel-item">
-                        <img src="/proyectofinal-main/images/login02.webp" class="img-fluid carousel-image custom-carousel-img" alt="Chicago" class="d-block w-100">
+                        <img src="/proyectofinal-main/images/bg02.jpg" class="img-fluid carousel-image custom-carousel-img" alt="Chicago" class="d-block w-100">
                     </div>
                     <div class="carousel-item">
-                        <img src="/proyectofinal-main/images/login03.webp" class="img-fluid carousel-image" alt="New York" class="d-block w-100">
+                        <img src="/proyectofinal-main/images/bg03.webp" class="img-fluid carousel-image" alt="New York" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/proyectofinal-main/images/bg04.jpg" class="img-fluid carousel-image" alt="Colorado" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
@@ -175,7 +179,7 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="../js/index.js"></script>
+    <script src="/proyectofinal-main/js/index.js"></script>
 
 </body>
 </html>

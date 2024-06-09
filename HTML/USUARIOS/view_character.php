@@ -559,9 +559,9 @@ if(isset($_GET['personaje_id'])) {
         <label>Conjuros</label>
         <textarea name="spellsnotes" placeholder="">
 - Conjuros de la Clase:
-  <?php echo htmlspecialchars($character['clase_conjuros']); ?>: 
+  <?php echo htmlspecialchars($character['clase_conjuros']); ?>
 - Conjuros de la Raza: 
-  <?php echo htmlspecialchars($character['raza_conjuros']); ?>:
+  <?php echo htmlspecialchars($character['raza_conjuros']); ?>
         </textarea>
       </div>
     </section>

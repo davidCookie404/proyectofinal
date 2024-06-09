@@ -153,8 +153,12 @@ nav ul li {
     margin-right: 20px;
 }
 
+.nav-link {
+    color:var(--bs-grey);
+}
+
 .nav-link:visited {
-    color: var(--bs-white)!important;
+    color: var(--bs-white);
 }
 
 .nav-link.active {
@@ -318,3 +322,5 @@ footer {
     text-align: center;
     padding: 10px 0;
 }
+
+
