@@ -33,10 +33,10 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hoja de Personaje - SØ</title>
     <link rel="stylesheet" href="/proyectofinal-main/CSS/index.css">
     <link rel="stylesheet" href="/proyectofinal-main/CSS/character_sheet.css">
-    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/proyecyofinal-main/images/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -85,12 +85,12 @@ $conn->close();
     <form class="charsheet" id="charsheet" action="updatecharacter.php" method="post">
   <header>
     <section class="charname">
-      <label for="charname">Character Name</label><input name="nombre0" id="charname" placeholder="Character Name" />
+      <label for="charname">Nombre del Personaje</label><input name="nombre0" id="charname" placeholder="Nombre PJ" />
     </section>
     <section class="misc">
       <ul>
         <li>
-        <label for="class1">Class</label>
+        <label for="class1">Clase</label>
                 <select name="class0" id="" onchange="updateData('class', this.value)">
                     <option value="">-</option>
                         <?php foreach ($claseOptions as $claseId => $claseNombre) { ?>
@@ -99,7 +99,7 @@ $conn->close();
                 </select>
         </li>
         <li>
-        <label for="race">Race</label>
+        <label for="race">Raza</label>
                 <select name="race0" id="" onchange="updateData('race', this.value)">
                     <option value="">-</option>
                         <?php foreach ($razaOptions as $razaId => $razaNombre) { ?>
@@ -108,7 +108,7 @@ $conn->close();
                 </select>
         </li>
         <li>
-        <label for="background">Background</label>
+        <label for="background">Trasfondo</label>
                 <select name="bg0" id="" onchange="updateData('background', this.value)">
                     <option value="">-</option>
                         <?php foreach ($trasfondoOptions as $trasfondoId => $trasfondoNombre) { ?>
@@ -117,7 +117,7 @@ $conn->close();
                 </select>
         </li>
         <li>
-          <label for="playername">Player Name</label>
+          <label for="playername">Nombre del Jugador</label>
           <?php if (isset($_SESSION['username'])) : ?>
           <?php echo $_SESSION['username'];?>
           <?php else : ?>
@@ -126,14 +126,14 @@ $conn->close();
       </ul>
     </section>
  </header>
-  <main>
+  <main class="mb-3">
     <section>
       <section class="attributes">
         <div class="scores">
           <ul>
             <li>
               <div class="score">
-                <label for="Strengthscore">Strength</label><input name="Strengthscore" placeholder="10" class="stat"/>
+                <label for="Strengthscore">Fuerza</label><input name="Strengthscore" placeholder="10" class="stat"/>
               </div>
               <div class="modifier">
                 <input name="Strengthmod" placeholder="+0" class="statmod"/>
@@ -141,7 +141,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Dexterityscore">Dexterity</label><input name="Dexterityscore" placeholder="10" class="stat"/>
+                <label for="Dexterityscore">Destreza</label><input name="Dexterityscore" placeholder="10" class="stat"/>
               </div>
               <div class="modifier">
                 <input name="Dexteritymod" placeholder="+0" class=statmod/>
@@ -149,7 +149,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Constitutionscore">Constitution</label><input name="Constitutionscore" placeholder="10" class="stat"/>
+                <label for="Constitutionscore">Constitucion</label><input name="Constitutionscore" placeholder="10" class="stat"/>
               </div>
               <div class="modifier">
                 <input name="Constitutionmod" placeholder="+0" class="statmod"/>
@@ -157,7 +157,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Intelligencescore">Intelligence</label><input name="Intelligencescore" placeholder="10" class="stat"/>
+                <label for="Intelligencescore">Inteligencia</label><input name="Intelligencescore" placeholder="10" class="stat"/>
               </div>
               <div class="modifier">
                 <input name="Intelligencemod" placeholder="+0" class="statmod"/>
@@ -165,7 +165,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Wisdomscore">Wisdom</label><input name="Wisdomscore" placeholder="10" class="stat"/>
+                <label for="Wisdomscore">Sabiduria</label><input name="Wisdomscore" placeholder="10" class="stat"/>
               </div>
               <div class="modifier">
                 <input name="Wisdommod" placeholder="+0" class="statmod"/>
@@ -173,7 +173,7 @@ $conn->close();
             </li>
             <li>
               <div class="score">
-                <label for="Charismascore">Charisma</label><input name="Charismascore" placeholder="10" class="stat"/>
+                <label for="Charismascore">Carisma</label><input name="Charismascore" placeholder="10" class="stat"/>
               </div>
               <div class="modifier">
                 <input name="Charismamod" placeholder="+0" class="statmod"/>
@@ -184,50 +184,50 @@ $conn->close();
         <div class="attr-applications">
           <div class="proficiencybonus box">
             <div class="label-container">
-              <label for="inspiration">Inspiration</label>
+              <label for="inspiration">Inspiracion</label>
             </div>
             <input name="inspiration" placeholder="" />
           </div>
           <div class="proficiencybonus box">
             <div class="label-container">
-              <label for="proficiencybonus">Proficiency Bonus</label>
+              <label for="proficiencybonus">Bonus Competencia</label>
             </div>
             <input name="proficiencybonus" value="+2" />
           </div>
           <div class="saves list-section box">
             <ul>
               <li>
-                <label for="Strength-save">Strength</label><input name="Strengthsave" placeholder="+0" type="text" class="statsave"/><input name="Strength-save-prof" type="checkbox" class="prof"/>
+                <label for="Strength-save">Fuerza</label><input name="Strengthsave" placeholder="+0" type="text" class="statsave"/><input name="Strength-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Dexterity-save">Dexterity</label><input name="Dexteritysave" placeholder="+0" type="text" class="statsave"/><input name="Dexterity-save-prof" type="checkbox" class="prof"/>
+                <label for="Dexterity-save">Destreza</label><input name="Dexteritysave" placeholder="+0" type="text" class="statsave"/><input name="Dexterity-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Constitution-save">Constitution</label><input name="Constitutionsave" placeholder="+0" type="text" class="statsave"/><input name="Constitution-save-prof" type="checkbox" class="prof"/>
+                <label for="Constitution-save">Constitucion</label><input name="Constitutionsave" placeholder="+0" type="text" class="statsave"/><input name="Constitution-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Intelligence-save">Intelligence</label><input name="Intelligencesave" placeholder="+0" type="text" class="statsave"/><input name="Intelligence-save-prof" type="checkbox" class="prof"/>
+                <label for="Intelligence-save">Inteligencia</label><input name="Intelligencesave" placeholder="+0" type="text" class="statsave"/><input name="Intelligence-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Wisdom-save">Wisdom</label><input name="Wisdomsave" placeholder="+0" type="text" class="statsave"/><input name="Wisdom-save-prof" type="checkbox" class="prof"/>
+                <label for="Wisdom-save">Sabiduria</label><input name="Wisdomsave" placeholder="+0" type="text" class="statsave"/><input name="Wisdom-save-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Charisma-save">Charisma</label><input name="Charismasave" placeholder="+0" type="text" class="statsave"/><input name="Charisma-save-prof" type="checkbox" class="prof"/>
+                <label for="Charisma-save">Carisma</label><input name="Charismasave" placeholder="+0" type="text" class="statsave"/><input name="Charisma-save-prof" type="checkbox" class="prof"/>
               </li>
             </ul>
             <div class="label">
-              Saving Throws
+              Tiradas Salvacion
             </div>
           </div>
           <div class="skills list-section box">
             <ul>
               <li>
-                <label for="Acrobatics">Acrobatics <span class="skill">(Dex)</span></label>
+                <label for="Acrobatics">Acrobacia <span class="skill">(Des)</span></label>
                 <input name="Acrobaticsskill" placeholder="+0" type="text" />
                 <input name="Acrobatics-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label>
+                <label for="Animal Handling">Trato Animales <span class="skill">(Sab)</span></label>
                 <input name="Animal-Handlingskill" placeholder="+0" type="text" />
                 <input name="Animal-Handling-skill-prof" type="checkbox" class="prof"/>
               </li>
@@ -237,57 +237,57 @@ $conn->close();
                 <input name="Arcana-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Athletics">Athletics <span class="skill">(Str)</span></label>
+                <label for="Athletics">Atletismo <span class="skill">(Fue)</span></label>
                 <input name="Athleticsskill" placeholder="+0" type="text" />
                 <input name="Athletics-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Deception">Deception <span class="skill">(Cha)</span></label>
+                <label for="Deception">Engaño <span class="skill">(Car)</span></label>
                 <input name="Deceptionskill" placeholder="+0" type="text" />
                 <input name="Deception-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="History">History <span class="skill">(Int)</span></label>
+                <label for="History">Historia <span class="skill">(Int)</span></label>
                 <input name="Historyskill" placeholder="+0" type="text" />
                 <input name="History-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Insight">Insight <span class="skill">(Wis)</span></label>
+                <label for="Insight">Perspicacia <span class="skill">(Sab)</span></label>
                 <input name="Insightskill" placeholder="+0" type="text" />
                 <input name="Insight-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label>
+                <label for="Intimidation">Intimidacion <span class="skill">(Car)</span></label>
                 <input name="Intimidationskill" placeholder="+0" type="text" />
                 <input name="Intimidation-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Investigation">Investigation <span class="skill">(Int)</span></label>
+                <label for="Investigation">Investigacion <span class="skill">(Int)</span></label>
                 <input name="Investigationskill" placeholder="+0" type="text" />
                 <input name="Investigation-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label>
+                <label for="Medicine">Medicina <span class="skill">(Sab)</span></label>
                 <input name="Medicineskill" placeholder="+0" type="text" />
                 <input name="Medicine-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Nature">Nature <span class="skill">(Int)</span></label>
+                <label for="Nature">Naturaleza <span class="skill">(Int)</span></label>
                 <input name="Natureskill" placeholder="+0" type="text" />
                 <input name="Nature-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Perception">Perception <span class="skill">(Wis)</span></label>
+                <label for="Perception">Percepcion <span class="skill">(Sab)</span></label>
                 <input name="Perceptionskill" placeholder="+0" type="text" />
                 <input name="Perception-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Performance">Performance <span class="skill">(Cha)</span></label>
+                <label for="Performance">Interpretacion <span class="skill">(Car)</span></label>
                 <input name="Performanceskill" placeholder="+0" type="text" />
                 <input name="Performance-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label>
+                <label for="Persuasion">Persuasion <span class="skill">(Car)</span></label>
                 <input name="Persuasionskill" placeholder="+0" type="text" />
                 <input name="Persuasion-skill-prof" type="checkbox" class="prof"/>
               </li>
@@ -297,23 +297,23 @@ $conn->close();
                 <input name="Religion-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label>
+                <label for="Sleight of Hand">Juego de Manos <span class="skill">(Des)</span></label>
                 <input name="Sleight-of-Handskill" placeholder="+0" type="text" />
                 <input name="Sleight-of-Hand-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label>
+                <label for="Stealth">Sigilo <span class="skill">(Des)</span></label>
                 <input name="Stealthskill" placeholder="+0" type="text" />
                 <input name="Stealth-skill-prof" type="checkbox" class="prof"/>
               </li>
               <li>
-                <label for="Survival">Survival <span class="skill">(Wis)</span></label>
+                <label for="Survival">Supervivencia <span class="skill">(Sab)</span></label>
                 <input name="Survivalskill" placeholder="+0" type="text" />
                 <input name="Survival-skill-prof" type="checkbox" class="prof"/>
               </li>
             </ul>
           <div class="label">
-            Skills
+            Habilidades
           </div>
           </div>
         </div>
@@ -323,37 +323,36 @@ $conn->close();
       <section class="combat">
         <div class="armorclass">
           <div>
-            <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" />
+            <label for="ac">Clase Armadura</label><input name="ac" placeholder="10" type="text" />
             <input type="hidden" name="baseac" value="0">
           </div>
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="initiative">Initiative</label><input name="Dexteritymod" placeholder="+0" type="text" />
+            <label for="initiative">Iniciativa</label><input name="Dexteritymod" placeholder="+0" type="text" />
           </div>
         </div>
         <div class="speed">
           <div>
-            <label for="speed">Speed</label><input name="speed" placeholder="30ft" type="text" />
+            <label for="speed">Velocidad</label><input name="speed" placeholder="30ft" type="text" />
           </div>
         </div>
 
-        <!-- Copy above format for HP -->
         <div class="armorclass">
           <div>
-            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" />
+            <label for="currenthp">Puntos de Golpe Actuales</label><input name="currenthp" placeholder="10" type="text" />
             <input type="hidden" name="basehp" value="0">
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="maxhp">Hit Point Maximum</label><input name="maxhp" placeholder="10" type="text" />
+            <label for="maxhp">Puntos de Golpe Máximos</label><input name="maxhp" placeholder="10" type="text" />
           </div>
         </div>
         <div class="speed">
           <div>
-            <label for="temphp">Temporary Hit Points</label><input name="temphp" placeholder="0" type="text" />
+            <label for="temphp">Puntos de Golpe Temp.</label><input name="temphp" placeholder="0" type="text" />
           </div>
         </div>
         <div class="hitdice">
@@ -362,18 +361,18 @@ $conn->close();
               <label for="totalhd">Total</label><input name="totalhd" placeholder="_d__" type="text" />
             </div>
             <div class="remaining">
-              <label for="remaininghd">Hit Dice</label><input name="remaininghd" type="text" />
+              <label for="remaininghd">Dado Golpe</label><input name="remaininghd" type="text" />
             </div>
           </div>
         </div>
         <div class="deathsaves">
           <div>
             <div class="label">
-              <label>Death Saves</label>
+              <label>Salvacion contra Muerte</label>
             </div>
             <div class="marks">
               <div class="deathsuccesses">
-                <label>Successes</label>
+                <label>Éxitos</label>
                 <div class="bubbles">
                   <input name="deathsuccess1" type="checkbox" />
                   <input name="deathsuccess2" type="checkbox" />
@@ -381,7 +380,7 @@ $conn->close();
                 </div>
               </div>
               <div class="deathfails">
-                <label>Failures</label>
+                <label>Fallos</label>
                 <div class="bubbles">
                   <input name="deathfail1" type="checkbox" />
                   <input name="deathfail2" type="checkbox" />
@@ -394,31 +393,31 @@ $conn->close();
       </section>
       
       <div class="otherprofs box textblock">
-          <label for="otherprofs">Other Proficiencies and Languages</label><textarea name="otherprofs"></textarea>
+          <label for="otherprofs">Otras Competencias e Idiomas</label><textarea name="otherprofs"></textarea>
         </div>
 
     </section>
     <section>
       <section class="features">
         <div>
-          <label for="features-r">Features, Traits, & Feats</label><textarea name="features-r"></textarea>
+          <label for="features-r">Rasgos y Atributos</label><textarea name="features-r"></textarea>
         </div>
       </section>
       <div class="passive-perception box">
         <div class="label-container">
-          <label for="passiveperception">Passive Wisdom (Perception)</label>
+          <label for="passiveperception">Percepción Pasiva (Sabiduría)</label>
         </div>
         <input name="passiveperception" placeholder="10" />
       </div>
       <div class="passive-perception box">
         <div class="label-container">
-          <label for="passiveinsight">Passive Wisdom (Insight)</label>
+          <label for="passiveinsight">Perspicacia Pasiva (Sabiduría)</label>
         </div>
         <input name="passiveinsight" placeholder="10" />
       </div>
       <div class="passive-perception box">
         <div class="label-container">
-          <label for="passiveinvestigation">Passive Intelligence (Investigation)</label>
+          <label for="passiveinvestigation">Investigación Pasiva (Inteligencia)</label>
         </div>
         <input name="passiveinvestigation" placeholder="10" />
       </div>
@@ -429,32 +428,29 @@ $conn->close();
   <header>
       <section class="attacksandspellcasting" id="inventory">
           <div>
-            <label>Inventory</label>
-            <textarea name="inventorynotes" placeholder="Additional inventory notes"></textarea>
+            <label>Inventario</label>
+            <textarea name="inventorynotes" placeholder=""></textarea>
           </div>
       </section>
   </header>
 
-  <header>
+  <header class="mb-3">
     <section class="attacksandspellcasting" id="spells">
       <div>
-        <label>Spells</label>
-        <textarea name="spellsnotes" placeholder="Additional spell notes"></textarea>
+        <label>Conjuros</label>
+        <textarea name="spellsnotes" placeholder=""></textarea>
       </div>
     </section>
   </header>
 
 <header>
   <section>
-    <button name="buttonsave" type="submit" value="save" onclick="save_character()" style="width:100px;margin-bottom:5px;margin-right:30px;">Save Character</button>
-    <label for="buttonload" id="loadlabel" style="text-transform:Capitalize;">Load Character</label><input name="buttonload" id="buttonload" type="file" style="width:200px;margin-bottom:5px;" />
-    <button name="buttonrest" type="button" onclick="long_rest()" style="width:100px;margin-bottom:5px;margin-left:30px;">Long Rest</button>
-    <label for="autosave" style="text-transform:Capitalize;font-weight:bold;padding:0px 10px;">Autosave?</label><input name="autosave" id="autosave" type="checkbox" />
+    <button name="buttonsave" type="submit" value="save" style="width:100px;margin-bottom:5px;margin-right:30px;">Guardar Personaje</button>
+    <a class="d-flex align-items-end text-muted" id="buttonload" style="width:100px;margin-bottom:5px;margin-right:30px;text-decoration:none;" href="profile.php">Cargar Personaje</a>
 </section>
 </header>
 
   <main>
-    <!-- Hidden fields for dynamic tables -->
     <input name="rows_attacks" type="hidden" value="2"/>
     <input name="rows_inventory" type="hidden" value="2"/>
     <input name="rows_spells" type="hidden" value="2"/>

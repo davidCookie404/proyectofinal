@@ -113,13 +113,13 @@ if (isset($_SESSION['user_id'])) {
                 </div>
                 <div class="carousel-inner p-2 div0">
                     <div class="carousel-item active">
-                        <img src="/images/login01.webp" class="img-fluid carousel-image" alt="Los Angeles" class="d-block w-100">
+                        <img src="/proyectofinal-main/images/login01.webp" class="img-fluid carousel-image" alt="Los Angeles" class="d-block w-100">
                     </div>
                     <div class="carousel-item">
-                        <img src="/images/login02.webp" class="img-fluid carousel-image custom-carousel-img" alt="Chicago" class="d-block w-100">
+                        <img src="/proyectofinal-main/images/login02.webp" class="img-fluid carousel-image custom-carousel-img" alt="Chicago" class="d-block w-100">
                     </div>
                     <div class="carousel-item">
-                        <img src="/images/login03.webp" class="img-fluid carousel-image" alt="New York" class="d-block w-100">
+                        <img src="/proyectofinal-main/images/login03.webp" class="img-fluid carousel-image" alt="New York" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
@@ -145,19 +145,19 @@ if (isset($_SESSION['user_id'])) {
                 <div class="owl-carousel owl-theme position-relative" id="owl3a">
                     <div class="item">
                         <div class="container apoyo">
-                            <a href="https://dnd.wizards.com/es/products/rpg_playershandbook" target="_blank"><img src="/images/book01.webp"></a>
+                            <a href="https://dnd.wizards.com/es/products/rpg_playershandbook" target="_blank"><img src="/proyectofinal-main/images/book01.webp"></a>
                             <a href="https://dnd.wizards.com/es/products/rpg_playershandbook" target="_blank" class="button">Comprar</a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="container apoyo">
-                            <a href="https://dnd.wizards.com/es/products/dungeon-masters-guide" target="_blank"><img src="/images/book02.webp"></a>
+                            <a href="https://dnd.wizards.com/es/products/dungeon-masters-guide" target="_blank"><img src="/proyectofinal-main/images/book02.webp"></a>
                             <a href="https://dnd.wizards.com/es/products/dungeon-masters-guide" target="_blank" class="button">Comprar</a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="container apoyo">
-                            <a href="https://dnd.wizards.com/es/products/monster-manual" target="_blank"><img src="/images/book03.webp"></a>
+                            <a href="https://dnd.wizards.com/es/products/monster-manual" target="_blank"><img src="/proyectofinal-main/images/book03.webp"></a>
                             <a href="https://dnd.wizards.com/es/products/monster-manual" target="_blank" class="button">Comprar</a>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/js/index.js"></script>
+    <script src="../js/index.js"></script>
 
 </body>
 </html>

@@ -4,7 +4,7 @@ session_start();
 // Comprobar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
     // Si no es así, se redirige al usuario al URL correspondiente
-    header("Location: /HTML/index.php");
+    header("Location: ../USUARIOS/profile.php");
     exit();
 }
 
@@ -42,6 +42,13 @@ if (empty($users)) {
     exit();
 }
 
+// Fetch characters for the current user
+$sql = "SELECT personaje_id, nombre_personaje FROM Personaje WHERE usuario_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
 $conn->close();
 ?>
 
@@ -100,7 +107,6 @@ $conn->close();
                 </div>
             </header>
             <section>
-            <section>
                 <?php foreach ($users as $user) : ?>
                     <div class="container div1 my-5">
                         <div class="row py-5 d-flex align-items-center me-1">
@@ -117,8 +123,41 @@ $conn->close();
                     </div>
                 <?php endforeach; ?>
             </section>
-                <!-- Repeat the above block for each user -->
+            <section>
+            <header>
+                <div class="container py-5 div0 d-flex justify-content-center">
+                    <h1> Personajes de <i><?php if (isset($_SESSION['username'])) : ?>
+                                            <?php echo $_SESSION['username'];?>
+                                            <?php else : ?>
+                                            <?php endif; ?></i>
+                    </h1>
+                </div>
+            </header>
+            <section>
+            <?php foreach ($result as $row): ?>
+                <div class="container div1 my-5">
+                    <div class="row py-5 d-flex align-items-center me-2">
+                        <div class="col-6">
+                            <h3><?php echo htmlspecialchars($row['nombre_personaje']); ?></h3>
+                        </div>
+                        <div class="col-2">
+                            <a href="view_character.php?personaje_id=<?php echo $row['personaje_id']; ?>">
+                                <i class="bi bi-eye-fill ch-button"></i>
+                            </a>
+                        </div>
+                        <!-- <div class="col-2">
+                            <a href="#"><i class="bi bi-file-earmark-arrow-down-fill ch-button"></i></a>
+                        </div> -->
+                        <div class="col-2">
+                            <a href="delete_character.php?personaje_id=<?php echo $row['personaje_id']; ?>">
+                                <i class="bi bi-trash3-fill ch-button"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
             </section>
+
     </main>
     <footer>
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>

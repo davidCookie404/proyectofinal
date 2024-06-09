@@ -176,6 +176,10 @@ CREATE TABLE IF NOT EXISTS caracteristica_pj (
     FOREIGN KEY (personaje_id) REFERENCES Personaje(personaje_id)
 );
 
+INSERT INTO usuario (nombre_usuario, correo_electronico, contraseña, is_admin)
+VALUES ('Skippy', 'skippy@admin.com', '$2y$10$.EP9q9irk1sZghjjUDQg7uZxnsdX/MYkPRzmQoKmMeTM0yUyfyw.G', 1);
+
+
 INSERT INTO Clase (clase_id, nombre_clase, dado_golpe, salvacion, habilidad, competencias_clase, equipo_clase) VALUES 
 (1, 'Guerrero', 10, 'Strength,Constitution', 'Athletics,Intimidation', 'El guerrero es competente con todas las armas simples y marciales, y con todas las armaduras y escudos.', '20 virotes, equipo de explorador.'),
 (2, 'Pícaro', 8, 'Dexterity,Intelligence', 'Acrobatics,Deception,Stealth,Sleight-of-Hand', 'El pícaro es competente con todas las armas simples, la ballesta de mano, la espada larga, la espada corta y el estoque, también es competente con armaduras ligeras y herramientas de ladrón.', 'Carcaj con 20 flechas, equipo de ladrón, herramientas de ladrón.'),

@@ -28,77 +28,96 @@ if(isset($_GET['personaje_id'])) {
     $character_id = $_GET['personaje_id'];
 
     // Traer la informacion del personaje de la base de datos
-      $sql = "
-      SELECT 
-      p.nombre_personaje, 
-      c.nombre_clase, 
-      c.dado_golpe,
-      c.salvacion,
-      c.competencias_clase,
-      c.equipo_clase,
-      r.nombre_raza, 
-      r.velocidad,
-      r.competencias_raza,
-      t.nombre_trasfondo,
-      t.competencias_trasfondo,
-      t.equipo_trasfondo,
-      cr.nombre_rasgo AS clase_nombre_rasgo,
-      cr.descripcion_rasgo AS clase_descripcion_rasgo,
-      rr.nombre_rasgo AS raza_nombre_rasgo,
-      rr.descripcion_rasgo AS raza_descripcion_rasgo,
-      tr.nombre_rasgo AS trasfondo_nombre_rasgo,
-      tr.descripcion_rasgo AS trasfondo_descripcion_rasgo,
-      cpj.Fuerza,
-      cpj.Destreza,
-      cpj.Constitucion,
-      cpj.Inteligencia,
-      cpj.Sabiduria,
-      cpj.Carisma,
-      cpj.HabilidadesCheck,
-      cpj.checkbox_attribute,
-      cpj.FuerzaS,
-      cpj.DestrezaS,
-      cpj.ConstitucionS,
-      cpj.InteligenciaS,
-      cpj.SabiduriaS,
-      cpj.CarismaS,
-      cpj.AcrobaciaH,
-      cpj.TratoAnimalH,
-      cpj.ArcanaH,
-      cpj.AtletismoH,
-      cpj.EnganoH,
-      cpj.HistoriaH,
-      cpj.PerspicaciaH,
-      cpj.IntimidacionH,
-      cpj.InvestigacionH,
-      cpj.MedicinaH,
-      cpj.NaturalezaH,
-      cpj.PercepcionH,
-      cpj.InterpretacionH,
-      cpj.PersuasionH,
-      cpj.ReligionH,
-      cpj.JuegoManoH,
-      cpj.SigiloH,
-      cpj.SupervivenciaH,
-      cpj.AC,
-      cpj.PVA,
-      cpj.PVM,
-      cpj.PVT,
-      cpj.Percepcion_pas,
-      cpj.Perspicacia_pas,
-      cpj.Investigacion_pas
-  FROM Personaje p
-  JOIN Clase c ON p.clase_id = c.clase_id
-  JOIN Raza r ON p.raza_id = r.raza_id
-  JOIN Trasfondo t ON p.trasfondo_id = t.trasfondo_id
-  LEFT JOIN clase_rasgo crl ON c.clase_id = crl.clase_id
-  LEFT JOIN rasgo cr ON crl.rasgo_id = cr.rasgo_id
-  LEFT JOIN raza_rasgo rrl ON r.raza_id = rrl.raza_id
-  LEFT JOIN rasgo rr ON rrl.rasgo_id = rr.rasgo_id
-  LEFT JOIN trasfondo_rasgo trl ON t.trasfondo_id = trl.trasfondo_id
-  LEFT JOIN rasgo tr ON trl.rasgo_id = tr.rasgo_id
-  LEFT JOIN caracteristica_pj cpj ON p.personaje_id = cpj.personaje_id
-  WHERE p.personaje_id = ? AND p.usuario_id = ?";
+    $sql = "
+    SELECT 
+        p.nombre_personaje, 
+        c.nombre_clase, 
+        c.dado_golpe,
+        c.salvacion,
+        c.competencias_clase,
+        c.equipo_clase,
+        r.nombre_raza, 
+        r.velocidad,
+        r.competencias_raza,
+        t.nombre_trasfondo,
+        t.competencias_trasfondo,
+        t.equipo_trasfondo,
+        cr.nombre_rasgo AS clase_nombre_rasgo,
+        cr.descripcion_rasgo AS clase_descripcion_rasgo,
+        rr.nombre_rasgo AS raza_nombre_rasgo,
+        rr.descripcion_rasgo AS raza_descripcion_rasgo,
+        tr.nombre_rasgo AS trasfondo_nombre_rasgo,
+        tr.descripcion_rasgo AS trasfondo_descripcion_rasgo,
+        cpj.Fuerza,
+        cpj.Destreza,
+        cpj.Constitucion,
+        cpj.Inteligencia,
+        cpj.Sabiduria,
+        cpj.Carisma,
+        cpj.HabilidadesCheck,
+        cpj.checkbox_attribute,
+        cpj.FuerzaS,
+        cpj.DestrezaS,
+        cpj.ConstitucionS,
+        cpj.InteligenciaS,
+        cpj.SabiduriaS,
+        cpj.CarismaS,
+        cpj.AcrobaciaH,
+        cpj.TratoAnimalH,
+        cpj.ArcanaH,
+        cpj.AtletismoH,
+        cpj.EnganoH,
+        cpj.HistoriaH,
+        cpj.PerspicaciaH,
+        cpj.IntimidacionH,
+        cpj.InvestigacionH,
+        cpj.MedicinaH,
+        cpj.NaturalezaH,
+        cpj.PercepcionH,
+        cpj.InterpretacionH,
+        cpj.PersuasionH,
+        cpj.ReligionH,
+        cpj.JuegoManoH,
+        cpj.SigiloH,
+        cpj.SupervivenciaH,
+        cpj.AC,
+        cpj.PVA,
+        cpj.PVM,
+        cpj.PVT,
+        cpj.Percepcion_pas,
+        cpj.Perspicacia_pas,
+        cpj.Investigacion_pas,
+        a.nombre_arma,
+        a.daño_arma,
+        ad.nombre_armadura,
+        ad.clase_armadura,
+        (SELECT GROUP_CONCAT(CONCAT(cj.nombre_conjuro, ': ', cj.descripcion_conjuro) SEPARATOR ', ') 
+          FROM Clase_conjuro ccj 
+          JOIN Conjuro cj ON ccj.conjuro_id = cj.conjuro_id 
+          WHERE ccj.clase_id = c.clase_id) AS clase_conjuros,
+        (SELECT GROUP_CONCAT(CONCAT(rj.nombre_conjuro, ': ', rj.descripcion_conjuro) SEPARATOR ', ') 
+          FROM Raza_conjuro rcj 
+          JOIN Conjuro rj ON rcj.conjuro_id = rj.conjuro_id 
+          WHERE rcj.raza_id = r.raza_id) AS raza_conjuros
+    FROM 
+        Personaje p
+        JOIN Clase c ON p.clase_id = c.clase_id
+        JOIN Raza r ON p.raza_id = r.raza_id
+        JOIN Trasfondo t ON p.trasfondo_id = t.trasfondo_id
+        LEFT JOIN clase_rasgo crl ON c.clase_id = crl.clase_id
+        LEFT JOIN rasgo cr ON crl.rasgo_id = cr.rasgo_id
+        LEFT JOIN raza_rasgo rrl ON r.raza_id = rrl.raza_id
+        LEFT JOIN rasgo rr ON rrl.rasgo_id = rr.rasgo_id
+        LEFT JOIN trasfondo_rasgo trl ON t.trasfondo_id = trl.trasfondo_id
+        LEFT JOIN rasgo tr ON trl.rasgo_id = tr.rasgo_id
+        LEFT JOIN caracteristica_pj cpj ON p.personaje_id = cpj.personaje_id
+        LEFT JOIN Arma_clase ac ON c.clase_id = ac.clase_id
+        LEFT JOIN Arma a ON ac.arma_id = a.arma_id
+        LEFT JOIN Armadura_clase adc ON c.clase_id = adc.clase_id
+        LEFT JOIN Armadura ad ON adc.armadura_id = ad.armadura_id
+    WHERE 
+        p.personaje_id = ? AND p.usuario_id = ?";
+    
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ii", $character_id, $user_id);
@@ -216,32 +235,31 @@ if(isset($_GET['personaje_id'])) {
     <form class="charsheet" id="charsheet">
   <header>
   <section class="charname">
-        <label for="charname">Character Name</label>
-        <input name="charname" placeholder="Character Name" value="<?php echo htmlspecialchars($character['nombre_personaje']); ?>"/>
+        <label for="charname">Nombre del Personaje</label>
+        <input name="charname" placeholder="Nombre PJ" value="<?php echo htmlspecialchars($character['nombre_personaje']); ?>"/>
     </section>
     <section class="misc">
       <ul>
         <li>
-        <label for="class1">Class</label>
+        <label for="class1">Clase</label>
         <?php echo htmlspecialchars($character['nombre_clase']); ?>
         </li>
         <li>
-        <label for="race">Race</label>
+        <label for="race">Raza</label>
         <?php echo htmlspecialchars($character['nombre_raza']); ?>
         </li>
         <li>
-        <label for="background">Background</label>
+        <label for="background">Trasfondo</label>
         <?php echo htmlspecialchars($character['nombre_trasfondo']); ?>
         </li>
         <li>
-          <label for="playername">Player Name</label>
+          <label for="playername">Nombre del Jugador</label>
           <?php if (isset($_SESSION['username'])) : ?>
           <?php echo $_SESSION['username'];?>
           <?php else : ?>
           <?php endif; ?></i>
         </li>
       </ul>
-      <p>Hover over this text to see the description: </p>
 
     </section>
   </header>
@@ -252,7 +270,7 @@ if(isset($_GET['personaje_id'])) {
           <ul>
             <li>
               <div class="score">
-                <label for="Strengthscore">Strength</label><input name="Strengthscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Fuerza']); ?>"/>
+                <label for="Strengthscore">Fuerza</label><input name="Strengthscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Fuerza']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Strengthmod" placeholder="+0" class="statmod" value="<?php echo htmlspecialchars($fuerzaM);?>"/>
@@ -260,7 +278,7 @@ if(isset($_GET['personaje_id'])) {
             </li>
             <li>
               <div class="score">
-                <label for="Dexterityscore">Dexterity</label><input name="Dexterityscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Destreza']); ?>"/>
+                <label for="Dexterityscore">Destreza</label><input name="Dexterityscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Destreza']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Dexteritymod" placeholder="+0" class=statmod value="<?php echo htmlspecialchars($destrezaM);?>"/>
@@ -268,7 +286,7 @@ if(isset($_GET['personaje_id'])) {
             </li>
             <li>
               <div class="score">
-                <label for="Constitutionscore">Constitution</label><input name="Constitutionscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Constitucion']); ?>"/>
+                <label for="Constitutionscore">Constitucion</label><input name="Constitutionscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Constitucion']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Constitutionmod" placeholder="+0" class="statmod" value="<?php echo htmlspecialchars($constitucionM);?>"/>
@@ -276,7 +294,7 @@ if(isset($_GET['personaje_id'])) {
             </li>
             <li>
               <div class="score">
-                <label for="Intelligencescore">Intelligence</label><input name="Intelligencescore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Inteligencia']); ?>"/>
+                <label for="Intelligencescore">Inteligencia</label><input name="Intelligencescore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Inteligencia']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Intelligencemod" placeholder="+0" class="statmod" value="<?php echo htmlspecialchars($inteligenciaM);?>"/>
@@ -284,7 +302,7 @@ if(isset($_GET['personaje_id'])) {
             </li>
             <li>
               <div class="score">
-                <label for="Wisdomscore">Wisdom</label><input name="Wisdomscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Sabiduria']); ?>"/>
+                <label for="Wisdomscore">Sabiduria</label><input name="Wisdomscore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Sabiduria']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Wisdommod" placeholder="+0" class="statmod" value="<?php echo htmlspecialchars($sabiduriaM);?>"/>
@@ -292,7 +310,7 @@ if(isset($_GET['personaje_id'])) {
             </li>
             <li>
               <div class="score">
-                <label for="Charismascore">Charisma</label><input name="Charismascore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Carisma']); ?>"/>
+                <label for="Charismascore">Carisma</label><input name="Charismascore" placeholder="10" class="stat" value="<?php echo htmlspecialchars($character['Carisma']); ?>"/>
               </div>
               <div class="modifier">
                 <input name="Charismamod" placeholder="+0" class="statmod" value="<?php echo htmlspecialchars($carismaM);?>"/>
@@ -303,104 +321,104 @@ if(isset($_GET['personaje_id'])) {
         <div class="attr-applications">
           <div class="proficiencybonus box">
             <div class="label-container">
-              <label for="inspiration">Inspiration</label>
+              <label for="inspiration">Inspiracion</label>
             </div>
             <input name="inspiration" placeholder="" />
           </div>
           <div class="proficiencybonus box">
             <div class="label-container">
-              <label for="proficiencybonus">Proficiency Bonus</label>
+              <label for="proficiencybonus">Bonus Competencia</label>
             </div>
             <input name="proficiencybonus" placeholder="+2"value="<?php echo htmlspecialchars($character['checkbox_attribute']); ?>"/>
           </div>
           <div class="saves list-section box">
             <ul>
               <li>
-                <label for="Strength-save">Strength</label><input name="Strengthsave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($fuerzaM);?>"/><input name="prof-fue" type="checkbox" class="prof" value="0" <?php echo $checkbox_fue ? 'checked' : ''; ?>/>
+                <label for="Strength-save">Fuerza</label><input name="Strengthsave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($fuerzaM);?>"/><input name="prof-fue" type="checkbox" class="prof" value="0" <?php echo $checkbox_fue ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Dexterity-save">Dexterity</label><input name="Dexteritysave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($destrezaM);?>"/><input name="prof_des" type="checkbox" class="prof" <?php echo $checkbox_des ? 'checked' : ''; ?>/>
+                <label for="Dexterity-save">Destreza</label><input name="Dexteritysave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($destrezaM);?>"/><input name="prof_des" type="checkbox" class="prof" <?php echo $checkbox_des ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Constitution-save">Constitution</label><input name="Constitutionsave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($constitucionM);?>"/><input name="prof_con" type="checkbox" class="prof" <?php echo $checkbox_con ? 'checked' : ''; ?>/>
+                <label for="Constitution-save">Constitucion</label><input name="Constitutionsave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($constitucionM);?>"/><input name="prof_con" type="checkbox" class="prof" <?php echo $checkbox_con ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Intelligence-save">Intelligence</label><input name="Intelligencesave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="prof_int" type="checkbox" class="prof" value="3" <?php echo $checkbox_int ? 'checked' : ''; ?>/>
+                <label for="Intelligence-save">Inteligencia</label><input name="Intelligencesave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="prof_int" type="checkbox" class="prof" value="3" <?php echo $checkbox_int ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Wisdom-save">Wisdom</label><input name="Wisdomsave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($sabiduriaM);?>" /><input name="prof_sab" type="checkbox" class="prof" value="4" <?php echo $checkbox_sab? 'checked' : ''; ?>/>
+                <label for="Wisdom-save">Sabiduria</label><input name="Wisdomsave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($sabiduriaM);?>" /><input name="prof_sab" type="checkbox" class="prof" value="4" <?php echo $checkbox_sab? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Charisma-save">Charisma</label><input name="Charismasave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($carismaM);?>" /><input name="prof-car" type="checkbox" class="prof" value="5" <?php echo $checkbox_car ? 'checked' : ''; ?>/>
+                <label for="Charisma-save">Carisma</label><input name="Charismasave" placeholder="+0" type="text" class="statsave" value="<?php echo htmlspecialchars($carismaM);?>" /><input name="prof-car" type="checkbox" class="prof" value="5" <?php echo $checkbox_car ? 'checked' : ''; ?>/>
               </li>
             </ul>
             <!-- <?php echo htmlspecialchars($character['salvacion']); ?> -->
             <div class="label">
-              Saving Throws
+              Tiradas Salvacion
             </div>
           </div>
           <div class="skills list-section box">
             <ul>
               <li>
-                <label for="Acrobatics">Acrobatics 
-                  <span class="skill">(Dex)</span>
+                <label for="Acrobatics">Acrobacia 
+                  <span class="skill">(Des)</span>
                 </label>
                 <input name="Acrobaticsskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/><input name="prof" type="checkbox" <?php echo $checkbox_acro ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label><input name="Animal-Handlingskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Animal-Handling-skill-prof" type="checkbox" <?php echo $checkbox_trat ? 'checked' : ''; ?>/>
+                <label for="Animal Handling">Trato Animales <span class="skill">(Sab)</span></label><input name="Animal-Handlingskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Animal-Handling-skill-prof" type="checkbox" <?php echo $checkbox_trat ? 'checked' : ''; ?>/>
               </li>
               <li>
                 <label for="Arcana">Arcana <span class="skill">(Int)</span></label><input name="Arcanaskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Arcana-skill-prof" type="checkbox" <?php echo $checkbox_arca ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Athletics">Athletics <span class="skill">(Str)</span></label><input name="Athleticsskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($fuerzaM);?>"/><input name="Athletics-skill-prof" type="checkbox" <?php echo $checkbox_atle ? 'checked' : ''; ?>/>
+                <label for="Athletics">Atletismo <span class="skill">(Fue)</span></label><input name="Athleticsskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($fuerzaM);?>"/><input name="Athletics-skill-prof" type="checkbox" <?php echo $checkbox_atle ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Deception">Deception <span class="skill">(Cha)</span></label><input name="Deceptionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Deception-skill-prof" type="checkbox" <?php echo $checkbox_enga ? 'checked' : ''; ?>/>
+                <label for="Deception">Engaño <span class="skill">(Car)</span></label><input name="Deceptionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Deception-skill-prof" type="checkbox" <?php echo $checkbox_enga ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="History">History <span class="skill">(Int)</span></label><input name="Historyskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="History-skill-prof" type="checkbox" <?php echo $checkbox_hist ? 'checked' : ''; ?>/>
+                <label for="History">Historia <span class="skill">(Int)</span></label><input name="Historyskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="History-skill-prof" type="checkbox" <?php echo $checkbox_hist ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Insight">Insight <span class="skill">(Wis)</span></label><input name="Insightskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Insight-skill-prof" type="checkbox" <?php echo $checkbox_persp ? 'checked' : ''; ?>/>
+                <label for="Insight">Perspicacia <span class="skill">(Sab)</span></label><input name="Insightskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Insight-skill-prof" type="checkbox" <?php echo $checkbox_persp ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label><input name="Intimidationskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Intimidation-skill-prof" type="checkbox" <?php echo $checkbox_inti ? 'checked' : ''; ?>/>
+                <label for="Intimidation">Intimidacion <span class="skill">(Car)</span></label><input name="Intimidationskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Intimidation-skill-prof" type="checkbox" <?php echo $checkbox_inti ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Investigation">Investigation <span class="skill">(Int)</span></label><input name="Investigationskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Investigation-skill-prof" type="checkbox" <?php echo $checkbox_inve ? 'checked' : ''; ?>/>
+                <label for="Investigation">Investigacion <span class="skill">(Int)</span></label><input name="Investigationskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Investigation-skill-prof" type="checkbox" <?php echo $checkbox_inve ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label><input name="Medicineskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Medicine-skill-prof" type="checkbox" <?php echo $checkbox_medi ? 'checked' : ''; ?>/>
+                <label for="Medicine">Medicina <span class="skill">(Sab)</span></label><input name="Medicineskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Medicine-skill-prof" type="checkbox" <?php echo $checkbox_medi ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Nature">Nature <span class="skill">(Int)</span></label><input name="Natureskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Nature-skill-prof" type="checkbox" <?php echo $checkbox_natu ? 'checked' : ''; ?>/>
+                <label for="Nature">Naturaleza <span class="skill">(Int)</span></label><input name="Natureskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Nature-skill-prof" type="checkbox" <?php echo $checkbox_natu ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Perception">Perception <span class="skill">(Wis)</span></label><input name="Perceptionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Perception-skill-prof" type="checkbox" <?php echo $checkbox_perc ? 'checked' : ''; ?>/>
+                <label for="Perception">Percepcion <span class="skill">(Sab)</span></label><input name="Perceptionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Perception-skill-prof" type="checkbox" <?php echo $checkbox_perc ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Performance">Performance <span class="skill">(Cha)</span></label><input name="Performanceskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Performance-skill-prof" type="checkbox" <?php echo $checkbox_inte ? 'checked' : ''; ?>/>
+                <label for="Performance">Interpretacion <span class="skill">(Car)</span></label><input name="Performanceskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Performance-skill-prof" type="checkbox" <?php echo $checkbox_inte ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label><input name="Persuasionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Persuasion-skill-prof" type="checkbox" <?php echo $checkbox_persu ? 'checked' : ''; ?>/>
+                <label for="Persuasion">Persuasion <span class="skill">(Car)</span></label><input name="Persuasionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($carismaM);?>"/><input name="Persuasion-skill-prof" type="checkbox" <?php echo $checkbox_persu ? 'checked' : ''; ?>/>
               </li>
               <li>
                 <label for="Religion">Religion <span class="skill">(Int)</span></label><input name="Religionskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($inteligenciaM);?>"/><input name="Religion-skill-prof" type="checkbox" <?php echo $checkbox_reli ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label><input name="Sleight-of-Handskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/><input name="Sleight-of-Hand-skill-prof" type="checkbox" <?php echo $checkbox_jueg ? 'checked' : ''; ?>/>
+                <label for="Sleight of Hand">Juego de Manos <span class="skill">(Des)</span></label><input name="Sleight-of-Handskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/><input name="Sleight-of-Hand-skill-prof" type="checkbox" <?php echo $checkbox_jueg ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label><input name="Stealthskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM);?>"/><input name="Stealth-skill-prof" type="checkbox" <?php echo $checkbox_sigi ? 'checked' : ''; ?>/>
+                <label for="Stealth">Siglo <span class="skill">(Des)</span></label><input name="Stealthskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM);?>"/><input name="Stealth-skill-prof" type="checkbox" <?php echo $checkbox_sigi ? 'checked' : ''; ?>/>
               </li>
               <li>
-                <label for="Survival">Survival <span class="skill">(Wis)</span></label><input name="Survivalskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Survival-skill-prof" type="checkbox" />
+                <label for="Survival">Supervivencia <span class="skill">(Sab)</span></label><input name="Survivalskill" placeholder="+0" type="text" value="<?php echo htmlspecialchars($sabiduriaM);?>"/><input name="Survival-skill-prof" type="checkbox" />
               </li>
             </ul>
             <div class="label">
-              Skills
+              Habilidades
             </div>
           </div>
         </div>
@@ -410,34 +428,33 @@ if(isset($_GET['personaje_id'])) {
       <section class="combat">
         <div class="armorclass">
           <div>
-            <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['AC']); ?>"/>
+            <label for="ac">Clase Armadura</label><input name="ac" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['AC']); ?>"/>
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="initiative">Initiative</label><input name="Dexteritymod" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/>
+            <label for="initiative">Iniciativa</label><input name="Dexteritymod" placeholder="+0" type="text" value="<?php echo htmlspecialchars($destrezaM); ?>"/>
           </div>
         </div>
         <div class="speed">
           <div>
-            <label for="speed">Speed</label><input name="speed" placeholder="30ft" type="text" value="<?php echo htmlspecialchars($character['velocidad']); ?>"/>
+            <label for="speed">Velocidad</label><input name="speed" placeholder="30ft" type="text" value="<?php echo htmlspecialchars($character['velocidad']); ?>"/>
           </div>
         </div>
 
-        <!-- Copy above format for HP -->
         <div class="armorclass">
           <div>
-            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['PVA']); ?>"/>
+            <label for="currenthp">Puntos de Golpe Actuales</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['PVA']); ?>"/>
           </div>
         </div>
         <div class="initiative">
           <div>
-            <label for="currenthp">Current Hit Points</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['PVM']); ?>"/>
+            <label for="currenthp">Puntos de Golpe Máximos</label><input name="currenthp" placeholder="10" type="text" value="<?php echo htmlspecialchars($character['PVM']); ?>"/>
           </div>
         </div>
         <div class="speed">
           <div>
-            <label for="temphp">Temporary Hit Points</label><input name="temphp" placeholder="0" type="text" value="<?php echo htmlspecialchars($character['PVT']); ?>"/>
+            <label for="temphp">Puntos de Golpe Temp.</label><input name="temphp" placeholder="0" type="text" value="<?php echo htmlspecialchars($character['PVT']); ?>"/>
           </div>
         </div>
         <div class="hitdice">
@@ -446,18 +463,18 @@ if(isset($_GET['personaje_id'])) {
               <label for="totalhd">Total</label><input name="totalhd" placeholder="_d__" type="text" value="1d<?php echo htmlspecialchars($character['dado_golpe']); ?>"/>
             </div>
             <div class="remaining">
-              <label for="remaininghd">Hit Dice</label><input name="remaininghd" type="text" />
+              <label for="remaininghd">Dado Golpe</label><input name="remaininghd" type="text" />
             </div>
           </div>
         </div>
         <div class="deathsaves">
           <div>
             <div class="label">
-              <label>Death Saves</label>
+              <label>Salvacion contra Muerte</label>
             </div>
             <div class="marks">
               <div class="deathsuccesses">
-                <label>Successes</label>
+                <label>Éxitos</label>
                 <div class="bubbles">
                   <input name="deathsuccess1" type="checkbox" />
                   <input name="deathsuccess2" type="checkbox" />
@@ -465,7 +482,7 @@ if(isset($_GET['personaje_id'])) {
                 </div>
               </div>
               <div class="deathfails">
-                <label>Failures</label>
+                <label>Fallos</label>
                 <div class="bubbles">
                   <input name="deathfail1" type="checkbox" />
                   <input name="deathfail2" type="checkbox" />
@@ -478,7 +495,7 @@ if(isset($_GET['personaje_id'])) {
       </section>
       
       <div class="otherprofs box textblock">
-          <label for="otherprofs">Other Proficiencies and Languages</label><textarea name="otherprofs">
+          <label for="otherprofs">Otras Competencias e Idiomas</label><textarea name="otherprofs">
 - Competencias de Clase: <?php echo htmlspecialchars($character['competencias_clase']); ?>&nbsp;
 - Competencias de Raza: <?php echo htmlspecialchars($character['competencias_raza']); ?>&nbsp;
 - Competencias de Trasfondo: <?php echo htmlspecialchars($character['competencias_trasfondo']); ?>
@@ -489,7 +506,7 @@ if(isset($_GET['personaje_id'])) {
     <section>
       <section class="features">
         <div>
-          <label for="features-r">Features, Traits, & Feats</label>
+          <label for="features-r">Rasgos y Atributos</label>
           <textarea name="features-r">
 - Rasgos de Clase: <?php echo htmlspecialchars($character['clase_nombre_rasgo']); ?>: <?php echo htmlspecialchars($character['clase_descripcion_rasgo']); ?>&nbsp;
 
@@ -502,19 +519,19 @@ if(isset($_GET['personaje_id'])) {
       </section>
       <div class="passive-perception box">
         <div class="label-container">
-          <label for="passiveperception">Passive Wisdom (Perception)</label>
+          <label for="passiveperception">Percepción Pasiva (Sabiduría)</label>
         </div>
         <input name="passiveperception" placeholder="10" value="<?php echo htmlspecialchars($character['Percepcion_pas']); ?>"/>
       </div>
       <div class="passive-perception box">
         <div class="label-container">
-          <label for="passiveinsight">Passive Wisdom (Insight)</label>
+          <label for="passiveinsight">Perspicacia Pasiva (Sabiduría)</label>
         </div>
         <input name="passiveinsight" placeholder="10" value="<?php echo htmlspecialchars($character['Perspicacia_pas']); ?>"/>
       </div>
       <div class="passive-perception box">
         <div class="label-container">
-          <label for="passiveinvestigation">Passive Intelligence (Investigation)</label>
+          <label for="passiveinvestigation">Investigación Pasiva (Inteligencia)</label>
         </div>
         <input name="passiveinvestigation" placeholder="" value="<?php echo htmlspecialchars($character['Investigacion_pas']); ?>"/>
       </div>
@@ -525,10 +542,12 @@ if(isset($_GET['personaje_id'])) {
   <header>
       <section class="attacksandspellcasting" id="inventory">
           <div>
-            <label>Inventory</label>
-            <textarea name="inventorynotes" placeholder="Additional inventory notes">
-- <?php echo htmlspecialchars($character['equipo_clase']); ?> 
-- <?php echo htmlspecialchars($character['equipo_trasfondo']); ?>
+            <label>Inventario</label>
+            <textarea name="inventorynotes" placeholder="">
+- Equipo de clase: <?php echo htmlspecialchars($character['equipo_clase']); ?> 
+- Armas: <?php echo htmlspecialchars($character['nombre_arma']); ?>, <?php echo htmlspecialchars($character['daño_arma']); ?>&nbsp;
+- Armaduras: <?php echo htmlspecialchars($character['nombre_armadura']); ?> (<?php echo htmlspecialchars($character['clase_armadura']); ?> CA)&nbsp;
+- Equipo de trasfondo: <?php echo htmlspecialchars($character['equipo_trasfondo']); ?>
             </textarea>
           </div>
       </section>
@@ -537,15 +556,19 @@ if(isset($_GET['personaje_id'])) {
   <header>
     <section class="attacksandspellcasting" id="spells">
       <div>
-        <label>Spells</label>
-        <textarea name="spellsnotes" placeholder="Additional spell notes"></textarea>
+        <label>Conjuros</label>
+        <textarea name="spellsnotes" placeholder="">
+- Conjuros de la Clase:
+  <?php echo htmlspecialchars($character['clase_conjuros']); ?>: 
+- Conjuros de la Raza: 
+  <?php echo htmlspecialchars($character['raza_conjuros']); ?>:
+        </textarea>
       </div>
     </section>
   </header>
 
   <main>
-    <!-- Hidden fields for dynamic tables -->
-    <input name="rows_attacks" type="hidden" value="2"/c>
+    <input name="rows_attacks" type="hidden" value="2">
     <input name="rows_inventory" type="hidden" value="2"/>
     <input name="rows_spells" type="hidden" value="2"/>
   </main>

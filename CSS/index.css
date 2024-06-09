@@ -154,7 +154,7 @@ nav ul li {
 }
 
 .nav-link:visited {
-    color: var(--bs-white);
+    color: var(--bs-white)!important;
 }
 
 .nav-link.active {
