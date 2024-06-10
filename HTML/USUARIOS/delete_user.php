@@ -21,7 +21,7 @@ $usuario_id = $_GET['usuario_id'];
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "";  // Set password to empty string
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -31,7 +31,35 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Preparar y ejecutar la declaración SQL para eliminar al usuario
+// Preparar una declaración para obtener los IDs de los personajes del usuario
+$sql = "SELECT personaje_id FROM personaje WHERE usuario_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$personaje_ids = [];
+while ($row = $result->fetch_assoc()) {
+    $personaje_ids[] = $row['personaje_id'];
+}
+$stmt->close();
+
+// Eliminar los registros relacionados en la tabla `caracteristica_pj`
+foreach ($personaje_ids as $personaje_id) {
+    $sql = "DELETE FROM caracteristica_pj WHERE personaje_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $personaje_id);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// Eliminar los registros relacionados en la tabla `personaje`
+$sql = "DELETE FROM personaje WHERE usuario_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$stmt->close();
+
+// Ahora eliminar el usuario de la tabla `USUARIO`
 $sql = "DELETE FROM USUARIO WHERE usuario_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
