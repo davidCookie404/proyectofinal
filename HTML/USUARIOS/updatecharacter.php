@@ -76,7 +76,7 @@
     // Database contnection
     $servername = "localhost";
     $username = "root";
-    $password = "1234";
+    $password = "";
     $dbname = "SessionZero";
 
     $conn = new mysqli($servername, $username, $password, $dbname);

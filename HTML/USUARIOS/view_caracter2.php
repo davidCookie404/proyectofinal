@@ -14,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 // Database connection
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

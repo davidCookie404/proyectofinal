@@ -14,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -42,12 +42,24 @@ if(isset($_GET['personaje_id'])) {
         t.nombre_trasfondo,
         t.competencias_trasfondo,
         t.equipo_trasfondo,
-        cr.nombre_rasgo AS clase_nombre_rasgo,
-        cr.descripcion_rasgo AS clase_descripcion_rasgo,
-        rr.nombre_rasgo AS raza_nombre_rasgo,
-        rr.descripcion_rasgo AS raza_descripcion_rasgo,
-        tr.nombre_rasgo AS trasfondo_nombre_rasgo,
-        tr.descripcion_rasgo AS trasfondo_descripcion_rasgo,
+        (
+            SELECT GROUP_CONCAT(CONCAT(cr.nombre_rasgo, ': ', cr.descripcion_rasgo) SEPARATOR '\n')
+            FROM clase_rasgo crl
+            JOIN rasgo cr ON crl.rasgo_id = cr.rasgo_id
+            WHERE crl.clase_id = c.clase_id
+        ) AS clase_rasgos,
+        (
+            SELECT GROUP_CONCAT(CONCAT(rr.nombre_rasgo, ': ', rr.descripcion_rasgo) SEPARATOR '\n')
+            FROM raza_rasgo rrl
+            JOIN rasgo rr ON rrl.rasgo_id = rr.rasgo_id
+            WHERE rrl.raza_id = r.raza_id
+        ) AS raza_rasgos,
+        (
+            SELECT GROUP_CONCAT(CONCAT(tr.nombre_rasgo, ': ', tr.descripcion_rasgo) SEPARATOR '\n')
+            FROM trasfondo_rasgo trl
+            JOIN rasgo tr ON trl.rasgo_id = tr.rasgo_id
+            WHERE trl.trasfondo_id = t.trasfondo_id
+        ) AS trasfondo_rasgos,
         cpj.Fuerza,
         cpj.Destreza,
         cpj.Constitucion,
@@ -91,11 +103,11 @@ if(isset($_GET['personaje_id'])) {
         a.daño_arma,
         ad.nombre_armadura,
         ad.clase_armadura,
-        (SELECT GROUP_CONCAT(CONCAT(cj.nombre_conjuro, ': ', cj.descripcion_conjuro) SEPARATOR ', ') 
+        (SELECT GROUP_CONCAT(CONCAT(cj.nombre_conjuro, ': ', cj.descripcion_conjuro) SEPARATOR '\n') 
           FROM Clase_conjuro ccj 
           JOIN Conjuro cj ON ccj.conjuro_id = cj.conjuro_id 
           WHERE ccj.clase_id = c.clase_id) AS clase_conjuros,
-        (SELECT GROUP_CONCAT(CONCAT(rj.nombre_conjuro, ': ', rj.descripcion_conjuro) SEPARATOR ', ') 
+        (SELECT GROUP_CONCAT(CONCAT(rj.nombre_conjuro, ': ', rj.descripcion_conjuro) SEPARATOR '\n') 
           FROM Raza_conjuro rcj 
           JOIN Conjuro rj ON rcj.conjuro_id = rj.conjuro_id 
           WHERE rcj.raza_id = r.raza_id) AS raza_conjuros
@@ -508,12 +520,11 @@ if(isset($_GET['personaje_id'])) {
         <div>
           <label for="features-r">Rasgos y Atributos</label>
           <textarea name="features-r">
-- Rasgos de Clase: <?php echo htmlspecialchars($character['clase_nombre_rasgo']); ?>: <?php echo htmlspecialchars($character['clase_descripcion_rasgo']); ?>&nbsp;
+- Rasgos de Clase: <?php echo htmlspecialchars($character['clase_rasgos']); ?>
 
-- Rasgos de Raza: <?php echo htmlspecialchars($character['raza_nombre_rasgo']); ?>: <?php echo htmlspecialchars($character['raza_descripcion_rasgo']); ?>&nbsp;
+- Rasgos de Raza: <?php echo htmlspecialchars($character['raza_rasgos']); ?>
 
-- Rasgos de Trasfondo: <?php echo htmlspecialchars($character['trasfondo_nombre_rasgo']); ?>: <?php echo htmlspecialchars($character['trasfondo_descripcion_rasgo']); ?>
-
+- Rasgos de Trasfondo: <?php echo htmlspecialchars($character['trasfondo_rasgos']); ?>
           </textarea>
         </div>
       </section>

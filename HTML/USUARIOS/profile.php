@@ -19,7 +19,7 @@ if ($_SESSION['is_admin']) {
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

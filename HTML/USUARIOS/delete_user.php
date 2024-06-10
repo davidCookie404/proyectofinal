@@ -21,7 +21,7 @@ $usuario_id = $_GET['usuario_id'];
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -41,6 +41,6 @@ $stmt->close();
 $conn->close();
 
 // Redirigir a una página adecuada después de la eliminación
-header("Location: /HTML/USUARIOS/admin_profile.php"); // Redirigir a la página de inicio por ahora
+header("Location: ../USUARIOS/admin_profile.php"); // Redirigir a la página de inicio por ahora
 exit();
 ?>

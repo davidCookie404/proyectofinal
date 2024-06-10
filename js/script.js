@@ -1,58 +1,4 @@
-var rows_attacks = 2;
-var rows_inventory = 2;
-var rows_spells = 2;
-
-function save_character() {
-  var filename = ".dnd";
-  if (document.getElementById('charname').value == "") {
-    filename = "CharacterSheet" + filename;
-  } else {
-    filename = document.getElementById('charname').value + filename;
-  }
-
-  const formId = "charsheet";
-  var url = location.href;
-  const formIdentifier = `${url} ${formId}`;
-
-  let form = document.querySelector(`#${formId}`);
-  let formElements = form.elements;
-
-  let data = { [formIdentifier]: {} };
-
-  for (const element of formElements) {
-    if (element.name.length > 0) {
-      if (element.type == 'checkbox') {
-        var checked = ($("[name='" + element.name + "']").prop("checked") ? 'checked' : 'unchecked');
-        data[formIdentifier][element.name] = checked;
-      } else {
-        data[formIdentifier][element.name] = element.value;
-      }
-    }
-  }
-
-  data = JSON.stringify(data[formIdentifier], null, 2);
-  type = 'application/json';
-
-  var file = new Blob([data], {type: type});
-  if (window.navigator.msSaveOrOpenBlob)
-    window.navigator.msSaveOrOpenBlob(file, filename);
-  else {
-    var a = document.createElement("a"),
-            url = URL.createObjectURL(file);
-
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-
-    setTimeout(function() {
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-    }, 0); 
-  }
-}
-
-window.onbeforeunload = function(){
+/* window.onbeforeunload = function(){
   if ($("[name='autosave']").prop("checked") == true) {
     save_character();
   }
@@ -249,7 +195,7 @@ function remove_last_row(tableId) {
   $("[name='rows_attunements']").val(rows_attunements);
   $("[name='rows_inventory']").val(rows_inventory);
   $("[name='rows_spells']").val(rows_spells);
-}
+} */
 
 
 

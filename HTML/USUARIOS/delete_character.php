@@ -18,7 +18,7 @@ if (!isset($_GET['personaje_id']) || !is_numeric($_GET['personaje_id'])) {
 // Database connection
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -3,7 +3,7 @@
 function connectToDatabase() {
     $servername = "localhost";
     $username = "root";
-    $password = "1234";
+    $password = "";
     $database = "SessionZero";
 
     // Crear la conexion

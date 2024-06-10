@@ -13,7 +13,7 @@ $username = htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8');
 // Database connection
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $dbname = "SessionZero";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -113,9 +113,9 @@ $conn->close();
                             <div class="col-6 me-0">
                                 <h3><?php echo $user['nombre_usuario']?></h3>
                             </div>
-                            <div class="col-2">
+                            <!-- <div class="col-2">
                                 <a href="#"><i class="bi bi-person-fill ch-button"></i></a>
-                            </div>
+                            </div> -->
                             <div class="col-2">
                                 <a href="delete_user.php?usuario_id=<?php echo $user['usuario_id']; ?>"><i class="bi bi-ban ch-button"></i></a>
                             </div>
@@ -162,5 +162,7 @@ $conn->close();
     <footer>
         <p>&copy; 2024 Colorful Website. All rights reserved to <i><a class="text-muted" href="https://dnd.wizards.com/">Wizards of the Coast</a></i></p>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>
